@@ -1,35 +1,35 @@
 # turion-platform-drift
 
-**Cloud-agnostic ground-station portability analyzer for Turion Space.**
+Cloud-agnostic ground-station portability analyzer for Turion Space.
 
 `turion-platform-drift` is a static analyzer plus manifest generator. It reads a
 ground-service repository, finds every hard-coded dependency on proprietary AWS
-APIs, scores how far that code is from running air-gapped, and then **writes the
-portable replacement stack**: Kubernetes Jobs, an S3-compatible object store,
+APIs, scores how far that code is from running air-gapped, and then writes the
+portable replacement stack: Kubernetes Jobs, an S3-compatible object store,
 RBAC, a NATS broker, PostgreSQL, an OpenTelemetry pipeline, and a Crossplane
 composite that provisions all of it.
 
-- **Scanner** — real ASTs for Go (`go/ast`) and Python (`ast`), a TypeScript
-  source analyzer, and manifest analysis for YAML / JSON / HCL / Helm / shell.
-  26 rules across 10 capability areas (compute, serverless, object-storage,
-  identity, messaging, database, registry, network, config, observability).
-- **Generator** — turns each finding into a portable object. AWS Batch job
-  definitions become Kubernetes Jobs, ECR images are rewritten to the
-  ground-station registry, and the object-store layer becomes a VersityGW or
-  MinIO bucket that speaks the S3 wire protocol (so OpenC3 COSMOS targets and
-  existing `boto3` code keep working with no AWS endpoint).
-- **Validator** — three gates: an embedded schema check that needs nothing but
-  the binary (so it runs on the ground station itself), a real
-  `kubectl apply --dry-run=client` against a live API server when one is
-  reachable (`--require-kubectl` makes it mandatory), and a residual-AWS scan
-  that the generated bundles pass with zero matches — comments included.
-- **Zero external Go dependencies.** Standard library only. Python analysis
-  shells out to `python3` with an embedded analyzer (falls back to regex if
-  Python is missing). Charts are rendered with `helm template` when helm exists.
-- **Proven, not asserted.** `scripts/verify.sh` runs 32 gates, including a real
-  kube-apiserver (kwok, no Docker), a real `kubectl apply` into a bare cluster,
-  and a real apply of the Crossplane bundle against upstream CRDs. See
-  `docs/verification.md`.
+- Scanner. real ASTs for Go (`go/ast`) and Python (`ast`), a TypeScript
+ source analyzer, and manifest analysis for YAML / JSON / HCL / Helm / shell.
+ 26 rules across 10 capability areas (compute, serverless, object-storage,
+ identity, messaging, database, registry, network, config, observability).
+- Generator. turns each finding into a portable object. AWS Batch job
+ definitions become Kubernetes Jobs, ECR images are rewritten to the
+ ground-station registry, and the object-store layer becomes a VersityGW or
+ MinIO bucket that speaks the S3 wire protocol (so OpenC3 COSMOS targets and
+ existing `boto3` code keep working with no AWS endpoint).
+- Validator. three gates: an embedded schema check that needs nothing but
+ the binary (so it runs on the ground station itself), a real
+ `kubectl apply --dry-run=client` against a live API server when one is
+ reachable (`--require-kubectl` makes it mandatory), and a residual-AWS scan
+ that the generated bundles pass with zero matches. comments included.
+- Zero external Go dependencies. Standard library only. Python analysis
+ shells out to `python3` with an embedded analyzer (falls back to regex if
+ Python is missing). Charts are rendered with `helm template` when helm exists.
+- Proven, not asserted. `scripts/verify.sh` runs 32 gates, including a real
+ kube-apiserver (kwok, no Docker), a real `kubectl apply` into a bare cluster,
+ and a real apply of the Crossplane bundle against upstream CRDs. See
+ `docs/verification.md`.
 
 ---
 
@@ -62,12 +62,12 @@ go run turion-platform-drift validate ./reports
 
 Two targets, deliberately different:
 
-- **`--target kubernetes` (default)** emits *only built-in API kinds* — no CRDs,
-  no operators. It applies to a bare cluster in one pass, which is what makes
-  "deploys air-gapped" true rather than aspirational.
-- **`--target crossplane`** adds the operator-backed layer (Crossplane v2
-  Composition, provider-minio `Bucket`, CloudNativePG `Cluster`, OTel collector,
-  External Secrets) against the real, current API groups.
+- `--target kubernetes` (default) emits *only built-in API kinds*. no CRDs,
+ no operators. It applies to a bare cluster in one pass, which is what makes
+ "deploys air-gapped" true rather than aspirational.
+- `--target crossplane` adds the operator-backed layer (Crossplane v2
+ Composition, provider-minio `Bucket`, CloudNativePG `Cluster`, OTel collector,
+ External Secrets) against the real, current API groups.
 
 Verification, including a real API server:
 
@@ -106,33 +106,33 @@ go build -o bin/turion-platform-drift . && ./bin/turion-platform-drift scan ./gr
 | `rules` | List every rule, its severity, its portable replacement, and remediation. |
 | `version` / `help` | Version and full flag reference. |
 
-Flags may appear before **or** after the positional path.
+Flags may appear before or after the positional path.
 
 | Flag | Default | Meaning |
 | --- | --- | --- |
 | `--format text\|json\|sarif` | `text` | Scorecard output format. |
-| `--out <dir>` | – | Write `scorecard.json`, `drift.sarif`, `scorecard.html` (and generated manifests) here. |
+| `--out <dir>` | - | Write `scorecard.json`, `drift.sarif`, `scorecard.html` (and generated manifests) here. |
 | `--generate` | off | Generate replacements during `scan`. |
 | `--target kubernetes\|crossplane` | `kubernetes` | `crossplane` also emits an XRD + Composition. |
 | `--namespace <ns>` | `ground-system` | Namespace for every generated object. |
 | `--object-store versitygw\|minio` | `versitygw` | Which S3-compatible implementation to emit. |
 | `--registry <host/path>` | `registry.ground.local` | Ground-station registry that replaces ECR. |
 | `--split` | off | One file per object instead of a single bundle. |
-| `--exclude <substr>` | – | Extra path exclusion (repeatable). |
+| `--exclude <substr>` | - | Extra path exclusion (repeatable). |
 | `--no-python` | off | Skip the Python AST pass, use the regex fallback. |
 | `--top <n>` | `8` | Hotspots to print. |
-| `--fail-under <score>` | – | Exit 1 when the score is below this value. |
+| `--fail-under <score>` | - | Exit 1 when the score is below this value. |
 | `--fail-on-critical` | off | Exit 1 on any critical coupling. |
 | `--fail-on-any` | off | Exit 1 on any coupling at all. |
 | `--fail-on-residual-aws` | off | Exit 1 if generated manifests still reference AWS. |
 | `--kubectl <path>` / `--kubeconfig <path>` | `PATH` / env | Where the dry-run gate gets its binary and context. |
 | `--require-kubectl` | off | Fail when the kubectl gate cannot run (CI uses this). |
 | `--server-dry-run` | off | Also run `kubectl apply --dry-run=server` (real admission). |
-| `--helm` / `--no-helm` / `--require-helm` | on / – / off | Render charts with `helm template` before validating. |
+| `--helm` / `--no-helm` / `--require-helm` | on / - / off | Render charts with `helm template` before validating. |
 
 ## Scoring
 
-Findings are weighted by severity — **critical 12, high 7, medium 3, low 1** —
+Findings are weighted by severity. critical 12, high 7, medium 3, low 1.
 and folded through a saturating curve so the score cannot go negative:
 
 ```
@@ -141,13 +141,13 @@ score = round( 100 · exp(−penalty / 45) )      penalty = Σ severity weights
 
 | Score | Grade | Meaning |
 | --- | --- | --- |
-| ≥ 90 | **A** | cloud-agnostic |
-| ≥ 75 | **B** | portable with minor work |
-| ≥ 55 | **C** | significant coupling |
-| ≥ 30 | **D** | heavily AWS-bound |
-| < 30 | **F** | cannot run off-AWS |
+| ≥ 90 | A | cloud-agnostic |
+| ≥ 75 | B | portable with minor work |
+| ≥ 55 | C | significant coupling |
+| ≥ 30 | D | heavily AWS-bound |
+| < 30 | F | cannot run off-AWS |
 
-The `ground-service` fixture scores **0/100 (F)** — that is the intended result
+The `ground-service` fixture scores 0/100 (F). that is the intended result
 for a fully AWS-bound service, and it is why the generator exists.
 
 ## Rule catalog
@@ -190,7 +190,7 @@ From `./ground-service`. Every object carries
 `ground.turion.space/replaces` provenance labels, so an operator can trace a
 manifest back to the coupling it removes.
 
-**`--target kubernetes` — built-in kinds only, applies to a bare cluster**
+`--target kubernetes`. built-in kinds only, applies to a bare cluster
 
 | Portable object | Replaces |
 | --- | --- |
@@ -203,18 +203,18 @@ manifest back to the coupling it removes.
 | `Job`/`Deployment` postgres is a `StatefulSet` + `Service` + PVC | DynamoDB / RDS |
 | `kustomize/kustomization.yaml` (overlay, not a cluster object) | Amazon ECR image rewriting |
 
-**`--target crossplane` — adds the operator layer**
+`--target crossplane`. adds the operator layer
 
 | Portable object | API group (verified against the live API server) |
 | --- | --- |
-| `Bucket` ×3 | `minio.crossplane.io/v1` — provider-minio v0.4.4, cluster-scoped |
-| `Cluster` | `postgresql.cnpg.io/v1` — CloudNativePG |
+| `Bucket` ×3 | `minio.crossplane.io/v1`. provider-minio v0.4.4, cluster-scoped |
+| `Cluster` | `postgresql.cnpg.io/v1`. CloudNativePG |
 | `OpenTelemetryCollector` | `opentelemetry.io/v1beta1` |
 | `ExternalSecret`, `SecretStore` | `external-secrets.io/v1` (v1beta1 is no longer served) |
-| `Composition`, `CompositeResourceDefinition` | `apiextensions.crossplane.io/v1`, **v2 pipeline** (`mode: Pipeline` + `functionRef`; `spec.resources` is rejected in Crossplane ≥ 2.0) |
+| `Composition`, `CompositeResourceDefinition` | `apiextensions.crossplane.io/v1`, v2 pipeline (`mode: Pipeline` + `functionRef`; `spec.resources` is rejected in Crossplane ≥ 2.0) |
 
 Images are rewritten off ECR automatically
-(`123456789012.dkr.ecr.us-west-2.amazonaws.com/turion/pass-processor:7` →
+(`123456789012.dkr.ecr.us-west-2.amazonaws.com/turion/pass-processor:7` to
 `registry.ground.local/turion/pass-processor:7`); the provenance annotation
 records the repository path only, never the proprietary registry host.
 
@@ -222,20 +222,20 @@ records the repository path only, never the proprietary registry host.
 
 `validate` runs three independent gates:
 
-1. **Embedded schema** — the repo's own YAML parser (`internal/yamlite`), a
-   per-kind required-field table, cluster-scoped checks, `restartPolicy` and
-   selector semantics. Needs nothing but the binary, so it works on the ground
-   station it is describing.
-2. **`kubectl apply --dry-run=client`** — the literal Definition-of-Done
-   command. In a modern kubectl this validates against the *server's* OpenAPI, so
-   it needs a reachable API server; `scripts/kwok-cluster.sh` provides one with no
-   container runtime. `--server-dry-run` adds real admission, and
-   `--require-kubectl` turns "kubectl is missing" into a failure instead of a
-   note. When the cluster does not serve some `apiVersion`, that is reported per
-   group version (`cluster does not serve: …`) rather than as a manifest defect.
-3. **Residual-AWS scan** — `arn:aws`, `s3://`, `*.amazonaws.com`, IRSA
-   annotations, ECR hosts and Batch manifest keys. The generated bundles contain
-   **zero** AWS strings, comments included, so an auditor can grep them.
+1. Embedded schema. the repo's own YAML parser (`internal/yamlite`), a
+ per-kind required-field table, cluster-scoped checks, `restartPolicy` and
+ selector semantics. Needs nothing but the binary, so it works on the ground
+ station it is describing.
+2. `kubectl apply --dry-run=client`. the literal Definition-of-Done
+ command. In a modern kubectl this validates against the *server's* OpenAPI, so
+ it needs a reachable API server; `scripts/kwok-cluster.sh` provides one with no
+ container runtime. `--server-dry-run` adds real admission, and
+ `--require-kubectl` turns "kubectl is missing" into a failure instead of a
+ note. When the cluster does not serve some `apiVersion`, that is reported per
+ group version (`cluster does not serve: …`) rather than as a manifest defect.
+3. Residual-AWS scan. `arn:aws`, `s3://`, `*.amazonaws.com`, IRSA
+ annotations, ECR hosts and Batch manifest keys. The generated bundles contain
+ zero AWS strings, comments included, so an auditor can grep them.
 
 `--helm` (on by default in the CLI) renders charts with `helm template` and
 validates the rendered manifests, so chart templates are checked rather than
@@ -284,40 +284,40 @@ make verify      # the full Definition of Done, 32 gates
 
 | Suite | What it proves |
 | --- | --- |
-| **DoD / regression** (`scan_test.go`) | fixture scan well under 30 s, all 26 rules fire, per-file detection, decoy service yields 0 findings |
-| **Accuracy matrix** (`accuracy_test.go`) | one canonical probe per rule — a rule without a probe fails the build; a portable corpus that *talks* about S3/boto3/ARNs must stay silent |
-| **Brutal** (`brutal_test.go`) | 3,000-file repository inside budget; CRLF/BOM/UTF-16/NUL/binary/1 MiB-line/500-deep-flow/400-deep-map inputs; unreadable files; symlink loops; 8 concurrent scans agree; scan is deterministic; generation is byte-for-byte idempotent; `--require-kubectl` cannot be faked off |
-| **Fuzz** (`fuzz_test.go`, `internal/yamlite/fuzz_test.go`) | YAML parser, manifest scanner, Go AST scanner and the Python analyzer never panic on arbitrary bytes (1.5 M+ execs; found a real `strings.Repeat` crash) |
-| **`internal/generate`** | kubernetes target emits **only** builtin kinds; crossplane target uses the current API groups and a v2 pipeline Composition; Batch job definitions mirrored with resources; ECR rewritten; kustomize overlay kept out of the bundle; split mode |
-| **`internal/score`** | clean repo A/100, heavy coupling F, monotonic scoring, grade boundaries, gates, `Bar` clamping |
-| **`internal/validate`** | required fields, `restartPolicy`, cluster-scoped namespace rejection, residual-AWS classes, Helm rendering (good and broken charts), kustomize overlay handling, CRD warnings — all hermetic, plus cluster-backed assertions that skip when no server answers |
-| **`internal/report`** | SARIF 2.1.0 shape (driver, rules, results, regions), JSON document shape, empty-input null-safety, self-contained HTML, ANSI reset |
-| **`internal/yamlite`** | nested maps/sequences, flow collections, comments, multi-document, quoting, block scalars, and errors on unterminated flow collections |
-| **`internal/scan`** | file classification (including `Makefile`/`Dockerfile`/`.hcl`/`.jsonnet`), exclusions, collector dedupe and merge, read limits, policy-path detection, the no-Python fallback |
-| **CLI** (`cli_test.go`) | every command, exit code, flag (including flags *after* the positional path), report files, gate flags (`--fail-under`, `--fail-on-*`, `--require-kubectl`), split/registry/object-store options |
+| DoD / regression (`scan_test.go`) | fixture scan well under 30 s, all 26 rules fire, per-file detection, decoy service yields 0 findings |
+| Accuracy matrix (`accuracy_test.go`) | one canonical probe per rule. a rule without a probe fails the build; a portable corpus that *talks* about S3/boto3/ARNs must stay silent |
+| Brutal (`brutal_test.go`) | 3,000-file repository inside budget; CRLF/BOM/UTF-16/NUL/binary/1 MiB-line/500-deep-flow/400-deep-map inputs; unreadable files; symlink loops; 8 concurrent scans agree; scan is deterministic; generation is byte-for-byte idempotent; `--require-kubectl` cannot be faked off |
+| Fuzz (`fuzz_test.go`, `internal/yamlite/fuzz_test.go`) | YAML parser, manifest scanner, Go AST scanner and the Python analyzer never panic on arbitrary bytes (1.5 M+ execs; found a real `strings.Repeat` crash) |
+| `internal/generate` | kubernetes target emits only builtin kinds; crossplane target uses the current API groups and a v2 pipeline Composition; Batch job definitions mirrored with resources; ECR rewritten; kustomize overlay kept out of the bundle; split mode |
+| `internal/score` | clean repo A/100, heavy coupling F, monotonic scoring, grade boundaries, gates, `Bar` clamping |
+| `internal/validate` | required fields, `restartPolicy`, cluster-scoped namespace rejection, residual-AWS classes, Helm rendering (good and broken charts), kustomize overlay handling, CRD warnings. all hermetic, plus cluster-backed assertions that skip when no server answers |
+| `internal/report` | SARIF 2.1.0 shape (driver, rules, results, regions), JSON document shape, empty-input null-safety, self-contained HTML, ANSI reset |
+| `internal/yamlite` | nested maps/sequences, flow collections, comments, multi-document, quoting, block scalars, and errors on unterminated flow collections |
+| `internal/scan` | file classification (including `Makefile`/`Dockerfile`/`.hcl`/`.jsonnet`), exclusions, collector dedupe and merge, read limits, policy-path detection, the no-Python fallback |
+| CLI (`cli_test.go`) | every command, exit code, flag (including flags *after* the positional path), report files, gate flags (`--fail-under`, `--fail-on-*`, `--require-kubectl`), split/registry/object-store options |
 
 ## CI
 
 `.github/workflows/ci.yml` runs four jobs:
 
-1. **build-test** — `gofmt -l`, `go vet`, build, `go test`, `go test -race`, and
+1. build-test. Runs `gofmt -l`, `go vet`, build, `go test`, `go test -race`, and
    a guard that `go.mod` still has no `require` block.
-2. **accuracy** — the one-probe-per-rule matrix, the portable corpus, stress,
-   adversarial input, determinism and idempotency.
-3. **fuzz** — bounded fuzzing of the YAML parser, the manifest scanner and the
+2. accuracy. Runs the one-probe-per-rule matrix, the portable corpus, stress,
+   adversarial input, determinism, and idempotency checks.
+3. fuzz. Runs bounded fuzzing of the YAML parser, the manifest scanner, and the
    Go AST scanner.
-4. **portability-gate** — installs kubectl, helm and kwokctl, starts a real
-   kube-apiserver with no Docker, then runs the Definition of Done for real:
-   scan under 30 s → generate both targets → assert the air-gapped bundle
-   contains only builtin kinds and zero AWS strings → `kubectl apply
-   --dry-run=client` **and** `--dry-run=server` → install upstream CRDs →
-   validate the Crossplane bundle → **actually apply** the bundle to a bare
-   cluster and fail on any warning → validator gates with `--require-kubectl`.
+4. portability-gate. Installs kubectl, helm, and kwokctl; starts a real
+   kube-apiserver with no Docker; then runs the Definition of Done for real.
+   It scans under 30 s, generates both targets, asserts that the air-gapped
+   bundle contains only built-in kinds and zero AWS strings, runs `kubectl apply
+   --dry-run=client` and `--dry-run=server`, installs upstream CRDs, validates
+   the Crossplane bundle, applies the bundle to a bare cluster, fails on any
+   warning, and runs validator gates with `--require-kubectl`.
 
 ## Verification record
 
 `docs/verification.md` maps every clause of the specification to the gate and
-command that proves it, and lists the eighteen bugs this verification found —
+command that proves it, and lists the eighteen bugs this verification found.
 including three stale API groups, a Pod Security violation, a bundle ordering
 race, a parser crash reachable from any malformed manifest, and five harness
 defects (lost execute bits, a non-hermetic admission gate, helm's stderr
@@ -326,20 +326,20 @@ looked valid because the object already existed).
 
 ## Design notes
 
-- **Zero false negatives over zero false positives.** Every rule has a
-  triggering fixture; the decoy service proves the false-positive floor is
-  zero on portable code.
-- **The scanner is syntax-aware, not grep.** Go uses `go/ast`, Python uses a
-  real `ast` walk that collects imports, aliases, `from … import`, docstrings,
-  bucket-literal bindings and chained calls. Prose in docstrings and
-  commented-out code is not flagged.
-- **Findings are de-duplicated per rule per line** so two scanners observing
-  the same dependency do not inflate the penalty.
-- **Nothing is fetched at runtime.** No network calls, no AWS SDK, no
-  `kubectl` requirement. The tool is usable on the ground station it is
-  describing.
-- **Every generated image is ground-local.** `ghcr.io`, `docker.io`, `quay.io`
-  and `public.ecr.aws` references are rewritten to `registry.ground.local`
-  (or `--registry`). The validator and `scripts/verify.sh` fail if any public
-  registry survives, so an air-gapped deployment never needs internet egress or
-  a proprietary AWS API.
+- Zero false negatives over zero false positives. Every rule has a
+ triggering fixture; the decoy service proves the false-positive floor is
+ zero on portable code.
+- The scanner is syntax-aware, not grep. Go uses `go/ast`, Python uses a
+ real `ast` walk that collects imports, aliases, `from … import`, docstrings,
+ bucket-literal bindings and chained calls. Prose in docstrings and
+ commented-out code is not flagged.
+- Findings are de-duplicated per rule per line so two scanners observing
+ the same dependency do not inflate the penalty.
+- Nothing is fetched at runtime. No network calls, no AWS SDK, no
+ `kubectl` requirement. The tool is usable on the ground station it is
+ describing.
+- Every generated image is ground-local. `ghcr.io`, `docker.io`, `quay.io`
+ and `public.ecr.aws` references are rewritten to `registry.ground.local`
+ (or `--registry`). The validator and `scripts/verify.sh` fail if any public
+ registry survives, so an air-gapped deployment never needs internet egress or
+ a proprietary AWS API.

@@ -1,6 +1,6 @@
 #!/usr/bin/env bash
 # Install the CRDs the --target crossplane bundle depends on, at the versions
-# that actually exist upstream. Every API group below is pinned to a release we
+# that exist upstream. Every API group below is pinned to a release we
 # verified against the live API server (see docs/verification.md).
 #
 #   crossplane v2.4.3          apiextensions.crossplane.io/v1, pkg.crossplane.io/v1

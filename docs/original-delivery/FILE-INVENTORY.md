@@ -4,8 +4,8 @@ Every file in this archive, and why it exists. 142 files (225 more inside
 `PROJECT-2-turion-platform-drift/.git/`, which carries the repository history:
 9 commits, `git status` clean).
 
-Legend: **★** = read this first · **†** = evidence/artifact (generated, not
-hand-written) · **⚠** = authored but never executed
+Legend: ★ = read this first and † = evidence/artifact (generated, not
+hand-written) and ⚠ = authored but never executed
 
 ---
 
@@ -50,9 +50,9 @@ Top level
 | File | What it is |
 | --- | --- |
 | `__init__.py` | Package exports and `__version__`. |
-| `__main__.py` | `python -m cosmos_tlm_bridge` → CLI. |
-| `models.py` | **The typed contract.** `TelemetryPoint`, `Limits`, `LimitsState`, `LimitsColor`, POLY conversion, DN↔EU, limits precedence (BLUE never masks YELLOW/RED), `is_violation`, severity rollup, instance caps. No I/O. |
-| `telemetry.py` | Decommutation: target definition (COSMOS `cmd_tlm` text) → typed channels, `get_tlm_packet` tuples → `PointSample`s, channel-name parsing (`TARGET__PACKET__POINT`). |
+| `__main__.py` | `python -m cosmos_tlm_bridge` to CLI. |
+| `models.py` | The typed contract. `TelemetryPoint`, `Limits`, `LimitsState`, `LimitsColor`, POLY conversion, DN↔EU, limits precedence (BLUE never masks YELLOW/RED), `is_violation`, severity rollup, instance caps. No I/O. |
+| `telemetry.py` | Decommutation: target definition (COSMOS `cmd_tlm` text) to typed channels, `get_tlm_packet` tuples to `PointSample`s, channel-name parsing (`TARGET__PACKET__POINT`). |
 | `client.py` | The only HTTP module: COSMOS JSON-RPC (`get_tlm_packet`, `get_tlm_values`, `get_limits`, `cmd`, `get_target_list`, …) at `/__openc3_api__/api`, scope handling, structured errors, streaming subscription helper. |
 | `bridge.py` | Fan-out engine: `TelemetryBridge`, `PointSubscription`, `WebhookSink` (bounded retries, counters), `TelemetryFrame` with per-point DN/EU/limits and a frame summary. |
 | `cli.py` | argparse front end: `demo run serve bridge verify limits targets version`; exit codes 0/1/2/3. |
@@ -61,10 +61,10 @@ Top level
 | `mock/server.py` | Keyless OpenC3-compatible HTTP server: JSON-RPC routes, packet/limits tables, command handling, fresh-sim reset. |
 | `regress/__init__.py` | Exposes the runner. |
 | `regress/schema.py` | Pydantic suite schema: `SuiteSpec`, `AssertionSpec` (channel, `dn_eu`, `condition`, `expect_limits`, `occurrence`), step models (`cmd`, `assert`, `wait_s`, `wait_for_packet`, `wait_for_limits`), `extra="forbid"`, `load_suite`. |
-| `regress/runner.py` | Executes a suite: setup → steps → teardown (teardown always runs), per-assertion polling with deadlines, `ANY`/`ALWAYS`/`EVER` occurrence semantics, per-case results, suite timeout. |
+| `regress/runner.py` | Executes a suite: setup to steps to teardown (teardown always runs), per-assertion polling with deadlines, `ANY`/`ALWAYS`/`EVER` occurrence semantics, per-case results, suite timeout. |
 | `regress/report.py` | Emits JUnit XML, self-contained HTML and JSON per suite. |
 
-`go/` — independent Go client + bridge (module `github.com/turion-space/cosmos-tlm-bridge/go`, no third-party deps)
+`go/`. independent Go client + bridge (module `github.com/turion-space/cosmos-tlm-bridge/go`, no third-party deps)
 
 | File | What it is |
 | --- | --- |
@@ -96,7 +96,7 @@ Top level
 | File | What it is |
 | --- | --- |
 | `test_models_and_limits.py` | Models, conversions, limits precedence, BLUE/GREEN semantics, severity rollup, instance caps. |
-| `test_bridge_and_regress.py` | Client, mock server, bridge subscriptions/webhooks, suite loading, positive run, **negative control** (wrong expectation must fail), timeout and teardown behaviour. |
+| `test_bridge_and_regress.py` | Client, mock server, bridge subscriptions/webhooks, suite loading, positive run, negative control (wrong expectation must fail), timeout and teardown behaviour. |
 
 `docker/`
 
@@ -105,7 +105,7 @@ Top level
 | `entrypoint.sh` ⚠ | Waits for COSMOS, then runs the requested suite. |
 | `sink.py` ⚠ | Webhook sink for the compose demo: prints received typed frames. |
 
-`artifacts/` † — reports from real runs
+`artifacts/` †. reports from real runs
 
 | File | What it is |
 | --- | --- |
@@ -123,7 +123,7 @@ Top level
 | File | What it is |
 | --- | --- |
 | `README.md` | Long-form documentation: problem, install, commands, rule table, scoring, generation, validation, tests, CI, verification record, layout. |
-| `go.mod` | `module turion-platform-drift`, Go 1.22, **no `require` block** (zero external dependencies — a tested property). |
+| `go.mod` | `module turion-platform-drift`, Go 1.22, no `require` block (zero external dependencies. a tested property). |
 | `.gitignore` | Ignores build output and scratch dirs. |
 | `Makefile` | `build test race stress fuzz bench cover scan generate validate cluster crds verify verify-fast ci demo clean help`. |
 | `main.go` | CLI: `scan generate validate rules version help`, flag parsing with `reorderArgs`/`boolFlags` (flags may follow the positional path), exit codes, gate flags (`--fail-under`, `--fail-on-critical`, `--fail-on-any`, `--fail-on-residual-aws`). |
@@ -152,29 +152,29 @@ Tests (Go)
 | `scan/manifests.go` | YAML/JSON/HCL/Terraform/Helm/AWS-policy analysis: Batch job definitions and compute environments, ECR images, IRSA annotations, EBS/EFS classes, ALB, Secrets Manager CSI, Karpenter, CloudWatch; `IsAWSPolicyPath` (`.json` only, trust-aware). |
 | `scan/findings.go` | Finding model, severity, symbol spans, same-line dedupe/merge. |
 | `scan/scan_internal_test.go` | Unit tests for classification, exclusions, collector dedupe/merge, `ReadFile` limits, policy-path rules, no-Python fallback, broken Go source. |
-| `pyast/analyzer.py` | Byte-identical copy of `scan/analyzer.py` — `go:embed` cannot reach a parent directory. **Keep the two files identical.** |
+| `pyast/analyzer.py` | Byte-identical copy of `scan/analyzer.py`. `go:embed` cannot reach a parent directory. Keep the two files identical. |
 | `score/score.go` | Scoring: weights 12/7/3/1, penalty `100·(1−e^(−raw/45))`, grades A≥90/B≥75/C≥55/D≥30/F, verdicts, category and by-rule breakdowns, hotspot ordering. |
 | `score/score_test.go` | Score monotonicity, grade bands, category ordering, hotspot stability. |
 | `generate/generate.go` | Target-aware generation: naming, namespace, registry rewrite, bundle vs `--split`, deterministic bytes, kustomize overlay. |
 | `generate/templates.go` | Every emitted object as a template: namespace, object store (versitygw/minio) shim, bucket bootstrap Job, OTel collector, identity/RBAC, PostgreSQL, NATS, Jobs, plus the Crossplane XRD/Composition/provider config, CNPG, ESO and OTel CRs. |
 | `generate/generate_test.go` | Object counts, builtin-kinds-only for the kubernetes target, current API groups (minio/cnpg/eso/otel/crossplane), no stale groups, idempotency, determinism. |
 | `validate/validate.go` | Validation: structural/schema checks, `kubectl apply --dry-run=client` and `=server`, residual-AWS scan, Helm rendering (stdout/stderr separated), honest `skipped (reason)` reporting, `--require-kubectl`/`--require-helm`. |
-| `validate/validate_test.go` | Schema failures, skip-vs-require semantics, Helm render (good chart, broken chart, **stderr-noise regression test**), hermetic kubectl stubbing. |
+| `validate/validate_test.go` | Schema failures, skip-vs-require semantics, Helm render (good chart, broken chart, stderr-noise regression test), hermetic kubectl stubbing. |
 | `report/report.go` | Renderers: text scorecard, JSON, SARIF 2.1.0, self-contained HTML. |
 | `report/report_test.go` | SARIF structure/levels/fingerprints, JSON field stability, HTML escaping. |
 | `yamlite/yamlite.go` | Tolerant YAML subset parser: multi-document, block scalars, comments, quoting, anchors rejected with a clear error; used for inspection only. |
 | `yamlite/yamlite_test.go` | Parsing corpus, block scalars, documents, error paths. |
-| `yamlite/fuzz_test.go` + `testdata/fuzz/FuzzParse/f1a026cd429be709` | Fuzz target and the **regression corpus entry** for the block-scalar panic. |
+| `yamlite/fuzz_test.go` + `testdata/fuzz/FuzzParse/f1a026cd429be709` | Fuzz target and the regression corpus entry for the block-scalar panic. |
 
-`scripts/` — the verification harness
+`scripts/`. the verification harness
 
 | File | What it is |
 | --- | --- |
 | `verify.sh` | 32 gates in 7 sections; `--no-cluster` for the 23 that need no API server; prints PASS/FAIL + timing and a summary; exit 0 only if everything passes. Installs nothing itself but calls the scripts that do. |
-| `kwok-cluster.sh` | `up|down|status` — installs `kwokctl` + `kubectl` if absent, starts etcd + kube-apiserver + controller-manager + scheduler (**no Docker, no kubelet**), prints a kubeconfig under `~/.kwok/clusters/<name>/kubeconfig.yaml`. |
+| `kwok-cluster.sh` | `up|down|status`. installs `kwokctl` + `kubectl` if absent, starts etcd + kube-apiserver + controller-manager + scheduler (no Docker, no kubelet), prints a kubeconfig under `~/.kwok/clusters/<name>/kubeconfig.yaml`. |
 | `install-crds.sh` | Installs the 45 CRDs the crossplane target needs, at current upstream versions (Crossplane 2.4.3, provider-minio 0.4.4, CNPG / ESO / OTel charts); installs `helm` itself when absent; prints served versions per kind. |
 
-`ground-service/` — the AWS-bound fixture that is the scanner's subject
+`ground-service/`. the AWS-bound fixture that is the scanner's subject
 
 | File | What it is |
 | --- | --- |
@@ -196,7 +196,7 @@ Tests (Go)
 | `telemetry/otel-collector.yaml` | Collector configured with CloudWatch/X-Ray exporters. |
 | `ui/src/api.ts` | `@aws-sdk/*` imports and Lambda client calls. |
 
-`templates/` — reference material the validator renders and checks
+`templates/`. reference material the validator renders and checks
 
 | File | What it is |
 | --- | --- |
@@ -211,13 +211,13 @@ Tests (Go)
 
 | File | What it is |
 | --- | --- |
-| `clean-service/main.go` | Portable Go service — must produce **zero** findings. |
-| `clean-service/portable_archive.py` | Portable S3-API Python archiver — zero findings. |
-| `clean-service/ui.ts` | Portable TypeScript client — zero findings. |
-| `clean-service/deployment.yaml` | Portable manifest (no cloud annotations) — zero findings. |
+| `clean-service/main.go` | Portable Go service. must produce zero findings. |
+| `clean-service/portable_archive.py` | Portable S3-API Python archiver. zero findings. |
+| `clean-service/ui.ts` | Portable TypeScript client. zero findings. |
+| `clean-service/deployment.yaml` | Portable manifest (no cloud annotations). zero findings. |
 | `edge-cases/dynamic_client.py` | Reflectively constructed boto3 client: the documented edge case where static analysis must not guess. |
 
-`reports/` and `reports-cp/` † — committed evidence, regenerated by `scripts/verify.sh`
+`reports/` and `reports-cp/` †. committed evidence, regenerated by `scripts/verify.sh`
 
 | File | What it is |
 | --- | --- |
@@ -227,7 +227,7 @@ Tests (Go)
 | `scorecard.html` | Self-contained HTML scorecard (no external assets). |
 | `drift.sarif` | SARIF 2.1.0 for GitHub code scanning. |
 
-`.git/` (209 files) — repository history: `36a3905` (initial, full tree),
+`.git/` (209 files). repository history: `36a3905` (initial, full tree),
 `2dbbfdf` (harness hardening), `8444fcc` (reproducible cluster gates),
 `74d1ae2` (helm stderr), `fed91c3` + `c2bc370` (XRD v2 experiment and its
 documented revert). See `HANDOVER.md` §2 note on lost intermediate commits.

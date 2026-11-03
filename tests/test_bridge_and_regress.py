@@ -1,6 +1,6 @@
 """Integration tests: the DROID_SIM server, the typed bridge, and the
 declarative regression runner — including a negative control proving the
-assertions actually catch a missing YELLOW_HIGH violation.
+assertions catch a missing YELLOW_HIGH violation.
 """
 
 from __future__ import annotations

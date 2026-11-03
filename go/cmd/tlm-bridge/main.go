@@ -33,7 +33,7 @@ func main() {
 		dur     = flag.Duration("duration", 10*time.Second, "how long to bridge (0 = forever)")
 		verify  = flag.String("verify", "", "one-shot DN/EU verification: TARGET__PACKET__POINT[,MODE]")
 		jsn     = flag.Bool("json", false, "emit raw JSON frames")
-		dryRun  = flag.Bool("dry-run", false, "do not actually POST to webhooks")
+		dryRun  = flag.Bool("dry-run", false, "skip POST to webhooks")
 	)
 	flag.Parse()
 

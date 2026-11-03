@@ -1,7 +1,7 @@
 # ENVIRONMENT
 
 What was installed to build and verify this archive, how to rebuild that
-environment from nothing, and what each project actually needs (very little).
+environment from nothing, and what each project needs (very little).
 
 Both projects deliberately avoid heavyweight dependencies: project 1 needs only
 `pydantic` + `PyYAML`, project 2 needs only the Go standard library. Everything
@@ -9,7 +9,7 @@ below is *tooling used to verify*, not a runtime requirement.
 
 ---
 
-## 1. Versions actually used (2026-11-03)
+## 1. Versions used (2026-11-03)
 
 | Component | Version | Where it came from |
 | --- | --- | --- |
@@ -21,13 +21,13 @@ below is *tooling used to verify*, not a runtime requirement.
 | kubectl | stable (v1.36-era client) | auto-installed by `scripts/kwok-cluster.sh` from `dl.k8s.io` |
 | kwokctl | v0.8.0 | auto-installed by `scripts/kwok-cluster.sh` from GitHub releases |
 | helm | v3.16.3 | auto-installed by `scripts/install-crds.sh` from `get.helm.sh` |
-| kube-apiserver | **v1.36.1** | provided by kwok (real upstream binaries) |
-| Crossplane CRDs | **v2.4.3** | `raw.githubusercontent.com/crossplane/crossplane/v2.4.3/cluster/crds/*` |
-| provider-minio CRDs | **v0.4.4** | `raw.githubusercontent.com/vshn/provider-minio/v0.4.4/package/crds/*` |
+| kube-apiserver | v1.36.1 | provided by kwok (real upstream binaries) |
+| Crossplane CRDs | v2.4.3 | `raw.githubusercontent.com/crossplane/crossplane/v2.4.3/cluster/crds/*` |
+| provider-minio CRDs | v0.4.4 | `raw.githubusercontent.com/vshn/provider-minio/v0.4.4/package/crds/*` |
 | CloudNativePG / External Secrets / OpenTelemetry Operator CRDs | current chart releases | Helm repos `cnpg`, `external-secrets`, `open-telemetry` |
-| Docker | **not available** — hence the Docker assets are unproven | — |
+| Docker | not available. hence the Docker assets are unproven |. |
 
-Total CRDs installed in the verification cluster: **45**.
+Total CRDs installed in the verification cluster: 45.
 
 ---
 
@@ -128,8 +128,8 @@ bash scripts/kwok-cluster.sh down ground
 
 | | Project 1 | Project 2 |
 | --- | --- | --- |
-| Language runtime | Python ≥ 3.11 (`pydantic`, `PyYAML`) | none — a static Go binary |
+| Language runtime | Python ≥ 3.11 (`pydantic`, `PyYAML`) | none. a static Go binary |
 | Optional | Go (for the Go client), Docker (for the compose stack) | `python3` for the richest Python analysis (falls back to regex with `--no-python`), `kubectl`/`helm` for the strongest validation gates |
 | Network | none (mock server is in-process) | none for `scan`/`generate`; first run of `verify.sh` fetches tools + CRDs |
-| Credentials | none — keyless by design | none |
+| Credentials | none. keyless by design | none |
 | Cluster | none | optional; a real API server only for the server-side gates |

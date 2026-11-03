@@ -73,7 +73,7 @@ type Report struct {
 	HelmRan bool
 	// HelmCharts lists the charts that were rendered.
 	HelmCharts []string
-	// KubectlMode is the dry-run mode actually used: "client", "server", "none".
+	// KubectlMode is the dry-run mode used: "client", "server", "none".
 	KubectlMode string
 	// Unserved lists apiVersions the cluster does not serve (missing CRDs).
 	Unserved []string

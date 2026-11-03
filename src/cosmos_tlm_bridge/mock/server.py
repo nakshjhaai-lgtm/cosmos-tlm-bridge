@@ -13,7 +13,7 @@ It speaks the real OpenC3 surfaces the bridge depends on:
 ===============================  =============================================
 
 The JSON-RPC surface implements the subset of the COSMOS
-``tlm``/``cmd``/limits APIs that ground software actually uses.
+``tlm``/``cmd``/limits APIs that ground software uses.
 """
 
 from __future__ import annotations

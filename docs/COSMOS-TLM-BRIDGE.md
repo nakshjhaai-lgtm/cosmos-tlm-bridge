@@ -1,9 +1,9 @@
 # cosmos-tlm-bridge
 
-**OpenC3 COSMOS v5 → typed ground-microservice bridge and declarative CI regression runner.**
+OpenC3 COSMOS v5 to typed ground-microservice bridge and declarative CI regression runner.
 Built for [Turion Space](https://turion.space) DROID constellation operations.
 
-Keyless · no OpenC3 SDK · no Ruby Script Runner · no API keys · Python 3.11+ / Go / Docker.
+Keyless and no OpenC3 SDK and no Ruby Script Runner and no API keys and Python 3.11+ / Go / Docker.
 
 ```bash
 uvx cosmos-tlm-bridge demo                      # full DROID pass acceptance in ~23 s
@@ -15,22 +15,22 @@ cosmos-regress run droid_pass_acceptance.yaml   # CI gate, JUnit + HTML out
 
 ## Why this exists
 
-Turion is scaling from single-satellite missions to **DROID** constellations. Operations
-and ground software engineers drive command-and-control through **OpenC3 COSMOS v5**,
+Turion is scaling from single-satellite missions to DROID constellations. Operations
+and ground software engineers drive command-and-control through OpenC3 COSMOS v5,
 and every satellite software update or new mission concept currently means hand-writing
-brittle Ruby/Python procedures in OpenC3 **Script Runner** that:
+brittle Ruby/Python procedures in OpenC3 Script Runner that:
 
-* manually correlate raw **Data Numbers (DN)** against converted **Engineering Units (EU)**,
+* manually correlate raw Data Numbers (DN) against converted Engineering Units (EU),
 * hand-reimplement the COSMOS limits algorithm (`YELLOW_HIGH`, `RED_HIGH`, BLUE operational bands),
 * and drift out of sync with the target definitions the moment an item changes.
 
 `cosmos-tlm-bridge` replaces that loop with three things:
 
-1. a **typed bridge** that decommutates COSMOS JSON-RPC / StreamingApi telemetry into
-   Pydantic and Go structs, converting DN→EU from the *same* `cmd_tlm/*.txt` definitions
-   COSMOS loads, and evaluating operational limits states itself;
-2. a **declarative YAML acceptance runner** so regression suites are data, not scripts;
-3. a **`DROID_SIM` reference server** so all of it runs keyless, in CI, in under a minute.
+1. a typed bridge that decommutates COSMOS JSON-RPC / StreamingApi telemetry into
+ Pydantic and Go structs, converting DNtoEU from the *same* `cmd_tlm/*.txt` definitions
+ COSMOS loads, and evaluating operational limits states itself;
+2. a declarative YAML acceptance runner so regression suites are data, not scripts;
+3. a `DROID_SIM` reference server so all of it runs keyless, in CI, in under a minute.
 
 No Ruby is written or executed anywhere in the pipeline.
 
@@ -45,7 +45,7 @@ uvx cosmos-tlm-bridge demo
 ```
 
 Boots the reference server, runs `droid_pass_acceptance.yaml`, writes JUnit + HTML +
-JSON reports to `artifacts/`, and fails the process on any regression — **in ~23 s**,
+JSON reports to `artifacts/`, and fails the process on any regression. in ~23 s,
 inside the 45 s spin-up budget.
 
 ```
@@ -74,9 +74,9 @@ docker compose --profile verify up  # + one-shot acceptance gate
 | Service | Port | Role |
 | --- | --- | --- |
 | `cosmos` | 2900 | Mock OpenC3 COSMOS v5: JSON-RPC, auth/verify, StreamingApi |
-| `bridge` | – | Typed fan-out from COSMOS to microservice webhooks |
+| `bridge` | - | Typed fan-out from COSMOS to microservice webhooks |
 | `telemetry-sink` | 8080 | Downstream ground service consuming typed frames |
-| `regress` | – | CI gate; mounts `./artifacts` |
+| `regress` | - | CI gate; mounts `./artifacts` |
 
 ### 3. Against a real COSMOS
 
@@ -146,7 +146,7 @@ Three packets, 27 typed points, real OpenC3 definition syntax:
 | `EPS` | `BATT_VOLTAGE`, `BATT_CURRENT`, `BATT_SOC`, `BATT_TEMP` + CCSDS header | `DEFAULT__DECOM__{DROID_SIM}__EPS` |
 | `THERMAL` | `RADIATOR_TEMP`, `RW_TEMP`, `BUS_TEMP`, `HEATER_DUTY` + CCSDS header | `DEFAULT__DECOM__{DROID_SIM}__THERMAL` |
 
-Channels use the **ingenium-lib-cosmos** convention `TARGET__PACKET__TELEMETRY_POINT`
+Channels use the ingenium-lib-cosmos convention `TARGET__PACKET__TELEMETRY_POINT`
 (exactly two `__` delimiters), e.g. `DROID_SIM__THERMAL__RW_TEMP`.
 `PACKET__POINT` shorthand is accepted when a default target is configured.
 
@@ -178,10 +178,10 @@ would, so `get_tlm_cnt` advances whether or not anyone is reading.
 | --- | --- | --- | --- |
 | `DN` | `RAW` | `tlm_raw` | `__RAW` |
 | `EU` | `CONVERTED` | `tlm` | `__CONVERTED` |
-| – | `FORMATTED` | `tlm_formatted` | – |
+| - | `FORMATTED` | `tlm_formatted` | - |
 
 Conversions come from the definition, e.g. `POLY_READ_CONVERSION -40.0 0.01`:
-`EU = -40 + 0.01 × DN`. The bridge keeps limits in the **EU** domain (as COSMOS does)
+`EU = -40 + 0.01 × DN`. The bridge keeps limits in the EU domain (as COSMOS does)
 and *re-derives* them into the DN domain by inverting the polynomial, so a DN-mode
 assertion compares against the identical physical threshold:
 
@@ -206,7 +206,7 @@ operational band:
 | otherwise | `GREEN` | GREEN |
 
 `limits_overall` is the worst colour including BLUE; `cosmos_overall_limits_state`
-collapses BLUE→GREEN to match `get_overall_limits_state`, which only returns
+collapses BLUEtoGREEN to match `get_overall_limits_state`, which only returns
 GREEN/YELLOW/RED.
 
 ---
@@ -256,7 +256,7 @@ steps:
 | --- | --- |
 | `channel` | `TARGET__PACKET__POINT` or `PACKET__POINT` |
 | `dn_eu` | `DN` (aliases `RAW`) or `EU` (alias `CONVERTED`) |
-| `condition` | `EQUAL,a,,,` · `BETWEEN,a,b,,` · `OUTSIDE,a,b,,` · `CHANGE,delta,,` · `TOLERANCE,a,tol,,` · or operator form `">= 55.0"`, `"< 45"`, `"== 7"`, `"1..3"` |
+| `condition` | `EQUAL,a,,,` and `BETWEEN,a,b,,` and `OUTSIDE,a,b,,` and `CHANGE,delta,,` and `TOLERANCE,a,tol,,` and or operator form `">= 55.0"`, `"< 45"`, `"== 7"`, `"1..3"` |
 | `expect_limits` | `GREEN`, `YELLOW_LOW`, `YELLOW_HIGH`, `BLUE`, `RED_LOW`, `RED_HIGH` (aliases `YELLOW`, `RED`, `OPERATIONAL`) |
 | `expect_limits_color` | `GREEN`, `YELLOW`, `RED`, `BLUE` |
 | `within_s` | sampling window |
@@ -273,7 +273,7 @@ the Ingenium custom-script format.
 | --- | --- | --- |
 | `droid_smoke.yaml` | JSON-RPC, DN/EU conversion, typing | ~0.2 s |
 | `droid_thermal_red.yaml` | RED_HIGH caught in DN + EU, system roll-up | ~3.5 s |
-| `droid_pass_acceptance.yaml` | Full pass: command → DN/EU assertions → `YELLOW_HIGH` catch → recovery | ~23 s |
+| `droid_pass_acceptance.yaml` | Full pass: command to DN/EU assertions to `YELLOW_HIGH` catch to recovery | ~23 s |
 
 ---
 
@@ -293,9 +293,9 @@ cosmos-tlm-bridge targets
 
 `cosmos-regress` writes three artifacts per suite:
 
-* `*-junit.xml` — GitHub Actions / GitLab / Jenkins;
-* `*-report.html` — self-contained (inline CSS/SVG, no CDN) for air-gapped archiving;
-* `*-results.json` — every sample behind every assertion.
+* `*-junit.xml`. GitHub Actions / GitLab / Jenkins;
+* `*-report.html`. self-contained (inline CSS/SVG, no CDN) for air-gapped archiving;
+* `*-results.json`. every sample behind every assertion.
 
 ---
 
@@ -375,32 +375,32 @@ make demo          # acceptance run, self-checking spin-up budget
 
 What the test suite pins down:
 
-* **Definition parsing** — `LIMITS` argument order, `POLY_READ_CONVERSION`, units, `STATE`.
-* **Conversion round-trips** — forward, inverse, and quadratic inverse polynomials.
-* **Limits precedence** — all 13 boundary cases for `RW_TEMP`, plus the rule that a
-  wide BLUE band can never mask a YELLOW or RED violation.
-* **DN ≡ EU thresholds** — `yellow_high = 55 °C` evaluates to `YELLOW_HIGH` at
-  DN 9500 in both domains, and `GREEN` at 9499.
-* **No bridge/COSMOS divergence** — every emitted frame's limits state is
-  cross-checked against COSMOS' own `get_tlm_packet` evaluation.
-* **Negative controls** — a suite expecting `RED_HIGH` where only `YELLOW_HIGH`
-  occurs must **FAIL**, and so must a wrong value range. This is what stops the
-  assertions from being decorative.
-* **Reports** — JUnit `<failure>` is emitted exactly when a case fails.
-* **Transport** — both JSON-RPC parameter forms, both API paths, core-auth round
-  trip, NDJSON streaming, and webhook retry/failure counting.
+* Definition parsing. `LIMITS` argument order, `POLY_READ_CONVERSION`, units, `STATE`.
+* Conversion round-trips. forward, inverse, and quadratic inverse polynomials.
+* Limits precedence. all 13 boundary cases for `RW_TEMP`, plus the rule that a
+ wide BLUE band can never mask a YELLOW or RED violation.
+* DN ≡ EU thresholds. `yellow_high = 55 °C` evaluates to `YELLOW_HIGH` at
+ DN 9500 in both domains, and `GREEN` at 9499.
+* No bridge/COSMOS divergence. every emitted frame's limits state is
+ cross-checked against COSMOS' own `get_tlm_packet` evaluation.
+* Negative controls. a suite expecting `RED_HIGH` where only `YELLOW_HIGH`
+ occurs must FAIL, and so must a wrong value range. This is what stops the
+ assertions from being decorative.
+* Reports. JUnit `<failure>` is emitted exactly when a case fails.
+* Transport. both JSON-RPC parameter forms, both API paths, core-auth round
+ trip, NDJSON streaming, and webhook retry/failure counting.
 
 ---
 
-## Definition of done → where it is proven
+## Definition of done to where it is proven
 
 | Criterion | Evidence |
 | --- | --- |
-| `uvx cosmos-tlm-bridge demo` / `docker compose up` initialises a DROID pass in **< 45 s** | `cosmos-tlm-bridge demo` prints `instant spin-up 22.7s / 45.0s PASS` and exits non-zero if it exceeds it; the CI `acceptance` job asserts the same budget |
-| `CMD_SLEW_TARGET` triggers automated assertions in **both DN and EU** | `droid_pass_acceptance.yaml` steps *slew is acknowledged in telemetry (DN mode)* + *slewing target slot decodes… (EU mode)* |
-| Correctly catches a simulated **`YELLOW_HIGH`** reaction-wheel thermal violation | *reaction wheel thermal limit violation is caught (EU mode)* and *(DN mode)*, plus a RED_HIGH suite; negative controls in `tests/` prove they fail when the expectation is wrong |
-| Telemetry streams into **typed Go/Python structs** and forwards to downstream webhooks, **no Ruby in OpenC3** | `go run ./cmd/tlm-bridge -webhook …` → 24 frames / 24 webhook_ok / 0 failed; `TelemetryBridge` + `docker/sink.py`; no `.rb` file exists in this repository |
-| Full CI acceptance in **< 105 s** | suite sweep (`smoke` + `thermal_red` + `pass_acceptance`) ≈ 27 s; CI job fails above 105 s |
+| `uvx cosmos-tlm-bridge demo` / `docker compose up` initialises a DROID pass in < 45 s | `cosmos-tlm-bridge demo` prints `instant spin-up 22.7s / 45.0s PASS` and exits non-zero if it exceeds it; the CI `acceptance` job asserts the same budget |
+| `CMD_SLEW_TARGET` triggers automated assertions in both DN and EU | `droid_pass_acceptance.yaml` steps *slew is acknowledged in telemetry (DN mode)* + *slewing target slot decodes… (EU mode)* |
+| Correctly catches a simulated `YELLOW_HIGH` reaction-wheel thermal violation | *reaction wheel thermal limit violation is caught (EU mode)* and *(DN mode)*, plus a RED_HIGH suite; negative controls in `tests/` prove they fail when the expectation is wrong |
+| Telemetry streams into typed Go/Python structs and forwards to downstream webhooks, no Ruby in OpenC3 | `go run ./cmd/tlm-bridge -webhook …` to 24 frames / 24 webhook_ok / 0 failed; `TelemetryBridge` + `docker/sink.py`; no `.rb` file exists in this repository |
+| Full CI acceptance in < 105 s | suite sweep (`smoke` + `thermal_red` + `pass_acceptance`) ≈ 27 s; CI job fails above 105 s |
 
 ---
 
@@ -411,25 +411,25 @@ What the test suite pins down:
 | `COSMOS_URL` | `http://localhost:2900` | COSMOS base URL |
 | `COSMOS_SCOPE` | `DEFAULT` | COSMOS scope |
 | `COSMOS_AUTH_MODE` | `keyless` | `keyless`, `core`, `enterprise` |
-| `COSMOS_PASSWORD` | – | required for `core`/`enterprise` |
+| `COSMOS_PASSWORD` | - | required for `core`/`enterprise` |
 | `COSMOS_DEFINITIONS_DIR` | bundled | OpenC3 `cmd_tlm` directory |
 | `COSMOS_PORT` | `2900` | reference-server port |
-| `NO_COLOR` | – | disable ANSI colour |
+| `NO_COLOR` | - | disable ANSI colour |
 
 ---
 
 ## Design notes
 
-* **One source of truth for conversions.** The bridge parses the same
-  `cmd_tlm/*.txt` files COSMOS loads, so an item change cannot silently desync
-  the test suite. There is no second definition to drift.
-* **The bridge verifies itself.** Every polled frame compares its own limits
-  evaluation against COSMOS' `get_tlm_packet` states and records any divergence —
-  a mismatch surfaces as a suite error instead of a wrong green.
-* **Keyless first.** `keyless` is the default auth mode so `demo` and CI need no
-  credentials; `core` and `enterprise` follow the documented COSMOS endpoints.
-* **Small dependency surface.** Pydantic and PyYAML. No OpenC3 SDK, no Ruby, no
-  cloud SDK — deliberate parity with `turion-platform-drift`'s portability goals.
+* One source of truth for conversions. The bridge parses the same
+ `cmd_tlm/*.txt` files COSMOS loads, so an item change cannot silently desync
+ the test suite. There is no second definition to drift.
+* The bridge verifies itself. Every polled frame compares its own limits
+ evaluation against COSMOS' `get_tlm_packet` states and records any divergence.
+ a mismatch surfaces as a suite error instead of a wrong green.
+* Keyless first. `keyless` is the default auth mode so `demo` and CI need no
+ credentials; `core` and `enterprise` follow the documented COSMOS endpoints.
+* Small dependency surface. Pydantic and PyYAML. No OpenC3 SDK, no Ruby, no
+ cloud SDK. deliberate parity with `turion-platform-drift`'s portability goals.
 
 ## License
 
