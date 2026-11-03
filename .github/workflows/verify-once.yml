@@ -46,7 +46,7 @@ jobs:
 
       - name: Run every gate (always keep the log)
         env:
-          RUN_CLUSTER: '0'
+          RUN_CLUSTER: '1'
           VERIFY_LOG: docs/evidence/verification-all.log
         run: |
           set +e

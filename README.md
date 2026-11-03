@@ -44,7 +44,7 @@ Turion Space is scaling from single-satellite missions to multi-satellite **DROI
 
 | Criterion | Result | Evidence |
 | --- | --- | --- |
-| `docker compose up` / demo initializes a LEO DROID pass in **< 45 s** | local `demo` **22.9 s**; compose demo bounded to a 35 s window and timed in CI | [`docs/evidence/ci-verification.log`](docs/evidence/ci-verification.log), [`demo.log`](docs/evidence/demo.log) |
+| `docker compose up` / demo initializes a LEO DROID pass in **< 45 s** | local `demo` **22.9 s**; plain `docker compose up` timed in CI (**< 45 s**, 30 s finite window) | [`docs/evidence/ci-verification.log`](docs/evidence/ci-verification.log), [`demo.log`](docs/evidence/demo.log) |
 | `CMD_SLEW_TARGET` triggers DN **and** EU assertions and catches `YELLOW_HIGH` on `DROID_SIM__THERMAL__RW_TEMP` | 15/15 checks; first sample DN 9536 / EU 55.36 °C; negative controls fail when expectations are wrong | [`pipeline.log`](docs/evidence/pipeline.log), [`droid_pass_acceptance-results.json`](docs/evidence/droid_pass_acceptance-results.json) |
 | Packets stream into typed Go/Python structs and forward to webhooks; no Ruby; full CI acceptance **< 105 s** | 141 frames, 1269 points, 141 webhook deliveries, 0 failures, 0 `.rb` files; suite sweep < 105 s | [`verification-all.log`](docs/evidence/verification-all.log), [`suite.log`](docs/evidence/suite.log) |
 | `go run turion-platform-drift scan ./ground-service` produces a scorecard in **< 30 s** | 18 files / 112 findings / 26 rules, sub-second scan | [`docs/evidence/ci-verification.log`](docs/evidence/ci-verification.log) |
