@@ -1,1 +1,1732 @@
-Pending GitHub Actions verification. This file is overwritten by .github/workflows/verify-once.yml.
+cosmos-tlm-bridge / turion-platform-drift — verification 2026-11-03T15:56:23Z
+root=/home/runner/work/For-turion/For-turion
+
+== 1. Python package and acceptance ==
+........................................................................ [ 90%]
+........                                                                 [100%]
+cosmos-tlm-bridge [2mv1.0.0[0m
+[2mOpenC3 COSMOS v5 telemetry-to-microservice bridge[0m
+  target   [1mDROID_SIM[0m
+  cosmos   http://127.0.0.1:48521  [2m(scope DEFAULT)[0m
+  keyless  no API key, no Ruby scripts
+
+[1m1/4[0m booting DROID_SIM OpenC3 reference server ... ready [2m(0.00s)[0m
+[1m2/4[0m verifying JSON-RPC + typed decommutation ... ok [2m(9 points on EPS, server openc3-cosmos-init/5.0.0-droid-sim)[0m
+[1m3/4[0m running acceptance suite droid_pass_acceptance
+
+[1msuite[0m droid_pass_acceptance [2m(budget 105.0s)[0m
+  PASS [setup] all packets are streaming
+  PASS [setup] attitude packet is streaming
+  PASS [setup] thermal packet is streaming
+  PASS [steps] precondition - bus is nominal, no point is out of limits
+  PASS [steps] command the attitude slew
+  PASS [steps] slew is acknowledged in telemetry (DN mode)
+  PASS [steps] slewing target slot decodes to the commanded slot (EU mode)
+  PASS [steps] attitude error leaves the tight deadband during the slew
+  PASS [steps] bus voltage stays inside the BLUE operational band
+  PASS [steps] reaction wheel thermal limit violation is caught (EU mode)
+  PASS [steps] reaction wheel thermal limit violation is caught (DN mode)
+  PASS [steps] the same violation rolls up to a YELLOW overall system state
+  PASS [steps] the radiator stays healthy while the wheel is hot
+  PASS [steps] wheel leaves the yellow band after the slew completes
+  PASS [teardown] bus voltage still nominal at end of pass
+  -> PASS 15 passed, 0 failed, 0 errors
+
+[1m4/4[0m writing reports ... done
+  junit    /tmp/ctb-demo/droid_pass-junit.xml
+  html     /tmp/ctb-demo/droid_pass-report.html
+  json     /tmp/ctb-demo/droid_pass-results.json
+
+acceptance summary  PASS  [2m(suite 22.9s / total 22.9s, budget 45.0s)[0m
+  PASSED [setup] all packets are streaming
+  PASSED [setup] attitude packet is streaming
+  PASSED [setup] thermal packet is streaming
+  PASSED [steps] precondition - bus is nominal, no point is out of limits
+  PASSED [steps] command the attitude slew
+  PASSED [steps] slew is acknowledged in telemetry (DN mode)
+  PASSED [steps] slewing target slot decodes to the commanded slot (EU mode)
+  PASSED [steps] attitude error leaves the tight deadband during the slew
+  PASSED [steps] bus voltage stays inside the BLUE operational band
+  PASSED [steps] reaction wheel thermal limit violation is caught (EU mode)
+  PASSED [steps] reaction wheel thermal limit violation is caught (DN mode)
+  PASSED [steps] the same violation rolls up to a YELLOW overall system state
+  PASSED [steps] the radiator stays healthy while the wheel is hot
+  PASSED [steps] wheel leaves the yellow band after the slew completes
+  PASSED [teardown] bus voltage still nominal at end of pass
+
+instant spin-up  22.9s / 45.0s PASS
+demo 23552ms
+
+[1msuite[0m droid_smoke [2m(budget 30.0s)[0m
+  PASS [steps] wait for packet EPS
+  PASS [steps] battery voltage converts to a plausible EU value
+  PASS [steps] reaction wheel temperature is inside its operational band
+  -> PASS 3 passed, 0 failed, 0 errors
+junit  /tmp/ctb-suites/droid_smoke-junit.xml
+html   /tmp/ctb-suites/droid_smoke-report.html
+json   /tmp/ctb-suites/droid_smoke-results.json
+
+PASS: 3 passed, 0 failed, 0 errors, 0.1s
+
+[1msuite[0m droid_thermal_red [2m(budget 90.0s)[0m
+  PASS [setup] wait for packet THERMAL
+  PASS [steps] wheel starts inside its operational band
+  PASS [steps] command the aggressive slew
+  PASS [steps] wheel passes through YELLOW_HIGH on the way up
+  PASS [steps] wheel reaches RED_HIGH (EU mode)
+  PASS [steps] wheel reaches RED_HIGH (DN mode)
+  PASS [steps] radiator remains healthy while the wheel is in RED
+  -> PASS 7 passed, 0 failed, 0 errors
+junit  /tmp/ctb-suites/droid_thermal_red-junit.xml
+html   /tmp/ctb-suites/droid_thermal_red-report.html
+json   /tmp/ctb-suites/droid_thermal_red-results.json
+
+PASS: 7 passed, 0 failed, 0 errors, 3.4s
+
+[1msuite[0m droid_pass_acceptance [2m(budget 105.0s)[0m
+  PASS [setup] all packets are streaming
+  PASS [setup] attitude packet is streaming
+  PASS [setup] thermal packet is streaming
+  PASS [steps] precondition - bus is nominal, no point is out of limits
+  PASS [steps] command the attitude slew
+  PASS [steps] slew is acknowledged in telemetry (DN mode)
+  PASS [steps] slewing target slot decodes to the commanded slot (EU mode)
+  PASS [steps] attitude error leaves the tight deadband during the slew
+  PASS [steps] bus voltage stays inside the BLUE operational band
+  PASS [steps] reaction wheel thermal limit violation is caught (EU mode)
+  PASS [steps] reaction wheel thermal limit violation is caught (DN mode)
+  PASS [steps] the same violation rolls up to a YELLOW overall system state
+  PASS [steps] the radiator stays healthy while the wheel is hot
+  PASS [steps] wheel leaves the yellow band after the slew completes
+  PASS [teardown] bus voltage still nominal at end of pass
+  -> PASS 15 passed, 0 failed, 0 errors
+junit  /tmp/ctb-suites/droid_pass_acceptance-junit.xml
+html   /tmp/ctb-suites/droid_pass_acceptance-report.html
+json   /tmp/ctb-suites/droid_pass_acceptance-results.json
+
+PASS: 15 passed, 0 failed, 0 errors, 22.9s
+suite sweep 26775ms
+  DROID_SIM__ADCS__ATTITUDE_ERROR          DN=120    EU=0.120    state=BLUE
+  DROID_SIM__EPS__BATT_VOLTAGE             DN=780    EU=15.550   state=BLUE
+  DROID_SIM__THERMAL__RADIATOR_TEMP        DN=5200   EU=12.000   state=BLUE
+  CMD_SLEW_TARGET acknowledged: CMD_SLEW_TARGET target=7
+  bridge frames=144 points=1296 webhook_ok=144 webhook_failed=0
+  sink frames=144 last_overall=YELLOW YELLOW_HIGH samples=33
+  !! YELLOW_HIGH DROID_SIM__THERMAL__RW_TEMP DN=9535.0 EU=55.35 C
+PIPELINE PASS
+
+== 2. Go typed bridge and portability linter ==
+?   	github.com/turion-space/cosmos-tlm-bridge/go/cmd/tlm-bridge	[no test files]
+ok  	github.com/turion-space/cosmos-tlm-bridge/go	1.207s
+?   	turion-platform-drift/internal/rules	[no test files]
+ok  	turion-platform-drift	1.721s
+ok  	turion-platform-drift/internal/generate	0.519s
+ok  	turion-platform-drift/internal/report	0.004s
+ok  	turion-platform-drift/internal/scan	0.012s
+ok  	turion-platform-drift/internal/score	0.005s
+ok  	turion-platform-drift/internal/validate	1.998s
+ok  	turion-platform-drift/internal/yamlite	0.002s
+?   	turion-platform-drift/internal/rules	[no test files]
+ok  	turion-platform-drift	4.015s
+ok  	turion-platform-drift/internal/generate	1.683s
+ok  	turion-platform-drift/internal/report	1.021s
+ok  	turion-platform-drift/internal/scan	1.050s
+ok  	turion-platform-drift/internal/score	1.012s
+ok  	turion-platform-drift/internal/validate	1.127s
+ok  	turion-platform-drift/internal/yamlite	1.012s
+
+[1m  turion-platform-drift[0m[2m  ·  cloud-agnostic ground-station portability[0m
+[2m  ─────────────────────────────────────────────────────────────────────────[0m
+  root      ./ground-service
+  scanned   18 files  (8 yaml, 3 json, 3 python, 1 go, 1 hcl, 1 shell, 1 typescript)  in 0.02s
+  analysis  go ast · python ast · yaml/json manifests
+
+  [1mPORTABILITY SCORE    0/100[0m  [31m░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░[0m  [31m[1mF[0m  
+  [2mCannot run off-AWS: 80 critical couplings block an air-gapped deployment.[0m
+
+  findings  [1m112[0m  critical   [31m80[0m  high   [33m32[0m  medium   [36m0[0m  low   [2m0[0m
+
+  [1mCOUPLING BY CAPABILITY[0m
+  [2m───────────────────────────────────────────────────────────────────────[0m
+    compute           42 finding(s)  [33m░░░░░░░░░░░░░░░░░░[0m
+    identity          30 finding(s)  [33m░░░░░░░░░░░░░░░░░░[0m
+    object-storage    14 finding(s)  [33m░░░░░░░░░░░░░░░░░░[0m
+    serverless         6 finding(s)  [33m█████░░░░░░░░░░░░░[0m
+    network            6 finding(s)  [33m██████████░░░░░░░░[0m
+    config             3 finding(s)  [33m████████████░░░░░░[0m
+    registry           3 finding(s)  [33m████████████░░░░░░[0m
+    observability      4 finding(s)  [33m█████████████░░░░░[0m
+    messaging          3 finding(s)  [33m██████████████░░░░[0m
+    database           1 finding(s)  [33m█████████████████░[0m
+
+  [1mRULES TRIGGERED[0m
+  [2m───────────────────────────────────────────────────────────────────────[0m
+    [1mTPD001[0m [31mcritical[0m   5×  boto3 / botocore SDK import
+      [2m→[0m [2mReplace with the portable ground-station storage interface (any S3-compatible endpoint: MinIO, VersityGW) and read ARNs from environment configuration.[0m
+    [1mTPD002[0m [31mcritical[0m   7×  boto3 client bound to a proprietary AWS service
+      [2m→[0m [2mRoute the call through the portability interface; Batch becomes a Kubernetes Job, Lambda becomes a Deployment/Job, DynamoDB becomes PostgreSQL/Postgres-compatible, SQS/SNS becomes NATS/Redpanda.[0m
+    [1mTPD003[0m [31mcritical[0m   2×  AWS Lambda invocation
+      [2m→[0m [2mDeploy the function body as a Kubernetes Job/Deployment and call it over HTTP (or the Knative Serving route) instead of Invoke.[0m
+    [1mTPD004[0m [31mcritical[0m  13×  AWS Batch job submission
+      [2m→[0m [2mGenerate a Kubernetes Job (with backoffLimit and ttlSecondsAfterFinished) from the Batch job definition.[0m
+    [1mTPD007[0m [31mcritical[0m  18×  arn:aws literal in source
+      [2m→[0m [2mExternalise into configuration and use Crossplane-provisioned resources with generated names.[0m
+    [1mTPD008[0m [31mcritical[0m   3×  AWS IAM / STS role assumption
+      [2m→[0m [2mUse workload identity from Kubernetes ServiceAccount (SPIFFE/IRSA-equivalent) or a Vault-injected token.[0m
+    [1mTPD009[0m [31mcritical[0m   7×  Non-portable IAM policy document
+      [2m→[0m [2mReplace with Kubernetes RBAC and an S3-compatible access key scoped to a bucket.[0m
+    [1mTPD020[0m [31mcritical[0m   4×  aws-sdk-go / aws-sdk-go-v2 import
+      [2m→[0m [2mSwap to the portable interface; keep an S3-compatible client backed by configuration.[0m
+    [1mTPD021[0m [31mcritical[0m   2×  AWS SDK service client in Go
+      [2m→[0m [2mRepoint at the portable replacement generated by this tool.[0m
+    [1mTPD030[0m [31mcritical[0m   2×  @aws-sdk/* package import
+      [2m→[0m [2mUse an S3-compatible client (for example the S3 API via a configured endpoint) and call ground microservices over HTTP.[0m
+    [1mTPD031[0m [31mcritical[0m   2×  AWS SDK Lambda client usage
+      [2m→[0m [2mCall the generated Kubernetes Service instead of InvokeCommand.[0m
+    [1mTPD040[0m [31mcritical[0m   2×  AWS Batch job definition manifest
+      [2m→[0m [2mGenerate an equivalent Kubernetes Job (backoffLimit, ttlSecondsAfterFinished, resources).[0m
+    [1mTPD041[0m [31mcritical[0m   1×  AWS Batch compute environment manifest
+      [2m→[0m [2mUse a Kubernetes node pool or Karpenter NodePool plus a PriorityClass.[0m
+    [1mTPD042[0m [31mcritical[0m   3×  Amazon ECR image reference
+      [2m→[0m [2mMirror into the ground-station registry (Harbor/Zot) and reference it by local name.[0m
+    [1mTPD043[0m [31mcritical[0m   2×  IRSA annotation (eks.amazonaws.com/role-arn)
+      [2m→[0m [2mUse a Kubernetes ServiceAccount with an S3-compatible access key Secret, or SPIFFE workload identity.[0m
+    [1mTPD046[0m [31mcritical[0m   3×  AWS Secrets Manager / SSM CSI volume
+      [2m→[0m [2mMount Kubernetes Secrets, optionally synced by External Secrets Operator from Vault.[0m
+    [1mTPD049[0m [31mcritical[0m   4×  aws_* Terraform / CloudFormation resource
+      [2m→[0m [2mExpress the same resource as a Crossplane composite (portable) or plain Kubernetes objects.[0m
+    [1mTPD005[0m [33mhigh[0m   4×  Hard-coded S3 bucket / ARN literal
+      [2m→[0m [2mRead the endpoint, bucket, and credentials from a ConfigMap/Secret; point them at MinIO or VersityGW.[0m
+    [1mTPD006[0m [33mhigh[0m   9×  Proprietary S3 primitive usage
+      [2m→[0m [2mWrap in the object-store interface; the S3 API is portable, the SDK is not.[0m
+    [1mTPD010[0m [33mhigh[0m   3×  AWS messaging service usage
+      [2m→[0m [2mTarget NATS JetStream or Redpanda, both of which run air-gapped.[0m
+    [1mTPD011[0m [33mhigh[0m   1×  AWS managed database usage
+      [2m→[0m [2mUse PostgreSQL (CloudNativePG) or an S3-backed open table format.[0m
+    [1mTPD012[0m [33mhigh[0m   3×  AWS CLI invocation of a proprietary service
+      [2m→[0m [2mReplace with kubectl/Helm or Crossplane; the ground station must not require AWS credentials.[0m
+    [1mTPD044[0m [33mhigh[0m   6×  AWS Load Balancer Controller ingress
+      [2m→[0m [2mUse a portable ingress (NGINX or Gateway API) with no cloud-specific annotations.[0m
+    [1mTPD045[0m [33mhigh[0m   1×  AWS EBS/EFS storage class
+      [2m→[0m [2mUse the ground station's portable storage class (local-path, Longhorn, Ceph RBD).[0m
+    [1mTPD047[0m [33mhigh[0m   1×  Karpenter EC2NodeClass
+      [2m→[0m [2mUse a portable NodePool/Cluster Autoscaler for the ground-station cluster.[0m
+    [1mTPD048[0m [33mhigh[0m   4×  CloudWatch Logs / X-Ray dependency
+      [2m→[0m [2mShip OTLP to a local OpenTelemetry Collector exported to Prometheus/Loki/Tempo.[0m
+
+  [1mTOP 8 HOTSPOTS[0m
+  [2m───────────────────────────────────────────────────────────────────────[0m
+    [36mbatch/compute-environment.json[0m:[2m2[0m  [1mTPD004[0m  "computeEnvironmentName": "droid-pass-compute",
+      [2m→[0m [2mKubernetes Job manifest[0m
+    [36mbatch/compute-environment.json[0m:[2m2[0m  [1mTPD041[0m  computeEnvironmentName
+      [2m→[0m [2mNodePool / PriorityClass[0m
+    [36mbatch/compute-environment.json[0m:[2m12[0m  [1mTPD009[0m  "instanceRole": "arn:aws:iam::123456789012:instance-profile/ec…
+      [2m→[0m [2mRBAC Role/RoleBinding + MinIO policy[0m
+    [36mbatch/job-definition.json[0m:[2m2[0m  [1mTPD004[0m  "jobDefinitionName": "droid-pass-processor",
+      [2m→[0m [2mKubernetes Job manifest[0m
+    [36mbatch/job-definition.json[0m:[2m2[0m  [1mTPD040[0m  jobDefinitionName
+      [2m→[0m [2mKubernetes Job manifest[0m
+    [36mbatch/job-definition.json[0m:[2m4[0m  [1mTPD040[0m  containerProperties
+      [2m→[0m [2mKubernetes Job manifest[0m
+    [36mbatch/job-definition.json[0m:[2m5[0m  [1mTPD042[0m  "image": "123456789012.dkr.ecr.us-west-2.amazonaws.com/turion/…
+      [2m→[0m [2mHarbor / Zot registry[0m
+    [36mbatch/job-queue.yaml[0m:[2m1[0m  [1mTPD004[0m  jobQueueName: droid-pass-queue
+      [2m→[0m [2mKubernetes Job manifest[0m
+
+scan 142ms
+
+[1m  turion-platform-drift[0m[2m  ·  cloud-agnostic ground-station portability[0m
+[2m  ─────────────────────────────────────────────────────────────────────────[0m
+  root      ./ground-service
+  scanned   18 files  (8 yaml, 3 json, 3 python, 1 go, 1 hcl, 1 shell, 1 typescript)  in 0.03s
+  analysis  go ast · python ast · yaml/json manifests
+
+  [1mPORTABILITY SCORE    0/100[0m  [31m░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░[0m  [31m[1mF[0m  
+  [2mCannot run off-AWS: 80 critical couplings block an air-gapped deployment.[0m
+
+  findings  [1m112[0m  critical   [31m80[0m  high   [33m32[0m  medium   [36m0[0m  low   [2m0[0m
+
+  [1mCOUPLING BY CAPABILITY[0m
+  [2m───────────────────────────────────────────────────────────────────────[0m
+    compute           42 finding(s)  [33m░░░░░░░░░░░░░░░░░░[0m
+    identity          30 finding(s)  [33m░░░░░░░░░░░░░░░░░░[0m
+    object-storage    14 finding(s)  [33m░░░░░░░░░░░░░░░░░░[0m
+    serverless         6 finding(s)  [33m█████░░░░░░░░░░░░░[0m
+    network            6 finding(s)  [33m██████████░░░░░░░░[0m
+    config             3 finding(s)  [33m████████████░░░░░░[0m
+    registry           3 finding(s)  [33m████████████░░░░░░[0m
+    observability      4 finding(s)  [33m█████████████░░░░░[0m
+    messaging          3 finding(s)  [33m██████████████░░░░[0m
+    database           1 finding(s)  [33m█████████████████░[0m
+
+  [1mRULES TRIGGERED[0m
+  [2m───────────────────────────────────────────────────────────────────────[0m
+    [1mTPD001[0m [31mcritical[0m   5×  boto3 / botocore SDK import
+      [2m→[0m [2mReplace with the portable ground-station storage interface (any S3-compatible endpoint: MinIO, VersityGW) and read ARNs from environment configuration.[0m
+    [1mTPD002[0m [31mcritical[0m   7×  boto3 client bound to a proprietary AWS service
+      [2m→[0m [2mRoute the call through the portability interface; Batch becomes a Kubernetes Job, Lambda becomes a Deployment/Job, DynamoDB becomes PostgreSQL/Postgres-compatible, SQS/SNS becomes NATS/Redpanda.[0m
+    [1mTPD003[0m [31mcritical[0m   2×  AWS Lambda invocation
+      [2m→[0m [2mDeploy the function body as a Kubernetes Job/Deployment and call it over HTTP (or the Knative Serving route) instead of Invoke.[0m
+    [1mTPD004[0m [31mcritical[0m  13×  AWS Batch job submission
+      [2m→[0m [2mGenerate a Kubernetes Job (with backoffLimit and ttlSecondsAfterFinished) from the Batch job definition.[0m
+    [1mTPD007[0m [31mcritical[0m  18×  arn:aws literal in source
+      [2m→[0m [2mExternalise into configuration and use Crossplane-provisioned resources with generated names.[0m
+    [1mTPD008[0m [31mcritical[0m   3×  AWS IAM / STS role assumption
+      [2m→[0m [2mUse workload identity from Kubernetes ServiceAccount (SPIFFE/IRSA-equivalent) or a Vault-injected token.[0m
+    [1mTPD009[0m [31mcritical[0m   7×  Non-portable IAM policy document
+      [2m→[0m [2mReplace with Kubernetes RBAC and an S3-compatible access key scoped to a bucket.[0m
+    [1mTPD020[0m [31mcritical[0m   4×  aws-sdk-go / aws-sdk-go-v2 import
+      [2m→[0m [2mSwap to the portable interface; keep an S3-compatible client backed by configuration.[0m
+    [1mTPD021[0m [31mcritical[0m   2×  AWS SDK service client in Go
+      [2m→[0m [2mRepoint at the portable replacement generated by this tool.[0m
+    [1mTPD030[0m [31mcritical[0m   2×  @aws-sdk/* package import
+      [2m→[0m [2mUse an S3-compatible client (for example the S3 API via a configured endpoint) and call ground microservices over HTTP.[0m
+    [1mTPD031[0m [31mcritical[0m   2×  AWS SDK Lambda client usage
+      [2m→[0m [2mCall the generated Kubernetes Service instead of InvokeCommand.[0m
+    [1mTPD040[0m [31mcritical[0m   2×  AWS Batch job definition manifest
+      [2m→[0m [2mGenerate an equivalent Kubernetes Job (backoffLimit, ttlSecondsAfterFinished, resources).[0m
+    [1mTPD041[0m [31mcritical[0m   1×  AWS Batch compute environment manifest
+      [2m→[0m [2mUse a Kubernetes node pool or Karpenter NodePool plus a PriorityClass.[0m
+    [1mTPD042[0m [31mcritical[0m   3×  Amazon ECR image reference
+      [2m→[0m [2mMirror into the ground-station registry (Harbor/Zot) and reference it by local name.[0m
+    [1mTPD043[0m [31mcritical[0m   2×  IRSA annotation (eks.amazonaws.com/role-arn)
+      [2m→[0m [2mUse a Kubernetes ServiceAccount with an S3-compatible access key Secret, or SPIFFE workload identity.[0m
+    [1mTPD046[0m [31mcritical[0m   3×  AWS Secrets Manager / SSM CSI volume
+      [2m→[0m [2mMount Kubernetes Secrets, optionally synced by External Secrets Operator from Vault.[0m
+    [1mTPD049[0m [31mcritical[0m   4×  aws_* Terraform / CloudFormation resource
+      [2m→[0m [2mExpress the same resource as a Crossplane composite (portable) or plain Kubernetes objects.[0m
+    [1mTPD005[0m [33mhigh[0m   4×  Hard-coded S3 bucket / ARN literal
+      [2m→[0m [2mRead the endpoint, bucket, and credentials from a ConfigMap/Secret; point them at MinIO or VersityGW.[0m
+    [1mTPD006[0m [33mhigh[0m   9×  Proprietary S3 primitive usage
+      [2m→[0m [2mWrap in the object-store interface; the S3 API is portable, the SDK is not.[0m
+    [1mTPD010[0m [33mhigh[0m   3×  AWS messaging service usage
+      [2m→[0m [2mTarget NATS JetStream or Redpanda, both of which run air-gapped.[0m
+    [1mTPD011[0m [33mhigh[0m   1×  AWS managed database usage
+      [2m→[0m [2mUse PostgreSQL (CloudNativePG) or an S3-backed open table format.[0m
+    [1mTPD012[0m [33mhigh[0m   3×  AWS CLI invocation of a proprietary service
+      [2m→[0m [2mReplace with kubectl/Helm or Crossplane; the ground station must not require AWS credentials.[0m
+    [1mTPD044[0m [33mhigh[0m   6×  AWS Load Balancer Controller ingress
+      [2m→[0m [2mUse a portable ingress (NGINX or Gateway API) with no cloud-specific annotations.[0m
+    [1mTPD045[0m [33mhigh[0m   1×  AWS EBS/EFS storage class
+      [2m→[0m [2mUse the ground station's portable storage class (local-path, Longhorn, Ceph RBD).[0m
+    [1mTPD047[0m [33mhigh[0m   1×  Karpenter EC2NodeClass
+      [2m→[0m [2mUse a portable NodePool/Cluster Autoscaler for the ground-station cluster.[0m
+    [1mTPD048[0m [33mhigh[0m   4×  CloudWatch Logs / X-Ray dependency
+      [2m→[0m [2mShip OTLP to a local OpenTelemetry Collector exported to Prometheus/Loki/Tempo.[0m
+
+  [1mTOP 8 HOTSPOTS[0m
+  [2m───────────────────────────────────────────────────────────────────────[0m
+    [36mbatch/compute-environment.json[0m:[2m2[0m  [1mTPD004[0m  "computeEnvironmentName": "droid-pass-compute",
+      [2m→[0m [2mKubernetes Job manifest[0m
+    [36mbatch/compute-environment.json[0m:[2m2[0m  [1mTPD041[0m  computeEnvironmentName
+      [2m→[0m [2mNodePool / PriorityClass[0m
+    [36mbatch/compute-environment.json[0m:[2m12[0m  [1mTPD009[0m  "instanceRole": "arn:aws:iam::123456789012:instance-profile/ec…
+      [2m→[0m [2mRBAC Role/RoleBinding + MinIO policy[0m
+    [36mbatch/job-definition.json[0m:[2m2[0m  [1mTPD004[0m  "jobDefinitionName": "droid-pass-processor",
+      [2m→[0m [2mKubernetes Job manifest[0m
+    [36mbatch/job-definition.json[0m:[2m2[0m  [1mTPD040[0m  jobDefinitionName
+      [2m→[0m [2mKubernetes Job manifest[0m
+    [36mbatch/job-definition.json[0m:[2m4[0m  [1mTPD040[0m  containerProperties
+      [2m→[0m [2mKubernetes Job manifest[0m
+    [36mbatch/job-definition.json[0m:[2m5[0m  [1mTPD042[0m  "image": "123456789012.dkr.ecr.us-west-2.amazonaws.com/turion/…
+      [2m→[0m [2mHarbor / Zot registry[0m
+    [36mbatch/job-queue.yaml[0m:[2m1[0m  [1mTPD004[0m  jobQueueName: droid-pass-queue
+      [2m→[0m [2mKubernetes Job manifest[0m
+
+  [1mGENERATED PORTABLE REPLACEMENTS[0m
+  [2m───────────────────────────────────────────────────────────────────────[0m
+    [32m+[0m /tmp/tpd-reports/kustomize/kustomization.yaml
+    [32m+[0m /tmp/tpd-reports/ground-station-portable.yaml
+
+  [1mAIR-GAPPED MANIFEST VALIDATION[0m
+  [2m───────────────────────────────────────────────────────────────────────[0m
+    parsed     27 object(s) across 1 file(s)
+    kinds      ConfigMap×3  Deployment×3  Job×4  Namespace×1  PersistentVolumeClaim×2  Role×1  RoleBinding×1  Secret×4  Service×5  ServiceAccount×1  StatefulSet×2
+    schema     [32mPASS[0m  (0 error, 0 warning)
+    kubectl    [2mskipped: no reachable Kubernetes API server; embedded structural + schema validation used instead[0m
+    residual   [32mnone — zero proprietary AWS references[0m
+
+  reports  /tmp/tpd-reports/{scorecard.json,drift.sarif,scorecard.html}
+
+
+[1m  turion-platform-drift[0m[2m  ·  cloud-agnostic ground-station portability[0m
+[2m  ─────────────────────────────────────────────────────────────────────────[0m
+  root      ./ground-service
+  scanned   18 files  (8 yaml, 3 json, 3 python, 1 go, 1 hcl, 1 shell, 1 typescript)  in 0.03s
+  analysis  go ast · python ast · yaml/json manifests
+
+  [1mPORTABILITY SCORE    0/100[0m  [31m░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░[0m  [31m[1mF[0m  
+  [2mCannot run off-AWS: 80 critical couplings block an air-gapped deployment.[0m
+
+  findings  [1m112[0m  critical   [31m80[0m  high   [33m32[0m  medium   [36m0[0m  low   [2m0[0m
+
+  [1mCOUPLING BY CAPABILITY[0m
+  [2m───────────────────────────────────────────────────────────────────────[0m
+    compute           42 finding(s)  [33m░░░░░░░░░░░░░░░░░░[0m
+    identity          30 finding(s)  [33m░░░░░░░░░░░░░░░░░░[0m
+    object-storage    14 finding(s)  [33m░░░░░░░░░░░░░░░░░░[0m
+    serverless         6 finding(s)  [33m█████░░░░░░░░░░░░░[0m
+    network            6 finding(s)  [33m██████████░░░░░░░░[0m
+    config             3 finding(s)  [33m████████████░░░░░░[0m
+    registry           3 finding(s)  [33m████████████░░░░░░[0m
+    observability      4 finding(s)  [33m█████████████░░░░░[0m
+    messaging          3 finding(s)  [33m██████████████░░░░[0m
+    database           1 finding(s)  [33m█████████████████░[0m
+
+  [1mRULES TRIGGERED[0m
+  [2m───────────────────────────────────────────────────────────────────────[0m
+    [1mTPD001[0m [31mcritical[0m   5×  boto3 / botocore SDK import
+      [2m→[0m [2mReplace with the portable ground-station storage interface (any S3-compatible endpoint: MinIO, VersityGW) and read ARNs from environment configuration.[0m
+    [1mTPD002[0m [31mcritical[0m   7×  boto3 client bound to a proprietary AWS service
+      [2m→[0m [2mRoute the call through the portability interface; Batch becomes a Kubernetes Job, Lambda becomes a Deployment/Job, DynamoDB becomes PostgreSQL/Postgres-compatible, SQS/SNS becomes NATS/Redpanda.[0m
+    [1mTPD003[0m [31mcritical[0m   2×  AWS Lambda invocation
+      [2m→[0m [2mDeploy the function body as a Kubernetes Job/Deployment and call it over HTTP (or the Knative Serving route) instead of Invoke.[0m
+    [1mTPD004[0m [31mcritical[0m  13×  AWS Batch job submission
+      [2m→[0m [2mGenerate a Kubernetes Job (with backoffLimit and ttlSecondsAfterFinished) from the Batch job definition.[0m
+    [1mTPD007[0m [31mcritical[0m  18×  arn:aws literal in source
+      [2m→[0m [2mExternalise into configuration and use Crossplane-provisioned resources with generated names.[0m
+    [1mTPD008[0m [31mcritical[0m   3×  AWS IAM / STS role assumption
+      [2m→[0m [2mUse workload identity from Kubernetes ServiceAccount (SPIFFE/IRSA-equivalent) or a Vault-injected token.[0m
+    [1mTPD009[0m [31mcritical[0m   7×  Non-portable IAM policy document
+      [2m→[0m [2mReplace with Kubernetes RBAC and an S3-compatible access key scoped to a bucket.[0m
+    [1mTPD020[0m [31mcritical[0m   4×  aws-sdk-go / aws-sdk-go-v2 import
+      [2m→[0m [2mSwap to the portable interface; keep an S3-compatible client backed by configuration.[0m
+    [1mTPD021[0m [31mcritical[0m   2×  AWS SDK service client in Go
+      [2m→[0m [2mRepoint at the portable replacement generated by this tool.[0m
+    [1mTPD030[0m [31mcritical[0m   2×  @aws-sdk/* package import
+      [2m→[0m [2mUse an S3-compatible client (for example the S3 API via a configured endpoint) and call ground microservices over HTTP.[0m
+    [1mTPD031[0m [31mcritical[0m   2×  AWS SDK Lambda client usage
+      [2m→[0m [2mCall the generated Kubernetes Service instead of InvokeCommand.[0m
+    [1mTPD040[0m [31mcritical[0m   2×  AWS Batch job definition manifest
+      [2m→[0m [2mGenerate an equivalent Kubernetes Job (backoffLimit, ttlSecondsAfterFinished, resources).[0m
+    [1mTPD041[0m [31mcritical[0m   1×  AWS Batch compute environment manifest
+      [2m→[0m [2mUse a Kubernetes node pool or Karpenter NodePool plus a PriorityClass.[0m
+    [1mTPD042[0m [31mcritical[0m   3×  Amazon ECR image reference
+      [2m→[0m [2mMirror into the ground-station registry (Harbor/Zot) and reference it by local name.[0m
+    [1mTPD043[0m [31mcritical[0m   2×  IRSA annotation (eks.amazonaws.com/role-arn)
+      [2m→[0m [2mUse a Kubernetes ServiceAccount with an S3-compatible access key Secret, or SPIFFE workload identity.[0m
+    [1mTPD046[0m [31mcritical[0m   3×  AWS Secrets Manager / SSM CSI volume
+      [2m→[0m [2mMount Kubernetes Secrets, optionally synced by External Secrets Operator from Vault.[0m
+    [1mTPD049[0m [31mcritical[0m   4×  aws_* Terraform / CloudFormation resource
+      [2m→[0m [2mExpress the same resource as a Crossplane composite (portable) or plain Kubernetes objects.[0m
+    [1mTPD005[0m [33mhigh[0m   4×  Hard-coded S3 bucket / ARN literal
+      [2m→[0m [2mRead the endpoint, bucket, and credentials from a ConfigMap/Secret; point them at MinIO or VersityGW.[0m
+    [1mTPD006[0m [33mhigh[0m   9×  Proprietary S3 primitive usage
+      [2m→[0m [2mWrap in the object-store interface; the S3 API is portable, the SDK is not.[0m
+    [1mTPD010[0m [33mhigh[0m   3×  AWS messaging service usage
+      [2m→[0m [2mTarget NATS JetStream or Redpanda, both of which run air-gapped.[0m
+    [1mTPD011[0m [33mhigh[0m   1×  AWS managed database usage
+      [2m→[0m [2mUse PostgreSQL (CloudNativePG) or an S3-backed open table format.[0m
+    [1mTPD012[0m [33mhigh[0m   3×  AWS CLI invocation of a proprietary service
+      [2m→[0m [2mReplace with kubectl/Helm or Crossplane; the ground station must not require AWS credentials.[0m
+    [1mTPD044[0m [33mhigh[0m   6×  AWS Load Balancer Controller ingress
+      [2m→[0m [2mUse a portable ingress (NGINX or Gateway API) with no cloud-specific annotations.[0m
+    [1mTPD045[0m [33mhigh[0m   1×  AWS EBS/EFS storage class
+      [2m→[0m [2mUse the ground station's portable storage class (local-path, Longhorn, Ceph RBD).[0m
+    [1mTPD047[0m [33mhigh[0m   1×  Karpenter EC2NodeClass
+      [2m→[0m [2mUse a portable NodePool/Cluster Autoscaler for the ground-station cluster.[0m
+    [1mTPD048[0m [33mhigh[0m   4×  CloudWatch Logs / X-Ray dependency
+      [2m→[0m [2mShip OTLP to a local OpenTelemetry Collector exported to Prometheus/Loki/Tempo.[0m
+
+  [1mTOP 8 HOTSPOTS[0m
+  [2m───────────────────────────────────────────────────────────────────────[0m
+    [36mbatch/compute-environment.json[0m:[2m2[0m  [1mTPD004[0m  "computeEnvironmentName": "droid-pass-compute",
+      [2m→[0m [2mKubernetes Job manifest[0m
+    [36mbatch/compute-environment.json[0m:[2m2[0m  [1mTPD041[0m  computeEnvironmentName
+      [2m→[0m [2mNodePool / PriorityClass[0m
+    [36mbatch/compute-environment.json[0m:[2m12[0m  [1mTPD009[0m  "instanceRole": "arn:aws:iam::123456789012:instance-profile/ec…
+      [2m→[0m [2mRBAC Role/RoleBinding + MinIO policy[0m
+    [36mbatch/job-definition.json[0m:[2m2[0m  [1mTPD004[0m  "jobDefinitionName": "droid-pass-processor",
+      [2m→[0m [2mKubernetes Job manifest[0m
+    [36mbatch/job-definition.json[0m:[2m2[0m  [1mTPD040[0m  jobDefinitionName
+      [2m→[0m [2mKubernetes Job manifest[0m
+    [36mbatch/job-definition.json[0m:[2m4[0m  [1mTPD040[0m  containerProperties
+      [2m→[0m [2mKubernetes Job manifest[0m
+    [36mbatch/job-definition.json[0m:[2m5[0m  [1mTPD042[0m  "image": "123456789012.dkr.ecr.us-west-2.amazonaws.com/turion/…
+      [2m→[0m [2mHarbor / Zot registry[0m
+    [36mbatch/job-queue.yaml[0m:[2m1[0m  [1mTPD004[0m  jobQueueName: droid-pass-queue
+      [2m→[0m [2mKubernetes Job manifest[0m
+
+  [1mGENERATED PORTABLE REPLACEMENTS[0m
+  [2m───────────────────────────────────────────────────────────────────────[0m
+    [32m+[0m /tmp/tpd-reports-cp/kustomize/kustomization.yaml
+    [32m+[0m /tmp/tpd-reports-cp/ground-station-portable.yaml
+
+  [1mAIR-GAPPED MANIFEST VALIDATION[0m
+  [2m───────────────────────────────────────────────────────────────────────[0m
+    parsed     27 object(s) across 1 file(s)
+    kinds      Bucket×3  Cluster×1  CompositeResourceDefinition×1  Composition×1  ConfigMap×1  Deployment×2  ExternalSecret×1  Job×3  Namespace×1  OpenTelemetryCollector×1  PersistentVolumeClaim×1  Role×1  RoleBinding×1  Secret×2  SecretStore×1  Service×4  ServiceAccount×1  StatefulSet×1
+    schema     [32mPASS[0m  (0 error, 0 warning)
+    kubectl    [2mskipped: no reachable Kubernetes API server; embedded structural + schema validation used instead[0m
+    residual   [32mnone — zero proprietary AWS references[0m
+
+  reports  /tmp/tpd-reports-cp/{scorecard.json,drift.sarif,scorecard.html}
+
+
+  turion-platform-drift validate  /tmp/tpd-reports
+  ─────────────────────────────────────────────────────────────────────────
+  files      1
+  objects    27
+             Namespace                      1
+             Deployment                     3
+             Service                        5
+             StatefulSet                    2
+             Role                           1
+             RoleBinding                    1
+             Secret                         4
+             ConfigMap                      3
+             PersistentVolumeClaim          2
+             Job                            4
+             ServiceAccount                 1
+  errors     0
+  residual AWS references  0  ✓
+  skipped    kustomization.yaml (kustomize overlay, applied with kubectl -k)
+  kubectl    skipped (no reachable Kubernetes API server; embedded structural + schema validation used instead)
+  mode       embedded schema
+
+  PASS
+
+
+  turion-platform-drift validate  /tmp/tpd-reports-cp
+  ─────────────────────────────────────────────────────────────────────────
+  files      1
+  objects    27
+             StatefulSet                    1
+             OpenTelemetryCollector         1
+             Bucket                         3
+             Job                            3
+             Namespace                      1
+             Role                           1
+             RoleBinding                    1
+             SecretStore                    1
+             Composition                    1
+             Secret                         2
+             Service                        4
+             ExternalSecret                 1
+             Deployment                     2
+             Cluster                        1
+             ServiceAccount                 1
+             CompositeResourceDefinition    1
+             ConfigMap                      1
+             PersistentVolumeClaim          1
+  errors     0
+  residual AWS references  0  ✓
+  skipped    kustomization.yaml (kustomize overlay, applied with kubectl -k)
+  kubectl    skipped (no reachable Kubernetes API server; embedded structural + schema validation used instead)
+  mode       embedded schema
+
+  PASS
+
+?   	turion-platform-drift/internal/rules	[no test files]
+ok  	turion-platform-drift	0.086s
+ok  	turion-platform-drift/internal/generate	0.045s
+ok  	turion-platform-drift/internal/report	0.005s [no tests to run]
+ok  	turion-platform-drift/internal/scan	0.004s [no tests to run]
+ok  	turion-platform-drift/internal/score	0.002s [no tests to run]
+ok  	turion-platform-drift/internal/validate	0.002s [no tests to run]
+ok  	turion-platform-drift/internal/yamlite	0.002s [no tests to run]
+
+[1m== 1. hygiene[0m
+  [32mPASS[0m  gofmt reports no diffs                                   12ms
+  [32mPASS[0m  go vet                                                  104ms
+  [32mPASS[0m  go build                                               3768ms
+  [32mPASS[0m  zero external Go dependencies                             3ms
+
+[1m== 2. correctness (tests, race, coverage of every rule)[0m
+  [32mPASS[0m  go test ./...                                          1745ms
+  [32mPASS[0m  go test -race ./...                                    4012ms
+  [32mPASS[0m  every rule fires on its own probe                       148ms
+  [32mPASS[0m  portable corpus produces zero findings                  141ms
+
+[1m== 3. stress and adversarial input[0m
+  [32mPASS[0m  3000-file repository inside the 30s budget              576ms
+  [32mPASS[0m  adversarial tree (CRLF/BOM/NUL/binary/deep YAML)        159ms
+  [32mPASS[0m  scan is deterministic                                   196ms
+  [32mPASS[0m  generation is idempotent                                143ms
+
+[1m== 4. fuzzing (short budget; CI runs longer)[0m
+  [32mPASS[0m  fuzz yamlite parser                                   24425ms
+  [32mPASS[0m  fuzz manifest scanner                                 17983ms
+  [32mPASS[0m  fuzz Go AST analyzer                                  11161ms
+
+[1m== 5. Definition-of-Done scan: scorecard under 30s[0m
+  [32mPASS[0m  go run turion-platform-drift scan ./ground-service      118ms
+  [32mPASS[0m  all 26 rules fire on the AWS-bound fixture              138ms
+
+[1m== 6. generation + air-gapped validation (no cluster needed)[0m
+  [32mPASS[0m  generate kubernetes target                              158ms
+  [32mPASS[0m  generate crossplane target                              153ms
+  [32mPASS[0m  validate kubernetes bundle (embedded schema)            124ms
+  [32mPASS[0m  validate crossplane bundle (embedded schema)            126ms
+  [32mPASS[0m  validate reference templates + render Helm chart        164ms
+  [32mPASS[0m  kubernetes bundle contains only builtin kinds             3ms
+  [32mPASS[0m  no residual AWS in either bundle                          3ms
+  [32mPASS[0m  no public image registries in either bundle               3ms
+
+  (cluster gates skipped: --no-cluster)
+
+[1m== summary[0m
+  25 passed, 0 failed
+
+  PASS  gofmt reports no diffs  (12ms)
+  PASS  go vet  (104ms)
+  PASS  go build  (3768ms)
+  PASS  zero external Go dependencies  (3ms)
+  PASS  go test ./...  (1745ms)
+  PASS  go test -race ./...  (4012ms)
+  PASS  every rule fires on its own probe  (148ms)
+  PASS  portable corpus produces zero findings  (141ms)
+  PASS  3000-file repository inside the 30s budget  (576ms)
+  PASS  adversarial tree (CRLF/BOM/NUL/binary/deep YAML)  (159ms)
+  PASS  scan is deterministic  (196ms)
+  PASS  generation is idempotent  (143ms)
+  PASS  fuzz yamlite parser  (24425ms)
+  PASS  fuzz manifest scanner  (17983ms)
+  PASS  fuzz Go AST analyzer  (11161ms)
+  PASS  all 26 rules fire on the AWS-bound fixture  (138ms)
+  PASS  generate kubernetes target  (158ms)
+  PASS  generate crossplane target  (153ms)
+  PASS  validate kubernetes bundle (embedded schema)  (124ms)
+  PASS  validate crossplane bundle (embedded schema)  (126ms)
+  PASS  validate reference templates + render Helm chart  (164ms)
+  PASS  kubernetes bundle contains only builtin kinds  (3ms)
+  PASS  no residual AWS in either bundle  (3ms)
+  PASS  no public image registries in either bundle  (3ms)
+E1103 15:59:59.662454   14119 memcache.go:265] "Unhandled Error" err="couldn't get current server API group list: Get \"http://localhost:8080/api?timeout=32s\": dial tcp [::1]:8080: connect: connection refused"
+E1103 15:59:59.663929   14119 memcache.go:265] "Unhandled Error" err="couldn't get current server API group list: Get \"http://localhost:8080/api?timeout=32s\": dial tcp [::1]:8080: connect: connection refused"
+E1103 15:59:59.665325   14119 memcache.go:265] "Unhandled Error" err="couldn't get current server API group list: Get \"http://localhost:8080/api?timeout=32s\": dial tcp [::1]:8080: connect: connection refused"
+E1103 15:59:59.666659   14119 memcache.go:265] "Unhandled Error" err="couldn't get current server API group list: Get \"http://localhost:8080/api?timeout=32s\": dial tcp [::1]:8080: connect: connection refused"
+E1103 15:59:59.668155   14119 memcache.go:265] "Unhandled Error" err="couldn't get current server API group list: Get \"http://localhost:8080/api?timeout=32s\": dial tcp [::1]:8080: connect: connection refused"
+E1103 15:59:59.669484   14119 memcache.go:265] "Unhandled Error" err="couldn't get current server API group list: Get \"http://localhost:8080/api?timeout=32s\": dial tcp [::1]:8080: connect: connection refused"
+E1103 15:59:59.670801   14119 memcache.go:265] "Unhandled Error" err="couldn't get current server API group list: Get \"http://localhost:8080/api?timeout=32s\": dial tcp [::1]:8080: connect: connection refused"
+E1103 15:59:59.672552   14119 memcache.go:265] "Unhandled Error" err="couldn't get current server API group list: Get \"http://localhost:8080/api?timeout=32s\": dial tcp [::1]:8080: connect: connection refused"
+E1103 15:59:59.673888   14119 memcache.go:265] "Unhandled Error" err="couldn't get current server API group list: Get \"http://localhost:8080/api?timeout=32s\": dial tcp [::1]:8080: connect: connection refused"
+E1103 15:59:59.675292   14119 memcache.go:265] "Unhandled Error" err="couldn't get current server API group list: Get \"http://localhost:8080/api?timeout=32s\": dial tcp [::1]:8080: connect: connection refused"
+E1103 15:59:59.676603   14119 memcache.go:265] "Unhandled Error" err="couldn't get current server API group list: Get \"http://localhost:8080/api?timeout=32s\": dial tcp [::1]:8080: connect: connection refused"
+E1103 15:59:59.677923   14119 memcache.go:265] "Unhandled Error" err="couldn't get current server API group list: Get \"http://localhost:8080/api?timeout=32s\": dial tcp [::1]:8080: connect: connection refused"
+E1103 15:59:59.679246   14119 memcache.go:265] "Unhandled Error" err="couldn't get current server API group list: Get \"http://localhost:8080/api?timeout=32s\": dial tcp [::1]:8080: connect: connection refused"
+E1103 15:59:59.680557   14119 memcache.go:265] "Unhandled Error" err="couldn't get current server API group list: Get \"http://localhost:8080/api?timeout=32s\": dial tcp [::1]:8080: connect: connection refused"
+E1103 15:59:59.681837   14119 memcache.go:265] "Unhandled Error" err="couldn't get current server API group list: Get \"http://localhost:8080/api?timeout=32s\": dial tcp [::1]:8080: connect: connection refused"
+E1103 15:59:59.683233   14119 memcache.go:265] "Unhandled Error" err="couldn't get current server API group list: Get \"http://localhost:8080/api?timeout=32s\": dial tcp [::1]:8080: connect: connection refused"
+E1103 15:59:59.684552   14119 memcache.go:265] "Unhandled Error" err="couldn't get current server API group list: Get \"http://localhost:8080/api?timeout=32s\": dial tcp [::1]:8080: connect: connection refused"
+E1103 15:59:59.685823   14119 memcache.go:265] "Unhandled Error" err="couldn't get current server API group list: Get \"http://localhost:8080/api?timeout=32s\": dial tcp [::1]:8080: connect: connection refused"
+E1103 15:59:59.687108   14119 memcache.go:265] "Unhandled Error" err="couldn't get current server API group list: Get \"http://localhost:8080/api?timeout=32s\": dial tcp [::1]:8080: connect: connection refused"
+E1103 15:59:59.688392   14119 memcache.go:265] "Unhandled Error" err="couldn't get current server API group list: Get \"http://localhost:8080/api?timeout=32s\": dial tcp [::1]:8080: connect: connection refused"
+E1103 15:59:59.689753   14119 memcache.go:265] "Unhandled Error" err="couldn't get current server API group list: Get \"http://localhost:8080/api?timeout=32s\": dial tcp [::1]:8080: connect: connection refused"
+E1103 15:59:59.691082   14119 memcache.go:265] "Unhandled Error" err="couldn't get current server API group list: Get \"http://localhost:8080/api?timeout=32s\": dial tcp [::1]:8080: connect: connection refused"
+E1103 15:59:59.692490   14119 memcache.go:265] "Unhandled Error" err="couldn't get current server API group list: Get \"http://localhost:8080/api?timeout=32s\": dial tcp [::1]:8080: connect: connection refused"
+E1103 15:59:59.693834   14119 memcache.go:265] "Unhandled Error" err="couldn't get current server API group list: Get \"http://localhost:8080/api?timeout=32s\": dial tcp [::1]:8080: connect: connection refused"
+E1103 15:59:59.695264   14119 memcache.go:265] "Unhandled Error" err="couldn't get current server API group list: Get \"http://localhost:8080/api?timeout=32s\": dial tcp [::1]:8080: connect: connection refused"
+E1103 15:59:59.696695   14119 memcache.go:265] "Unhandled Error" err="couldn't get current server API group list: Get \"http://localhost:8080/api?timeout=32s\": dial tcp [::1]:8080: connect: connection refused"
+E1103 15:59:59.698141   14119 memcache.go:265] "Unhandled Error" err="couldn't get current server API group list: Get \"http://localhost:8080/api?timeout=32s\": dial tcp [::1]:8080: connect: connection refused"
+unable to recognize "/tmp/tpd-reports/ground-station-portable.yaml": Get "http://localhost:8080/api?timeout=32s": dial tcp [::1]:8080: connect: connection refused
+unable to recognize "/tmp/tpd-reports/ground-station-portable.yaml": Get "http://localhost:8080/api?timeout=32s": dial tcp [::1]:8080: connect: connection refused
+unable to recognize "/tmp/tpd-reports/ground-station-portable.yaml": Get "http://localhost:8080/api?timeout=32s": dial tcp [::1]:8080: connect: connection refused
+unable to recognize "/tmp/tpd-reports/ground-station-portable.yaml": Get "http://localhost:8080/api?timeout=32s": dial tcp [::1]:8080: connect: connection refused
+unable to recognize "/tmp/tpd-reports/ground-station-portable.yaml": Get "http://localhost:8080/api?timeout=32s": dial tcp [::1]:8080: connect: connection refused
+unable to recognize "/tmp/tpd-reports/ground-station-portable.yaml": Get "http://localhost:8080/api?timeout=32s": dial tcp [::1]:8080: connect: connection refused
+unable to recognize "/tmp/tpd-reports/ground-station-portable.yaml": Get "http://localhost:8080/api?timeout=32s": dial tcp [::1]:8080: connect: connection refused
+unable to recognize "/tmp/tpd-reports/ground-station-portable.yaml": Get "http://localhost:8080/api?timeout=32s": dial tcp [::1]:8080: connect: connection refused
+unable to recognize "/tmp/tpd-reports/ground-station-portable.yaml": Get "http://localhost:8080/api?timeout=32s": dial tcp [::1]:8080: connect: connection refused
+unable to recognize "/tmp/tpd-reports/ground-station-portable.yaml": Get "http://localhost:8080/api?timeout=32s": dial tcp [::1]:8080: connect: connection refused
+unable to recognize "/tmp/tpd-reports/ground-station-portable.yaml": Get "http://localhost:8080/api?timeout=32s": dial tcp [::1]:8080: connect: connection refused
+unable to recognize "/tmp/tpd-reports/ground-station-portable.yaml": Get "http://localhost:8080/api?timeout=32s": dial tcp [::1]:8080: connect: connection refused
+unable to recognize "/tmp/tpd-reports/ground-station-portable.yaml": Get "http://localhost:8080/api?timeout=32s": dial tcp [::1]:8080: connect: connection refused
+unable to recognize "/tmp/tpd-reports/ground-station-portable.yaml": Get "http://localhost:8080/api?timeout=32s": dial tcp [::1]:8080: connect: connection refused
+unable to recognize "/tmp/tpd-reports/ground-station-portable.yaml": Get "http://localhost:8080/api?timeout=32s": dial tcp [::1]:8080: connect: connection refused
+unable to recognize "/tmp/tpd-reports/ground-station-portable.yaml": Get "http://localhost:8080/api?timeout=32s": dial tcp [::1]:8080: connect: connection refused
+unable to recognize "/tmp/tpd-reports/ground-station-portable.yaml": Get "http://localhost:8080/api?timeout=32s": dial tcp [::1]:8080: connect: connection refused
+unable to recognize "/tmp/tpd-reports/ground-station-portable.yaml": Get "http://localhost:8080/api?timeout=32s": dial tcp [::1]:8080: connect: connection refused
+unable to recognize "/tmp/tpd-reports/ground-station-portable.yaml": Get "http://localhost:8080/api?timeout=32s": dial tcp [::1]:8080: connect: connection refused
+unable to recognize "/tmp/tpd-reports/ground-station-portable.yaml": Get "http://localhost:8080/api?timeout=32s": dial tcp [::1]:8080: connect: connection refused
+unable to recognize "/tmp/tpd-reports/ground-station-portable.yaml": Get "http://localhost:8080/api?timeout=32s": dial tcp [::1]:8080: connect: connection refused
+unable to recognize "/tmp/tpd-reports/ground-station-portable.yaml": Get "http://localhost:8080/api?timeout=32s": dial tcp [::1]:8080: connect: connection refused
+unable to recognize "/tmp/tpd-reports/ground-station-portable.yaml": Get "http://localhost:8080/api?timeout=32s": dial tcp [::1]:8080: connect: connection refused
+unable to recognize "/tmp/tpd-reports/ground-station-portable.yaml": Get "http://localhost:8080/api?timeout=32s": dial tcp [::1]:8080: connect: connection refused
+unable to recognize "/tmp/tpd-reports/ground-station-portable.yaml": Get "http://localhost:8080/api?timeout=32s": dial tcp [::1]:8080: connect: connection refused
+unable to recognize "/tmp/tpd-reports/ground-station-portable.yaml": Get "http://localhost:8080/api?timeout=32s": dial tcp [::1]:8080: connect: connection refused
+unable to recognize "/tmp/tpd-reports/ground-station-portable.yaml": Get "http://localhost:8080/api?timeout=32s": dial tcp [::1]:8080: connect: connection refused
+E1103 15:59:59.735106   14131 memcache.go:265] "Unhandled Error" err="couldn't get current server API group list: Get \"http://localhost:8080/api?timeout=32s\": dial tcp [::1]:8080: connect: connection refused"
+E1103 15:59:59.736515   14131 memcache.go:265] "Unhandled Error" err="couldn't get current server API group list: Get \"http://localhost:8080/api?timeout=32s\": dial tcp [::1]:8080: connect: connection refused"
+E1103 15:59:59.737919   14131 memcache.go:265] "Unhandled Error" err="couldn't get current server API group list: Get \"http://localhost:8080/api?timeout=32s\": dial tcp [::1]:8080: connect: connection refused"
+E1103 15:59:59.739260   14131 memcache.go:265] "Unhandled Error" err="couldn't get current server API group list: Get \"http://localhost:8080/api?timeout=32s\": dial tcp [::1]:8080: connect: connection refused"
+E1103 15:59:59.740739   14131 memcache.go:265] "Unhandled Error" err="couldn't get current server API group list: Get \"http://localhost:8080/api?timeout=32s\": dial tcp [::1]:8080: connect: connection refused"
+E1103 15:59:59.742058   14131 memcache.go:265] "Unhandled Error" err="couldn't get current server API group list: Get \"http://localhost:8080/api?timeout=32s\": dial tcp [::1]:8080: connect: connection refused"
+E1103 15:59:59.743366   14131 memcache.go:265] "Unhandled Error" err="couldn't get current server API group list: Get \"http://localhost:8080/api?timeout=32s\": dial tcp [::1]:8080: connect: connection refused"
+E1103 15:59:59.744651   14131 memcache.go:265] "Unhandled Error" err="couldn't get current server API group list: Get \"http://localhost:8080/api?timeout=32s\": dial tcp [::1]:8080: connect: connection refused"
+E1103 15:59:59.745944   14131 memcache.go:265] "Unhandled Error" err="couldn't get current server API group list: Get \"http://localhost:8080/api?timeout=32s\": dial tcp [::1]:8080: connect: connection refused"
+E1103 15:59:59.747217   14131 memcache.go:265] "Unhandled Error" err="couldn't get current server API group list: Get \"http://localhost:8080/api?timeout=32s\": dial tcp [::1]:8080: connect: connection refused"
+E1103 15:59:59.748733   14131 memcache.go:265] "Unhandled Error" err="couldn't get current server API group list: Get \"http://localhost:8080/api?timeout=32s\": dial tcp [::1]:8080: connect: connection refused"
+E1103 15:59:59.750064   14131 memcache.go:265] "Unhandled Error" err="couldn't get current server API group list: Get \"http://localhost:8080/api?timeout=32s\": dial tcp [::1]:8080: connect: connection refused"
+E1103 15:59:59.751515   14131 memcache.go:265] "Unhandled Error" err="couldn't get current server API group list: Get \"http://localhost:8080/api?timeout=32s\": dial tcp [::1]:8080: connect: connection refused"
+E1103 15:59:59.752787   14131 memcache.go:265] "Unhandled Error" err="couldn't get current server API group list: Get \"http://localhost:8080/api?timeout=32s\": dial tcp [::1]:8080: connect: connection refused"
+E1103 15:59:59.754185   14131 memcache.go:265] "Unhandled Error" err="couldn't get current server API group list: Get \"http://localhost:8080/api?timeout=32s\": dial tcp [::1]:8080: connect: connection refused"
+E1103 15:59:59.755528   14131 memcache.go:265] "Unhandled Error" err="couldn't get current server API group list: Get \"http://localhost:8080/api?timeout=32s\": dial tcp [::1]:8080: connect: connection refused"
+E1103 15:59:59.756799   14131 memcache.go:265] "Unhandled Error" err="couldn't get current server API group list: Get \"http://localhost:8080/api?timeout=32s\": dial tcp [::1]:8080: connect: connection refused"
+E1103 15:59:59.758108   14131 memcache.go:265] "Unhandled Error" err="couldn't get current server API group list: Get \"http://localhost:8080/api?timeout=32s\": dial tcp [::1]:8080: connect: connection refused"
+E1103 15:59:59.759437   14131 memcache.go:265] "Unhandled Error" err="couldn't get current server API group list: Get \"http://localhost:8080/api?timeout=32s\": dial tcp [::1]:8080: connect: connection refused"
+E1103 15:59:59.760779   14131 memcache.go:265] "Unhandled Error" err="couldn't get current server API group list: Get \"http://localhost:8080/api?timeout=32s\": dial tcp [::1]:8080: connect: connection refused"
+E1103 15:59:59.762100   14131 memcache.go:265] "Unhandled Error" err="couldn't get current server API group list: Get \"http://localhost:8080/api?timeout=32s\": dial tcp [::1]:8080: connect: connection refused"
+E1103 15:59:59.763454   14131 memcache.go:265] "Unhandled Error" err="couldn't get current server API group list: Get \"http://localhost:8080/api?timeout=32s\": dial tcp [::1]:8080: connect: connection refused"
+E1103 15:59:59.764954   14131 memcache.go:265] "Unhandled Error" err="couldn't get current server API group list: Get \"http://localhost:8080/api?timeout=32s\": dial tcp [::1]:8080: connect: connection refused"
+E1103 15:59:59.766460   14131 memcache.go:265] "Unhandled Error" err="couldn't get current server API group list: Get \"http://localhost:8080/api?timeout=32s\": dial tcp [::1]:8080: connect: connection refused"
+E1103 15:59:59.767902   14131 memcache.go:265] "Unhandled Error" err="couldn't get current server API group list: Get \"http://localhost:8080/api?timeout=32s\": dial tcp [::1]:8080: connect: connection refused"
+E1103 15:59:59.769284   14131 memcache.go:265] "Unhandled Error" err="couldn't get current server API group list: Get \"http://localhost:8080/api?timeout=32s\": dial tcp [::1]:8080: connect: connection refused"
+E1103 15:59:59.771199   14131 memcache.go:265] "Unhandled Error" err="couldn't get current server API group list: Get \"http://localhost:8080/api?timeout=32s\": dial tcp [::1]:8080: connect: connection refused"
+unable to recognize "/tmp/tpd-reports-cp/ground-station-portable.yaml": Get "http://localhost:8080/api?timeout=32s": dial tcp [::1]:8080: connect: connection refused
+unable to recognize "/tmp/tpd-reports-cp/ground-station-portable.yaml": Get "http://localhost:8080/api?timeout=32s": dial tcp [::1]:8080: connect: connection refused
+unable to recognize "/tmp/tpd-reports-cp/ground-station-portable.yaml": Get "http://localhost:8080/api?timeout=32s": dial tcp [::1]:8080: connect: connection refused
+unable to recognize "/tmp/tpd-reports-cp/ground-station-portable.yaml": Get "http://localhost:8080/api?timeout=32s": dial tcp [::1]:8080: connect: connection refused
+unable to recognize "/tmp/tpd-reports-cp/ground-station-portable.yaml": Get "http://localhost:8080/api?timeout=32s": dial tcp [::1]:8080: connect: connection refused
+unable to recognize "/tmp/tpd-reports-cp/ground-station-portable.yaml": Get "http://localhost:8080/api?timeout=32s": dial tcp [::1]:8080: connect: connection refused
+unable to recognize "/tmp/tpd-reports-cp/ground-station-portable.yaml": Get "http://localhost:8080/api?timeout=32s": dial tcp [::1]:8080: connect: connection refused
+unable to recognize "/tmp/tpd-reports-cp/ground-station-portable.yaml": Get "http://localhost:8080/api?timeout=32s": dial tcp [::1]:8080: connect: connection refused
+unable to recognize "/tmp/tpd-reports-cp/ground-station-portable.yaml": Get "http://localhost:8080/api?timeout=32s": dial tcp [::1]:8080: connect: connection refused
+unable to recognize "/tmp/tpd-reports-cp/ground-station-portable.yaml": Get "http://localhost:8080/api?timeout=32s": dial tcp [::1]:8080: connect: connection refused
+unable to recognize "/tmp/tpd-reports-cp/ground-station-portable.yaml": Get "http://localhost:8080/api?timeout=32s": dial tcp [::1]:8080: connect: connection refused
+unable to recognize "/tmp/tpd-reports-cp/ground-station-portable.yaml": Get "http://localhost:8080/api?timeout=32s": dial tcp [::1]:8080: connect: connection refused
+unable to recognize "/tmp/tpd-reports-cp/ground-station-portable.yaml": Get "http://localhost:8080/api?timeout=32s": dial tcp [::1]:8080: connect: connection refused
+unable to recognize "/tmp/tpd-reports-cp/ground-station-portable.yaml": Get "http://localhost:8080/api?timeout=32s": dial tcp [::1]:8080: connect: connection refused
+unable to recognize "/tmp/tpd-reports-cp/ground-station-portable.yaml": Get "http://localhost:8080/api?timeout=32s": dial tcp [::1]:8080: connect: connection refused
+unable to recognize "/tmp/tpd-reports-cp/ground-station-portable.yaml": Get "http://localhost:8080/api?timeout=32s": dial tcp [::1]:8080: connect: connection refused
+unable to recognize "/tmp/tpd-reports-cp/ground-station-portable.yaml": Get "http://localhost:8080/api?timeout=32s": dial tcp [::1]:8080: connect: connection refused
+unable to recognize "/tmp/tpd-reports-cp/ground-station-portable.yaml": Get "http://localhost:8080/api?timeout=32s": dial tcp [::1]:8080: connect: connection refused
+unable to recognize "/tmp/tpd-reports-cp/ground-station-portable.yaml": Get "http://localhost:8080/api?timeout=32s": dial tcp [::1]:8080: connect: connection refused
+unable to recognize "/tmp/tpd-reports-cp/ground-station-portable.yaml": Get "http://localhost:8080/api?timeout=32s": dial tcp [::1]:8080: connect: connection refused
+unable to recognize "/tmp/tpd-reports-cp/ground-station-portable.yaml": Get "http://localhost:8080/api?timeout=32s": dial tcp [::1]:8080: connect: connection refused
+unable to recognize "/tmp/tpd-reports-cp/ground-station-portable.yaml": Get "http://localhost:8080/api?timeout=32s": dial tcp [::1]:8080: connect: connection refused
+unable to recognize "/tmp/tpd-reports-cp/ground-station-portable.yaml": Get "http://localhost:8080/api?timeout=32s": dial tcp [::1]:8080: connect: connection refused
+unable to recognize "/tmp/tpd-reports-cp/ground-station-portable.yaml": Get "http://localhost:8080/api?timeout=32s": dial tcp [::1]:8080: connect: connection refused
+unable to recognize "/tmp/tpd-reports-cp/ground-station-portable.yaml": Get "http://localhost:8080/api?timeout=32s": dial tcp [::1]:8080: connect: connection refused
+unable to recognize "/tmp/tpd-reports-cp/ground-station-portable.yaml": Get "http://localhost:8080/api?timeout=32s": dial tcp [::1]:8080: connect: connection refused
+unable to recognize "/tmp/tpd-reports-cp/ground-station-portable.yaml": Get "http://localhost:8080/api?timeout=32s": dial tcp [::1]:8080: connect: connection refused
+
+== 3. Docker one-command demo ==
+#1 [internal] load local bake definitions
+#1 reading from stdin 397B done
+#1 DONE 0.0s
+
+#2 [internal] load build definition from Dockerfile
+#2 transferring dockerfile: 1.51kB done
+#2 DONE 0.0s
+
+#3 [auth] docker/dockerfile:pull token for registry-1.docker.io
+#3 DONE 0.0s
+
+#4 resolve image config for docker-image://docker.io/docker/dockerfile:1
+#4 DONE 0.7s
+
+#5 docker-image://docker.io/docker/dockerfile:1@sha256:4edf897a3ffa55b89f906fc8cc78afdb3f1834cc9c7083565e611a8a7d5fe99e
+#5 resolve docker.io/docker/dockerfile:1@sha256:4edf897a3ffa55b89f906fc8cc78afdb3f1834cc9c7083565e611a8a7d5fe99e done
+#5 sha256:4edf897a3ffa55b89f906fc8cc78afdb3f1834cc9c7083565e611a8a7d5fe99e 9.08kB / 9.08kB done
+#5 sha256:7b32114e84ca21aeb2d6f871a0b62b3a0762193f75d9afd048ee4cbe889f3148 1.13kB / 1.13kB done
+#5 sha256:528c92d70d7e39dbb3dd1c6681f6750c565c7e45b70527cda47c1a61495c1b6a 1.41kB / 1.41kB done
+#5 sha256:9d2b4f57f9e20f33279375ce25c6ff14f30f64270ed5c7b613b2b30256754f62 0B / 14.28MB 0.1s
+#5 sha256:9d2b4f57f9e20f33279375ce25c6ff14f30f64270ed5c7b613b2b30256754f62 14.28MB / 14.28MB 0.2s
+#5 sha256:9d2b4f57f9e20f33279375ce25c6ff14f30f64270ed5c7b613b2b30256754f62 14.28MB / 14.28MB 0.2s done
+#5 extracting sha256:9d2b4f57f9e20f33279375ce25c6ff14f30f64270ed5c7b613b2b30256754f62 0.1s done
+#5 DONE 0.3s
+
+#6 [auth] library/python:pull token for registry-1.docker.io
+#6 DONE 0.0s
+
+#7 [internal] load metadata for docker.io/library/python:3.11-slim
+#7 DONE 3.7s
+
+#8 [internal] load .dockerignore
+#8 transferring context: 2B done
+#8 DONE 0.0s
+
+#9 [internal] load build context
+#9 transferring context: 474.19kB 0.0s done
+#9 DONE 0.0s
+
+#10 [ 1/10] FROM docker.io/library/python:3.11-slim@sha256:db20d8506e2f15b6db39b40b6015ca46bae855dec6dd326d462cfe79ae972893
+#10 resolve docker.io/library/python:3.11-slim@sha256:db20d8506e2f15b6db39b40b6015ca46bae855dec6dd326d462cfe79ae972893 done
+#10 sha256:de8d79606beff46114d4abd5c392116c62142cbe582f8ede92cf4a64e1a10ff5 5.49kB / 5.49kB done
+#10 sha256:6fc242d221a673263eabd14a9ad9584d3177c96e5cb504c891497338e2f912f5 0B / 29.86MB 0.1s
+#10 sha256:ee5aaeba9945927662bea2702989dfd74d9273796415b896363e6a9c44d9a8ce 0B / 1.29MB 0.1s
+#10 sha256:24ff04c921070df4f4dc987278926d5dabde59d57b55ae3665439331f79af932 0B / 14.46MB 0.1s
+#10 sha256:db20d8506e2f15b6db39b40b6015ca46bae855dec6dd326d462cfe79ae972893 10.37kB / 10.37kB done
+#10 sha256:6d10e720318bd84cc3d88af92bb5a47189222e17620a2fd214da6445e4afb679 1.75kB / 1.75kB done
+#10 sha256:ee5aaeba9945927662bea2702989dfd74d9273796415b896363e6a9c44d9a8ce 1.29MB / 1.29MB 0.1s done
+#10 sha256:361db81715472ecba5e656c314c299bd945309020483159596a8d123c2b1d580 0B / 251B 0.2s
+#10 sha256:6fc242d221a673263eabd14a9ad9584d3177c96e5cb504c891497338e2f912f5 23.07MB / 29.86MB 0.8s
+#10 sha256:361db81715472ecba5e656c314c299bd945309020483159596a8d123c2b1d580 251B / 251B 0.7s done
+#10 sha256:6fc242d221a673263eabd14a9ad9584d3177c96e5cb504c891497338e2f912f5 29.86MB / 29.86MB 0.9s
+#10 sha256:24ff04c921070df4f4dc987278926d5dabde59d57b55ae3665439331f79af932 7.34MB / 14.46MB 0.9s
+#10 sha256:24ff04c921070df4f4dc987278926d5dabde59d57b55ae3665439331f79af932 14.46MB / 14.46MB 1.0s
+#10 extracting sha256:6fc242d221a673263eabd14a9ad9584d3177c96e5cb504c891497338e2f912f5
+#10 sha256:6fc242d221a673263eabd14a9ad9584d3177c96e5cb504c891497338e2f912f5 29.86MB / 29.86MB 1.0s done
+#10 sha256:24ff04c921070df4f4dc987278926d5dabde59d57b55ae3665439331f79af932 14.46MB / 14.46MB 1.0s done
+#10 extracting sha256:6fc242d221a673263eabd14a9ad9584d3177c96e5cb504c891497338e2f912f5 0.5s done
+#10 extracting sha256:ee5aaeba9945927662bea2702989dfd74d9273796415b896363e6a9c44d9a8ce 0.1s done
+#10 extracting sha256:24ff04c921070df4f4dc987278926d5dabde59d57b55ae3665439331f79af932
+#10 extracting sha256:24ff04c921070df4f4dc987278926d5dabde59d57b55ae3665439331f79af932 0.4s done
+#10 extracting sha256:361db81715472ecba5e656c314c299bd945309020483159596a8d123c2b1d580
+#10 extracting sha256:361db81715472ecba5e656c314c299bd945309020483159596a8d123c2b1d580 done
+#10 DONE 2.9s
+
+#11 [ 2/10] WORKDIR /app
+#11 DONE 0.0s
+
+#12 [ 3/10] RUN pip install --no-cache-dir "pydantic>=2.6,<3" "PyYAML>=6.0,<7"
+#12 0.978 Collecting pydantic<3,>=2.6
+#12 1.039   Downloading pydantic-2.14.2-py3-none-any.whl.metadata (137 kB)
+#12 1.066      ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ 137.6/137.6 kB 5.1 MB/s eta 0:00:00
+#12 1.098 Collecting PyYAML<7,>=6.0
+#12 1.113   Downloading pyyaml-6.0.3-cp311-cp311-manylinux2014_x86_64.manylinux_2_17_x86_64.manylinux_2_28_x86_64.whl.metadata (2.4 kB)
+#12 1.132 Collecting annotated-types>=0.6.0 (from pydantic<3,>=2.6)
+#12 1.147   Downloading annotated_types-0.8.0-py3-none-any.whl.metadata (15 kB)
+#12 1.643 Collecting pydantic-core==2.50.2 (from pydantic<3,>=2.6)
+#12 1.659   Downloading pydantic_core-2.50.2-cp311-cp311-manylinux2014_x86_64.manylinux_2_17_x86_64.whl.metadata (6.5 kB)
+#12 1.679 Collecting typing-extensions>=4.16.0 (from pydantic<3,>=2.6)
+#12 1.694   Downloading typing_extensions-4.16.0-py3-none-any.whl.metadata (3.3 kB)
+#12 1.710 Collecting typing-inspection>=0.4.4 (from pydantic<3,>=2.6)
+#12 1.724   Downloading typing_inspection-0.4.4-py3-none-any.whl.metadata (2.6 kB)
+#12 1.745 Downloading pydantic-2.14.2-py3-none-any.whl (490 kB)
+#12 1.765    ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ 490.4/490.4 kB 25.0 MB/s eta 0:00:00
+#12 1.780 Downloading pydantic_core-2.50.2-cp311-cp311-manylinux2014_x86_64.manylinux_2_17_x86_64.whl (2.2 MB)
+#12 1.808    ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ 2.2/2.2 MB 85.5 MB/s eta 0:00:00
+#12 1.823 Downloading pyyaml-6.0.3-cp311-cp311-manylinux2014_x86_64.manylinux_2_17_x86_64.manylinux_2_28_x86_64.whl (806 kB)
+#12 1.826    ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ 806.6/806.6 kB 661.2 MB/s eta 0:00:00
+#12 1.841 Downloading annotated_types-0.8.0-py3-none-any.whl (13 kB)
+#12 1.855 Downloading typing_extensions-4.16.0-py3-none-any.whl (45 kB)
+#12 1.857    ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ 45.6/45.6 kB 493.6 MB/s eta 0:00:00
+#12 1.871 Downloading typing_inspection-0.4.4-py3-none-any.whl (14 kB)
+#12 1.903 Installing collected packages: typing-extensions, PyYAML, annotated-types, typing-inspection, pydantic-core, pydantic
+#12 2.138 Successfully installed PyYAML-6.0.3 annotated-types-0.8.0 pydantic-2.14.2 pydantic-core-2.50.2 typing-extensions-4.16.0 typing-inspection-0.4.4
+#12 2.138 WARNING: Running pip as the 'root' user can result in broken permissions and conflicting behaviour with the system package manager. It is recommended to use a virtual environment instead: https://pip.pypa.io/warnings/venv
+#12 2.227 
+#12 2.227 [notice] A new release of pip is available: 24.0 -> 26.3
+#12 2.227 [notice] To update, run: pip install --upgrade pip
+#12 DONE 2.5s
+
+#13 [ 4/10] COPY src/ ./src/
+#13 DONE 0.0s
+
+#14 [ 5/10] COPY definitions/ ./definitions/
+#14 DONE 0.0s
+
+#15 [ 6/10] COPY suites/ ./suites/
+#15 DONE 0.0s
+
+#16 [ 7/10] COPY docker/ ./docker/
+#16 DONE 0.0s
+
+#17 [ 8/10] COPY release/ ./release/
+#17 DONE 0.0s
+
+#18 [ 9/10] COPY docker/entrypoint.sh /usr/local/bin/entrypoint.sh
+#18 DONE 0.0s
+
+#19 [10/10] RUN chmod +x /usr/local/bin/entrypoint.sh &&     mkdir -p /app/artifacts &&     useradd --create-home --uid 10001 turion &&     chown -R turion:turion /app
+#19 DONE 0.1s
+
+#20 exporting to image
+#20 exporting layers
+#20 exporting layers 0.6s done
+#20 writing image sha256:973a9b6ea91c7317fbaad490cb2049047c1884112ca1510f46a7fdb9d6f28117 done
+#20 naming to docker.io/turion/cosmos-tlm-bridge:1.0.0 done
+#20 DONE 0.6s
+
+#21 resolving provenance for metadata file
+#21 DONE 0.0s
+ cosmos  Built
+#1 [internal] load local bake definitions
+#1 reading from stdin 397B done
+#1 DONE 0.0s
+
+#2 [internal] load build definition from Dockerfile
+#2 transferring dockerfile: 1.51kB done
+#2 DONE 0.0s
+
+#3 resolve image config for docker-image://docker.io/docker/dockerfile:1
+#3 DONE 0.3s
+
+#4 docker-image://docker.io/docker/dockerfile:1@sha256:4edf897a3ffa55b89f906fc8cc78afdb3f1834cc9c7083565e611a8a7d5fe99e
+#4 CACHED
+
+#5 [internal] load metadata for docker.io/library/python:3.11-slim
+#5 DONE 0.1s
+
+#6 [internal] load .dockerignore
+#6 transferring context: 2B done
+#6 DONE 0.0s
+
+#7 [ 1/10] FROM docker.io/library/python:3.11-slim@sha256:db20d8506e2f15b6db39b40b6015ca46bae855dec6dd326d462cfe79ae972893
+#7 DONE 0.0s
+
+#8 [internal] load build context
+#8 transferring context: 2.77kB done
+#8 DONE 0.0s
+
+#9 [ 4/10] COPY src/ ./src/
+#9 CACHED
+
+#10 [ 5/10] COPY definitions/ ./definitions/
+#10 CACHED
+
+#11 [ 7/10] COPY docker/ ./docker/
+#11 CACHED
+
+#12 [ 9/10] COPY docker/entrypoint.sh /usr/local/bin/entrypoint.sh
+#12 CACHED
+
+#13 [ 8/10] COPY release/ ./release/
+#13 CACHED
+
+#14 [ 6/10] COPY suites/ ./suites/
+#14 CACHED
+
+#15 [ 3/10] RUN pip install --no-cache-dir "pydantic>=2.6,<3" "PyYAML>=6.0,<7"
+#15 CACHED
+
+#16 [ 2/10] WORKDIR /app
+#16 CACHED
+
+#17 [10/10] RUN chmod +x /usr/local/bin/entrypoint.sh &&     mkdir -p /app/artifacts &&     useradd --create-home --uid 10001 turion &&     chown -R turion:turion /app
+#17 CACHED
+
+#18 exporting to image
+#18 exporting layers done
+#18 writing image sha256:973a9b6ea91c7317fbaad490cb2049047c1884112ca1510f46a7fdb9d6f28117 done
+#18 naming to docker.io/turion/cosmos-tlm-bridge:1.0.0 done
+#18 DONE 0.0s
+
+#19 resolving provenance for metadata file
+#19 DONE 0.0s
+ cosmos  Built
+ Network cosmos-tlm-bridge_default  Creating
+ Network cosmos-tlm-bridge_default  Created
+ Container cosmos-tlm-bridge-cosmos-1  Creating
+ Container cosmos-tlm-bridge-telemetry-sink-1  Creating
+ Container cosmos-tlm-bridge-cosmos-1  Created
+ Container cosmos-tlm-bridge-telemetry-sink-1  Created
+ Container cosmos-tlm-bridge-regress-1  Creating
+ Container cosmos-tlm-bridge-bridge-1  Creating
+ Container cosmos-tlm-bridge-regress-1  Created
+ Container cosmos-tlm-bridge-bridge-1  Created
+Attaching to bridge-1, cosmos-1, regress-1, telemetry-sink-1
+telemetry-sink-1  | [sink] listening on 0.0.0.0:8080
+cosmos-1          | cosmos-tlm-bridge [2mv1.0.0[0m
+cosmos-1          | starting DROID_SIM OpenC3 COSMOS v5 reference server on 0.0.0.0:2900 (scope DEFAULT)
+cosmos-1          | 
+cosmos-1          | DROID_SIM OpenC3 COSMOS v5 reference server listening on 0.0.0.0:2900 (scope DEFAULT)
+cosmos-1          |   JSON-RPC : POST http://127.0.0.1:2900/openc3-api/api
+cosmos-1          |   Auth     : POST http://127.0.0.1:2900/openc3-api/auth/verify
+cosmos-1          |   Stream   : GET  http://127.0.0.1:2900/openc3-api/stream?topic=DEFAULT__DECOM__{DROID_SIM}__EPS
+bridge-1          | bridging DROID_SIM [2mpackets=ADCS,EPS,THERMAL webhooks=1 for 35.0s[0m
+telemetry-sink-1  | [sink] ADCS     overall=BLUE   cosmos=GREEN  points=9
+bridge-1          | ADCS     BLUE   ATTITUDE_ERROR=0.119 CCSDS_LENGTH=14 CCSDS_SECONDS=1.79372e+09 CCSDS_SEQUENCE=23
+telemetry-sink-1  | [sink] EPS      overall=BLUE   cosmos=GREEN  points=9
+bridge-1          | EPS      BLUE   BATT_CURRENT=-1.07 BATT_SOC=91.47 BATT_TEMP=18.72 BATT_VOLTAGE=15.6775
+telemetry-sink-1  | [sink] THERMAL  overall=BLUE   cosmos=GREEN  points=9
+bridge-1          | THERMAL  BLUE   BUS_TEMP=8.64 CCSDS_LENGTH=14 CCSDS_SECONDS=1.79372e+09 CCSDS_SEQUENCE=23
+regress-1         | 
+regress-1         | [1msuite[0m droid_pass_acceptance [2m(budget 105.0s)[0m
+regress-1         |   PASS [setup] all packets are streaming
+regress-1         |   PASS [setup] attitude packet is streaming
+regress-1         |   PASS [setup] thermal packet is streaming
+regress-1         |   PASS [steps] precondition - bus is nominal, no point is out of limits
+telemetry-sink-1  | [sink] ADCS     overall=BLUE   cosmos=GREEN  points=9
+bridge-1          | ADCS     BLUE   ATTITUDE_ERROR=0.12 CCSDS_LENGTH=14 CCSDS_SECONDS=1.79372e+09 CCSDS_SEQUENCE=1
+telemetry-sink-1  | [sink] EPS      overall=BLUE   cosmos=GREEN  points=9
+bridge-1          | EPS      BLUE   BATT_CURRENT=-1.2 BATT_SOC=91.5 BATT_TEMP=18.02 BATT_VOLTAGE=15.5525
+telemetry-sink-1  | [sink] THERMAL  overall=BLUE   cosmos=GREEN  points=9
+bridge-1          | THERMAL  BLUE   BUS_TEMP=8.01 CCSDS_LENGTH=14 CCSDS_SECONDS=1.79372e+09 CCSDS_SEQUENCE=1
+telemetry-sink-1  | [sink] ADCS     overall=BLUE   cosmos=GREEN  points=9
+bridge-1          | ADCS     BLUE   ATTITUDE_ERROR=0.121 CCSDS_LENGTH=14 CCSDS_SECONDS=1.79372e+09 CCSDS_SEQUENCE=2
+telemetry-sink-1  | [sink] EPS      overall=BLUE   cosmos=GREEN  points=9
+bridge-1          | EPS      BLUE   BATT_CURRENT=-0.29 BATT_SOC=91.5 BATT_TEMP=20.05 BATT_VOLTAGE=15.26
+telemetry-sink-1  | [sink] THERMAL  overall=BLUE   cosmos=GREEN  points=9
+bridge-1          | THERMAL  BLUE   BUS_TEMP=9.04 CCSDS_LENGTH=14 CCSDS_SECONDS=1.79372e+09 CCSDS_SEQUENCE=2
+regress-1         |   PASS [steps] command the attitude slew
+regress-1         |   PASS [steps] slew is acknowledged in telemetry (DN mode)
+regress-1         |   PASS [steps] slewing target slot decodes to the commanded slot (EU mode)
+telemetry-sink-1  | [sink] ADCS     overall=BLUE   cosmos=GREEN  points=9
+bridge-1          | ADCS     BLUE   ATTITUDE_ERROR=0.26 CCSDS_LENGTH=14 CCSDS_SECONDS=1.79372e+09 CCSDS_SEQUENCE=3
+telemetry-sink-1  | [sink] EPS      overall=BLUE   cosmos=GREEN  points=9
+bridge-1          | EPS      BLUE   BATT_CURRENT=-0.28 BATT_SOC=91.49 BATT_TEMP=20.08 BATT_VOLTAGE=15.265
+telemetry-sink-1  | [sink] THERMAL  overall=BLUE   cosmos=GREEN  points=9
+bridge-1          | THERMAL  BLUE   BUS_TEMP=9.07 CCSDS_LENGTH=14 CCSDS_SECONDS=1.79372e+09 CCSDS_SEQUENCE=3
+regress-1         |   PASS [steps] attitude error leaves the tight deadband during the slew
+regress-1         |   PASS [steps] bus voltage stays inside the BLUE operational band
+telemetry-sink-1  | [sink] ADCS     overall=BLUE   cosmos=GREEN  points=9
+bridge-1          | ADCS     BLUE   ATTITUDE_ERROR=0.383 CCSDS_LENGTH=14 CCSDS_SECONDS=1.79372e+09 CCSDS_SEQUENCE=4
+telemetry-sink-1  | [sink] EPS      overall=BLUE   cosmos=GREEN  points=9
+bridge-1          | EPS      BLUE   BATT_CURRENT=-0.27 BATT_SOC=91.49 BATT_TEMP=20.12 BATT_VOLTAGE=15.2725
+telemetry-sink-1  | [sink] THERMAL  overall=BLUE   cosmos=GREEN  points=9
+bridge-1          | THERMAL  BLUE   BUS_TEMP=9.1 CCSDS_LENGTH=14 CCSDS_SECONDS=1.79372e+09 CCSDS_SEQUENCE=4
+telemetry-sink-1  | [sink] ADCS     overall=BLUE   cosmos=GREEN  points=9
+bridge-1          | ADCS     BLUE   ATTITUDE_ERROR=0.488 CCSDS_LENGTH=14 CCSDS_SECONDS=1.79372e+09 CCSDS_SEQUENCE=5
+telemetry-sink-1  | [sink] EPS      overall=BLUE   cosmos=GREEN  points=9
+bridge-1          | EPS      BLUE   BATT_CURRENT=-0.27 BATT_SOC=91.48 BATT_TEMP=20.15 BATT_VOLTAGE=15.2775
+telemetry-sink-1  | [sink] THERMAL  overall=BLUE   cosmos=GREEN  points=9
+bridge-1          | THERMAL  BLUE   BUS_TEMP=9.13 CCSDS_LENGTH=14 CCSDS_SECONDS=1.79372e+09 CCSDS_SEQUENCE=5
+telemetry-sink-1  | [sink] ADCS     overall=BLUE   cosmos=GREEN  points=9
+bridge-1          | ADCS     BLUE   ATTITUDE_ERROR=0.582 CCSDS_LENGTH=14 CCSDS_SECONDS=1.79372e+09 CCSDS_SEQUENCE=6
+telemetry-sink-1  | [sink] EPS      overall=BLUE   cosmos=GREEN  points=9
+bridge-1          | EPS      BLUE   BATT_CURRENT=-0.26 BATT_SOC=91.47 BATT_TEMP=20.19 BATT_VOLTAGE=15.285
+telemetry-sink-1  | [sink] THERMAL  overall=BLUE   cosmos=GREEN  points=9
+bridge-1          | THERMAL  BLUE   BUS_TEMP=9.16 CCSDS_LENGTH=14 CCSDS_SECONDS=1.79372e+09 CCSDS_SEQUENCE=6
+telemetry-sink-1  | [sink] ADCS     overall=BLUE   cosmos=GREEN  points=9
+bridge-1          | ADCS     BLUE   ATTITUDE_ERROR=0.675 CCSDS_LENGTH=14 CCSDS_SECONDS=1.79372e+09 CCSDS_SEQUENCE=7
+telemetry-sink-1  | [sink] EPS      overall=BLUE   cosmos=GREEN  points=9
+bridge-1          | EPS      BLUE   BATT_CURRENT=-0.25 BATT_SOC=91.47 BATT_TEMP=20.22 BATT_VOLTAGE=15.2925
+telemetry-sink-1  | [sink] THERMAL  overall=BLUE   cosmos=GREEN  points=9
+bridge-1          | THERMAL  BLUE   BUS_TEMP=9.19 CCSDS_LENGTH=14 CCSDS_SECONDS=1.79372e+09 CCSDS_SEQUENCE=7
+telemetry-sink-1  | [sink] ADCS     overall=BLUE   cosmos=GREEN  points=9
+bridge-1          | ADCS     BLUE   ATTITUDE_ERROR=0.757 CCSDS_LENGTH=14 CCSDS_SECONDS=1.79372e+09 CCSDS_SEQUENCE=8
+telemetry-sink-1  | [sink] EPS      overall=BLUE   cosmos=GREEN  points=9
+bridge-1          | EPS      BLUE   BATT_CURRENT=-0.25 BATT_SOC=91.46 BATT_TEMP=20.25 BATT_VOLTAGE=15.2975
+telemetry-sink-1  | [sink] THERMAL  overall=BLUE   cosmos=GREEN  points=9
+bridge-1          | THERMAL  BLUE   BUS_TEMP=9.22 CCSDS_LENGTH=14 CCSDS_SECONDS=1.79372e+09 CCSDS_SEQUENCE=8
+telemetry-sink-1  | [sink] ADCS     overall=BLUE   cosmos=GREEN  points=9
+bridge-1          | ADCS     BLUE   ATTITUDE_ERROR=0.825 CCSDS_LENGTH=14 CCSDS_SECONDS=1.79372e+09 CCSDS_SEQUENCE=9
+telemetry-sink-1  | [sink] EPS      overall=BLUE   cosmos=GREEN  points=9
+bridge-1          | EPS      BLUE   BATT_CURRENT=-0.24 BATT_SOC=91.46 BATT_TEMP=20.29 BATT_VOLTAGE=15.3025
+telemetry-sink-1  | [sink] THERMAL  overall=BLUE   cosmos=GREEN  points=9
+bridge-1          | THERMAL  BLUE   BUS_TEMP=9.25 CCSDS_LENGTH=14 CCSDS_SECONDS=1.79372e+09 CCSDS_SEQUENCE=9
+telemetry-sink-1  | [sink] ADCS     overall=BLUE   cosmos=GREEN  points=9
+bridge-1          | ADCS     BLUE   ATTITUDE_ERROR=0.889 CCSDS_LENGTH=14 CCSDS_SECONDS=1.79372e+09 CCSDS_SEQUENCE=10
+telemetry-sink-1  | [sink] EPS      overall=BLUE   cosmos=GREEN  points=9
+bridge-1          | EPS      BLUE   BATT_CURRENT=-0.23 BATT_SOC=91.45 BATT_TEMP=20.32 BATT_VOLTAGE=15.31
+telemetry-sink-1  | [sink] THERMAL  overall=BLUE   cosmos=GREEN  points=9
+bridge-1          | THERMAL  BLUE   BUS_TEMP=9.28 CCSDS_LENGTH=14 CCSDS_SECONDS=1.79372e+09 CCSDS_SEQUENCE=10
+telemetry-sink-1  | [sink] ADCS     overall=BLUE   cosmos=GREEN  points=9
+bridge-1          | ADCS     BLUE   ATTITUDE_ERROR=0.953 CCSDS_LENGTH=14 CCSDS_SECONDS=1.79372e+09 CCSDS_SEQUENCE=11
+telemetry-sink-1  | [sink] EPS      overall=BLUE   cosmos=GREEN  points=9
+bridge-1          | EPS      BLUE   BATT_CURRENT=-0.22 BATT_SOC=91.44 BATT_TEMP=20.35 BATT_VOLTAGE=15.315
+telemetry-sink-1  | [sink] THERMAL  overall=BLUE   cosmos=GREEN  points=9
+bridge-1          | THERMAL  BLUE   BUS_TEMP=9.31 CCSDS_LENGTH=14 CCSDS_SECONDS=1.79372e+09 CCSDS_SEQUENCE=11
+telemetry-sink-1  | [sink] ADCS     overall=BLUE   cosmos=GREEN  points=9
+bridge-1          | ADCS     BLUE   ATTITUDE_ERROR=1.009 CCSDS_LENGTH=14 CCSDS_SECONDS=1.79372e+09 CCSDS_SEQUENCE=12
+telemetry-sink-1  | [sink] EPS      overall=BLUE   cosmos=GREEN  points=9
+bridge-1          | EPS      BLUE   BATT_CURRENT=-0.22 BATT_SOC=91.44 BATT_TEMP=20.39 BATT_VOLTAGE=15.3225
+telemetry-sink-1  | [sink] THERMAL  overall=BLUE   cosmos=GREEN  points=9
+bridge-1          | THERMAL  BLUE   BUS_TEMP=9.34 CCSDS_LENGTH=14 CCSDS_SECONDS=1.79372e+09 CCSDS_SEQUENCE=12
+telemetry-sink-1  | [sink] ADCS     overall=BLUE   cosmos=GREEN  points=9
+bridge-1          | ADCS     BLUE   ATTITUDE_ERROR=1.06 CCSDS_LENGTH=14 CCSDS_SECONDS=1.79372e+09 CCSDS_SEQUENCE=13
+telemetry-sink-1  | [sink] EPS      overall=BLUE   cosmos=GREEN  points=9
+bridge-1          | EPS      BLUE   BATT_CURRENT=-0.21 BATT_SOC=91.43 BATT_TEMP=20.42 BATT_VOLTAGE=15.3275
+telemetry-sink-1  | [sink] THERMAL  overall=BLUE   cosmos=GREEN  points=9
+bridge-1          | THERMAL  BLUE   BUS_TEMP=9.37 CCSDS_LENGTH=14 CCSDS_SECONDS=1.79372e+09 CCSDS_SEQUENCE=13
+telemetry-sink-1  | [sink] ADCS     overall=BLUE   cosmos=GREEN  points=9
+bridge-1          | ADCS     BLUE   ATTITUDE_ERROR=1.109 CCSDS_LENGTH=14 CCSDS_SECONDS=1.79372e+09 CCSDS_SEQUENCE=14
+telemetry-sink-1  | [sink] EPS      overall=BLUE   cosmos=GREEN  points=9
+bridge-1          | EPS      BLUE   BATT_CURRENT=-0.21 BATT_SOC=91.43 BATT_TEMP=20.45 BATT_VOLTAGE=15.3325
+telemetry-sink-1  | [sink] THERMAL  overall=BLUE   cosmos=GREEN  points=9
+bridge-1          | THERMAL  BLUE   BUS_TEMP=9.39 CCSDS_LENGTH=14 CCSDS_SECONDS=1.79372e+09 CCSDS_SEQUENCE=14
+telemetry-sink-1  | [sink] ADCS     overall=BLUE   cosmos=GREEN  points=9
+bridge-1          | ADCS     BLUE   ATTITUDE_ERROR=1.147 CCSDS_LENGTH=14 CCSDS_SECONDS=1.79372e+09 CCSDS_SEQUENCE=15
+telemetry-sink-1  | [sink] EPS      overall=BLUE   cosmos=GREEN  points=9
+bridge-1          | EPS      BLUE   BATT_CURRENT=-0.2 BATT_SOC=91.42 BATT_TEMP=20.48 BATT_VOLTAGE=15.34
+telemetry-sink-1  | [sink] THERMAL  overall=BLUE   cosmos=GREEN  points=9
+bridge-1          | THERMAL  BLUE   BUS_TEMP=9.42 CCSDS_LENGTH=14 CCSDS_SECONDS=1.79372e+09 CCSDS_SEQUENCE=15
+regress-1         |   PASS [steps] reaction wheel thermal limit violation is caught (EU mode)
+regress-1         |   PASS [steps] reaction wheel thermal limit violation is caught (DN mode)
+regress-1         |   PASS [steps] the same violation rolls up to a YELLOW overall system state
+regress-1         |   PASS [steps] the radiator stays healthy while the wheel is hot
+telemetry-sink-1  | [sink] ADCS     overall=BLUE   cosmos=GREEN  points=9
+bridge-1          | ADCS     BLUE   ATTITUDE_ERROR=1.187 CCSDS_LENGTH=14 CCSDS_SECONDS=1.79372e+09 CCSDS_SEQUENCE=16
+telemetry-sink-1  | [sink] EPS      overall=BLUE   cosmos=GREEN  points=9
+bridge-1          | EPS      BLUE   BATT_CURRENT=-0.2 BATT_SOC=91.41 BATT_TEMP=20.52 BATT_VOLTAGE=15.345
+telemetry-sink-1  | [sink] THERMAL  overall=YELLOW cosmos=YELLOW points=9
+bridge-1          | THERMAL  YELLOW BUS_TEMP=9.45 CCSDS_LENGTH=14 CCSDS_SECONDS=1.79372e+09 CCSDS_SEQUENCE=16
+bridge-1          |   !! limits violation on THERMAL: ['DROID_SIM__THERMAL__RW_TEMP=YELLOW_HIGH']
+telemetry-sink-1  | [sink] ADCS     overall=BLUE   cosmos=GREEN  points=9
+bridge-1          | ADCS     BLUE   ATTITUDE_ERROR=1.216 CCSDS_LENGTH=14 CCSDS_SECONDS=1.79372e+09 CCSDS_SEQUENCE=17
+telemetry-sink-1  | [sink] EPS      overall=BLUE   cosmos=GREEN  points=9
+bridge-1          | EPS      BLUE   BATT_CURRENT=-0.19 BATT_SOC=91.41 BATT_TEMP=20.55 BATT_VOLTAGE=15.35
+telemetry-sink-1  | [sink] THERMAL  overall=YELLOW cosmos=YELLOW points=9
+bridge-1          | THERMAL  YELLOW BUS_TEMP=9.48 CCSDS_LENGTH=14 CCSDS_SECONDS=1.79372e+09 CCSDS_SEQUENCE=17
+bridge-1          |   !! limits violation on THERMAL: ['DROID_SIM__THERMAL__RW_TEMP=YELLOW_HIGH']
+telemetry-sink-1  | [sink] ADCS     overall=BLUE   cosmos=GREEN  points=9
+bridge-1          | ADCS     BLUE   ATTITUDE_ERROR=1.239 CCSDS_LENGTH=14 CCSDS_SECONDS=1.79372e+09 CCSDS_SEQUENCE=18
+telemetry-sink-1  | [sink] EPS      overall=BLUE   cosmos=GREEN  points=9
+bridge-1          | EPS      BLUE   BATT_CURRENT=-0.18 BATT_SOC=91.4 BATT_TEMP=20.58 BATT_VOLTAGE=15.355
+telemetry-sink-1  | [sink] THERMAL  overall=YELLOW cosmos=YELLOW points=9
+bridge-1          | THERMAL  YELLOW BUS_TEMP=9.51 CCSDS_LENGTH=14 CCSDS_SECONDS=1.79372e+09 CCSDS_SEQUENCE=18
+bridge-1          |   !! limits violation on THERMAL: ['DROID_SIM__THERMAL__RW_TEMP=YELLOW_HIGH']
+telemetry-sink-1  | [sink] ADCS     overall=BLUE   cosmos=GREEN  points=9
+bridge-1          | ADCS     BLUE   ATTITUDE_ERROR=1.265 CCSDS_LENGTH=14 CCSDS_SECONDS=1.79372e+09 CCSDS_SEQUENCE=19
+telemetry-sink-1  | [sink] EPS      overall=BLUE   cosmos=GREEN  points=9
+bridge-1          | EPS      BLUE   BATT_CURRENT=-0.18 BATT_SOC=91.4 BATT_TEMP=20.61 BATT_VOLTAGE=15.36
+telemetry-sink-1  | [sink] THERMAL  overall=YELLOW cosmos=YELLOW points=9
+bridge-1          | THERMAL  YELLOW BUS_TEMP=9.54 CCSDS_LENGTH=14 CCSDS_SECONDS=1.79372e+09 CCSDS_SEQUENCE=19
+bridge-1          |   !! limits violation on THERMAL: ['DROID_SIM__THERMAL__RW_TEMP=YELLOW_HIGH']
+telemetry-sink-1  | [sink] ADCS     overall=BLUE   cosmos=GREEN  points=9
+bridge-1          | ADCS     BLUE   ATTITUDE_ERROR=1.3 CCSDS_LENGTH=14 CCSDS_SECONDS=1.79372e+09 CCSDS_SEQUENCE=21
+telemetry-sink-1  | [sink] EPS      overall=BLUE   cosmos=GREEN  points=9
+bridge-1          | EPS      BLUE   BATT_CURRENT=-0.17 BATT_SOC=91.38 BATT_TEMP=20.67 BATT_VOLTAGE=15.37
+telemetry-sink-1  | [sink] THERMAL  overall=YELLOW cosmos=YELLOW points=9
+bridge-1          | THERMAL  YELLOW BUS_TEMP=9.59 CCSDS_LENGTH=14 CCSDS_SECONDS=1.79372e+09 CCSDS_SEQUENCE=21
+bridge-1          |   !! limits violation on THERMAL: ['DROID_SIM__THERMAL__RW_TEMP=YELLOW_HIGH']
+telemetry-sink-1  | [sink] ADCS     overall=BLUE   cosmos=GREEN  points=9
+bridge-1          | ADCS     BLUE   ATTITUDE_ERROR=1.315 CCSDS_LENGTH=14 CCSDS_SECONDS=1.79372e+09 CCSDS_SEQUENCE=22
+telemetry-sink-1  | [sink] EPS      overall=BLUE   cosmos=GREEN  points=9
+bridge-1          | EPS      BLUE   BATT_CURRENT=-0.17 BATT_SOC=91.38 BATT_TEMP=20.7 BATT_VOLTAGE=15.375
+telemetry-sink-1  | [sink] THERMAL  overall=YELLOW cosmos=YELLOW points=9
+bridge-1          | THERMAL  YELLOW BUS_TEMP=9.62 CCSDS_LENGTH=14 CCSDS_SECONDS=1.79372e+09 CCSDS_SEQUENCE=22
+bridge-1          |   !! limits violation on THERMAL: ['DROID_SIM__THERMAL__RW_TEMP=YELLOW_HIGH']
+telemetry-sink-1  | [sink] ADCS     overall=BLUE   cosmos=GREEN  points=9
+bridge-1          | ADCS     BLUE   ATTITUDE_ERROR=1.322 CCSDS_LENGTH=14 CCSDS_SECONDS=1.79372e+09 CCSDS_SEQUENCE=23
+telemetry-sink-1  | [sink] EPS      overall=BLUE   cosmos=GREEN  points=9
+bridge-1          | EPS      BLUE   BATT_CURRENT=-0.16 BATT_SOC=91.37 BATT_TEMP=20.73 BATT_VOLTAGE=15.38
+telemetry-sink-1  | [sink] THERMAL  overall=YELLOW cosmos=YELLOW points=9
+bridge-1          | THERMAL  YELLOW BUS_TEMP=9.65 CCSDS_LENGTH=14 CCSDS_SECONDS=1.79372e+09 CCSDS_SEQUENCE=23
+bridge-1          |   !! limits violation on THERMAL: ['DROID_SIM__THERMAL__RW_TEMP=YELLOW_HIGH']
+telemetry-sink-1  | [sink] ADCS     overall=BLUE   cosmos=GREEN  points=9
+bridge-1          | ADCS     BLUE   ATTITUDE_ERROR=1.328 CCSDS_LENGTH=14 CCSDS_SECONDS=1.79372e+09 CCSDS_SEQUENCE=24
+telemetry-sink-1  | [sink] EPS      overall=BLUE   cosmos=GREEN  points=9
+bridge-1          | EPS      BLUE   BATT_CURRENT=-0.16 BATT_SOC=91.36 BATT_TEMP=20.76 BATT_VOLTAGE=15.385
+telemetry-sink-1  | [sink] THERMAL  overall=YELLOW cosmos=YELLOW points=9
+bridge-1          | THERMAL  YELLOW BUS_TEMP=9.68 CCSDS_LENGTH=14 CCSDS_SECONDS=1.79372e+09 CCSDS_SEQUENCE=24
+bridge-1          |   !! limits violation on THERMAL: ['DROID_SIM__THERMAL__RW_TEMP=YELLOW_HIGH']
+telemetry-sink-1  | [sink] ADCS     overall=BLUE   cosmos=GREEN  points=9
+bridge-1          | ADCS     BLUE   ATTITUDE_ERROR=1.333 CCSDS_LENGTH=14 CCSDS_SECONDS=1.79372e+09 CCSDS_SEQUENCE=25
+telemetry-sink-1  | [sink] EPS      overall=BLUE   cosmos=GREEN  points=9
+bridge-1          | EPS      BLUE   BATT_CURRENT=-0.16 BATT_SOC=91.36 BATT_TEMP=20.79 BATT_VOLTAGE=15.3875
+telemetry-sink-1  | [sink] THERMAL  overall=YELLOW cosmos=YELLOW points=9
+bridge-1          | THERMAL  YELLOW BUS_TEMP=9.7 CCSDS_LENGTH=14 CCSDS_SECONDS=1.79372e+09 CCSDS_SEQUENCE=25
+bridge-1          |   !! limits violation on THERMAL: ['DROID_SIM__THERMAL__RW_TEMP=YELLOW_HIGH']
+telemetry-sink-1  | [sink] ADCS     overall=BLUE   cosmos=GREEN  points=9
+bridge-1          | ADCS     BLUE   ATTITUDE_ERROR=1.335 CCSDS_LENGTH=14 CCSDS_SECONDS=1.79372e+09 CCSDS_SEQUENCE=26
+telemetry-sink-1  | [sink] EPS      overall=BLUE   cosmos=GREEN  points=9
+bridge-1          | EPS      BLUE   BATT_CURRENT=-0.16 BATT_SOC=91.35 BATT_TEMP=20.82 BATT_VOLTAGE=15.3925
+telemetry-sink-1  | [sink] THERMAL  overall=YELLOW cosmos=YELLOW points=9
+bridge-1          | THERMAL  YELLOW BUS_TEMP=9.73 CCSDS_LENGTH=14 CCSDS_SECONDS=1.79372e+09 CCSDS_SEQUENCE=26
+bridge-1          |   !! limits violation on THERMAL: ['DROID_SIM__THERMAL__RW_TEMP=YELLOW_HIGH']
+telemetry-sink-1  | [sink] ADCS     overall=BLUE   cosmos=GREEN  points=9
+bridge-1          | ADCS     BLUE   ATTITUDE_ERROR=1.329 CCSDS_LENGTH=14 CCSDS_SECONDS=1.79372e+09 CCSDS_SEQUENCE=27
+telemetry-sink-1  | [sink] EPS      overall=BLUE   cosmos=GREEN  points=9
+bridge-1          | EPS      BLUE   BATT_CURRENT=-0.15 BATT_SOC=91.35 BATT_TEMP=20.85 BATT_VOLTAGE=15.395
+telemetry-sink-1  | [sink] THERMAL  overall=YELLOW cosmos=YELLOW points=9
+bridge-1          | THERMAL  YELLOW BUS_TEMP=9.76 CCSDS_LENGTH=14 CCSDS_SECONDS=1.79372e+09 CCSDS_SEQUENCE=27
+bridge-1          |   !! limits violation on THERMAL: ['DROID_SIM__THERMAL__RW_TEMP=YELLOW_HIGH']
+telemetry-sink-1  | [sink] ADCS     overall=BLUE   cosmos=GREEN  points=9
+bridge-1          | ADCS     BLUE   ATTITUDE_ERROR=1.322 CCSDS_LENGTH=14 CCSDS_SECONDS=1.79372e+09 CCSDS_SEQUENCE=28
+telemetry-sink-1  | [sink] EPS      overall=BLUE   cosmos=GREEN  points=9
+bridge-1          | EPS      BLUE   BATT_CURRENT=-0.15 BATT_SOC=91.34 BATT_TEMP=20.88 BATT_VOLTAGE=15.4
+telemetry-sink-1  | [sink] THERMAL  overall=YELLOW cosmos=YELLOW points=9
+bridge-1          | THERMAL  YELLOW BUS_TEMP=9.79 CCSDS_LENGTH=14 CCSDS_SECONDS=1.79372e+09 CCSDS_SEQUENCE=28
+bridge-1          |   !! limits violation on THERMAL: ['DROID_SIM__THERMAL__RW_TEMP=YELLOW_HIGH']
+telemetry-sink-1  | [sink] ADCS     overall=BLUE   cosmos=GREEN  points=9
+bridge-1          | ADCS     BLUE   ATTITUDE_ERROR=1.311 CCSDS_LENGTH=14 CCSDS_SECONDS=1.79372e+09 CCSDS_SEQUENCE=29
+telemetry-sink-1  | [sink] EPS      overall=BLUE   cosmos=GREEN  points=9
+bridge-1          | EPS      BLUE   BATT_CURRENT=-0.15 BATT_SOC=91.34 BATT_TEMP=20.9 BATT_VOLTAGE=15.4025
+telemetry-sink-1  | [sink] THERMAL  overall=YELLOW cosmos=YELLOW points=9
+bridge-1          | THERMAL  YELLOW BUS_TEMP=9.81 CCSDS_LENGTH=14 CCSDS_SECONDS=1.79372e+09 CCSDS_SEQUENCE=29
+bridge-1          |   !! limits violation on THERMAL: ['DROID_SIM__THERMAL__RW_TEMP=YELLOW_HIGH']
+telemetry-sink-1  | [sink] ADCS     overall=BLUE   cosmos=GREEN  points=9
+bridge-1          | ADCS     BLUE   ATTITUDE_ERROR=1.3 CCSDS_LENGTH=14 CCSDS_SECONDS=1.79372e+09 CCSDS_SEQUENCE=30
+telemetry-sink-1  | [sink] EPS      overall=BLUE   cosmos=GREEN  points=9
+bridge-1          | EPS      BLUE   BATT_CURRENT=-0.15 BATT_SOC=91.33 BATT_TEMP=20.93 BATT_VOLTAGE=15.4075
+telemetry-sink-1  | [sink] THERMAL  overall=YELLOW cosmos=YELLOW points=9
+bridge-1          | THERMAL  YELLOW BUS_TEMP=9.84 CCSDS_LENGTH=14 CCSDS_SECONDS=1.79372e+09 CCSDS_SEQUENCE=30
+bridge-1          |   !! limits violation on THERMAL: ['DROID_SIM__THERMAL__RW_TEMP=YELLOW_HIGH']
+telemetry-sink-1  | [sink] ADCS     overall=BLUE   cosmos=GREEN  points=9
+bridge-1          | ADCS     BLUE   ATTITUDE_ERROR=1.286 CCSDS_LENGTH=14 CCSDS_SECONDS=1.79372e+09 CCSDS_SEQUENCE=31
+telemetry-sink-1  | [sink] EPS      overall=BLUE   cosmos=GREEN  points=9
+bridge-1          | EPS      BLUE   BATT_CURRENT=-0.15 BATT_SOC=91.32 BATT_TEMP=20.96 BATT_VOLTAGE=15.41
+telemetry-sink-1  | [sink] THERMAL  overall=YELLOW cosmos=YELLOW points=9
+bridge-1          | THERMAL  YELLOW BUS_TEMP=9.87 CCSDS_LENGTH=14 CCSDS_SECONDS=1.79372e+09 CCSDS_SEQUENCE=31
+bridge-1          |   !! limits violation on THERMAL: ['DROID_SIM__THERMAL__RW_TEMP=YELLOW_HIGH']
+telemetry-sink-1  | [sink] ADCS     overall=BLUE   cosmos=GREEN  points=9
+bridge-1          | ADCS     BLUE   ATTITUDE_ERROR=1.265 CCSDS_LENGTH=14 CCSDS_SECONDS=1.79372e+09 CCSDS_SEQUENCE=32
+telemetry-sink-1  | [sink] EPS      overall=BLUE   cosmos=GREEN  points=9
+bridge-1          | EPS      BLUE   BATT_CURRENT=-0.15 BATT_SOC=91.32 BATT_TEMP=20.98 BATT_VOLTAGE=15.4125
+telemetry-sink-1  | [sink] THERMAL  overall=YELLOW cosmos=YELLOW points=9
+bridge-1          | THERMAL  YELLOW BUS_TEMP=9.89 CCSDS_LENGTH=14 CCSDS_SECONDS=1.79372e+09 CCSDS_SEQUENCE=32
+bridge-1          |   !! limits violation on THERMAL: ['DROID_SIM__THERMAL__RW_TEMP=YELLOW_HIGH']
+telemetry-sink-1  | [sink] ADCS     overall=BLUE   cosmos=GREEN  points=9
+bridge-1          | ADCS     BLUE   ATTITUDE_ERROR=1.237 CCSDS_LENGTH=14 CCSDS_SECONDS=1.79372e+09 CCSDS_SEQUENCE=33
+telemetry-sink-1  | [sink] EPS      overall=BLUE   cosmos=GREEN  points=9
+bridge-1          | EPS      BLUE   BATT_CURRENT=-0.15 BATT_SOC=91.31 BATT_TEMP=21.01 BATT_VOLTAGE=15.415
+telemetry-sink-1  | [sink] THERMAL  overall=YELLOW cosmos=YELLOW points=9
+bridge-1          | THERMAL  YELLOW BUS_TEMP=9.92 CCSDS_LENGTH=14 CCSDS_SECONDS=1.79372e+09 CCSDS_SEQUENCE=33
+bridge-1          |   !! limits violation on THERMAL: ['DROID_SIM__THERMAL__RW_TEMP=YELLOW_HIGH']
+telemetry-sink-1  | [sink] ADCS     overall=BLUE   cosmos=GREEN  points=9
+bridge-1          | ADCS     BLUE   ATTITUDE_ERROR=1.214 CCSDS_LENGTH=14 CCSDS_SECONDS=1.79372e+09 CCSDS_SEQUENCE=34
+telemetry-sink-1  | [sink] EPS      overall=BLUE   cosmos=GREEN  points=9
+bridge-1          | EPS      BLUE   BATT_CURRENT=-0.15 BATT_SOC=91.3 BATT_TEMP=21.03 BATT_VOLTAGE=15.4175
+telemetry-sink-1  | [sink] THERMAL  overall=YELLOW cosmos=YELLOW points=9
+bridge-1          | THERMAL  YELLOW BUS_TEMP=9.95 CCSDS_LENGTH=14 CCSDS_SECONDS=1.79372e+09 CCSDS_SEQUENCE=34
+bridge-1          |   !! limits violation on THERMAL: ['DROID_SIM__THERMAL__RW_TEMP=YELLOW_HIGH']
+telemetry-sink-1  | [sink] ADCS     overall=BLUE   cosmos=GREEN  points=9
+bridge-1          | ADCS     BLUE   ATTITUDE_ERROR=1.19 CCSDS_LENGTH=14 CCSDS_SECONDS=1.79372e+09 CCSDS_SEQUENCE=35
+telemetry-sink-1  | [sink] EPS      overall=BLUE   cosmos=GREEN  points=9
+bridge-1          | EPS      BLUE   BATT_CURRENT=-0.15 BATT_SOC=91.3 BATT_TEMP=21.06 BATT_VOLTAGE=15.42
+telemetry-sink-1  | [sink] THERMAL  overall=YELLOW cosmos=YELLOW points=9
+bridge-1          | THERMAL  YELLOW BUS_TEMP=9.97 CCSDS_LENGTH=14 CCSDS_SECONDS=1.79372e+09 CCSDS_SEQUENCE=35
+bridge-1          |   !! limits violation on THERMAL: ['DROID_SIM__THERMAL__RW_TEMP=YELLOW_HIGH']
+telemetry-sink-1  | [sink] ADCS     overall=BLUE   cosmos=GREEN  points=9
+bridge-1          | ADCS     BLUE   ATTITUDE_ERROR=1.159 CCSDS_LENGTH=14 CCSDS_SECONDS=1.79372e+09 CCSDS_SEQUENCE=36
+telemetry-sink-1  | [sink] EPS      overall=BLUE   cosmos=GREEN  points=9
+bridge-1          | EPS      BLUE   BATT_CURRENT=-0.15 BATT_SOC=91.29 BATT_TEMP=21.08 BATT_VOLTAGE=15.4225
+telemetry-sink-1  | [sink] THERMAL  overall=YELLOW cosmos=YELLOW points=9
+bridge-1          | THERMAL  YELLOW BUS_TEMP=10 CCSDS_LENGTH=14 CCSDS_SECONDS=1.79372e+09 CCSDS_SEQUENCE=36
+bridge-1          |   !! limits violation on THERMAL: ['DROID_SIM__THERMAL__RW_TEMP=YELLOW_HIGH']
+telemetry-sink-1  | [sink] ADCS     overall=BLUE   cosmos=GREEN  points=9
+bridge-1          | ADCS     BLUE   ATTITUDE_ERROR=1.13 CCSDS_LENGTH=14 CCSDS_SECONDS=1.79372e+09 CCSDS_SEQUENCE=37
+telemetry-sink-1  | [sink] EPS      overall=BLUE   cosmos=GREEN  points=9
+bridge-1          | EPS      BLUE   BATT_CURRENT=-0.15 BATT_SOC=91.29 BATT_TEMP=21.11 BATT_VOLTAGE=15.4225
+telemetry-sink-1  | [sink] THERMAL  overall=YELLOW cosmos=YELLOW points=9
+bridge-1          | THERMAL  YELLOW BUS_TEMP=10.02 CCSDS_LENGTH=14 CCSDS_SECONDS=1.79372e+09 CCSDS_SEQUENCE=37
+bridge-1          |   !! limits violation on THERMAL: ['DROID_SIM__THERMAL__RW_TEMP=YELLOW_HIGH']
+telemetry-sink-1  | [sink] ADCS     overall=BLUE   cosmos=GREEN  points=9
+bridge-1          | ADCS     BLUE   ATTITUDE_ERROR=1.096 CCSDS_LENGTH=14 CCSDS_SECONDS=1.79372e+09 CCSDS_SEQUENCE=38
+telemetry-sink-1  | [sink] EPS      overall=BLUE   cosmos=GREEN  points=9
+bridge-1          | EPS      BLUE   BATT_CURRENT=-0.16 BATT_SOC=91.28 BATT_TEMP=21.13 BATT_VOLTAGE=15.425
+telemetry-sink-1  | [sink] THERMAL  overall=YELLOW cosmos=YELLOW points=9
+bridge-1          | THERMAL  YELLOW BUS_TEMP=10.05 CCSDS_LENGTH=14 CCSDS_SECONDS=1.79372e+09 CCSDS_SEQUENCE=38
+bridge-1          |   !! limits violation on THERMAL: ['DROID_SIM__THERMAL__RW_TEMP=YELLOW_HIGH']
+telemetry-sink-1  | [sink] ADCS     overall=BLUE   cosmos=GREEN  points=9
+bridge-1          | ADCS     BLUE   ATTITUDE_ERROR=1.059 CCSDS_LENGTH=14 CCSDS_SECONDS=1.79372e+09 CCSDS_SEQUENCE=39
+telemetry-sink-1  | [sink] EPS      overall=BLUE   cosmos=GREEN  points=9
+bridge-1          | EPS      BLUE   BATT_CURRENT=-0.16 BATT_SOC=91.28 BATT_TEMP=21.15 BATT_VOLTAGE=15.4275
+telemetry-sink-1  | [sink] THERMAL  overall=YELLOW cosmos=YELLOW points=9
+bridge-1          | THERMAL  YELLOW BUS_TEMP=10.07 CCSDS_LENGTH=14 CCSDS_SECONDS=1.79372e+09 CCSDS_SEQUENCE=39
+bridge-1          |   !! limits violation on THERMAL: ['DROID_SIM__THERMAL__RW_TEMP=YELLOW_HIGH']
+telemetry-sink-1  | [sink] ADCS     overall=BLUE   cosmos=GREEN  points=9
+bridge-1          | ADCS     BLUE   ATTITUDE_ERROR=1.019 CCSDS_LENGTH=14 CCSDS_SECONDS=1.79372e+09 CCSDS_SEQUENCE=40
+telemetry-sink-1  | [sink] EPS      overall=BLUE   cosmos=GREEN  points=9
+bridge-1          | EPS      BLUE   BATT_CURRENT=-0.16 BATT_SOC=91.27 BATT_TEMP=21.17 BATT_VOLTAGE=15.4275
+telemetry-sink-1  | [sink] THERMAL  overall=YELLOW cosmos=YELLOW points=9
+bridge-1          | THERMAL  YELLOW BUS_TEMP=10.1 CCSDS_LENGTH=14 CCSDS_SECONDS=1.79372e+09 CCSDS_SEQUENCE=40
+bridge-1          |   !! limits violation on THERMAL: ['DROID_SIM__THERMAL__RW_TEMP=YELLOW_HIGH']
+telemetry-sink-1  | [sink] ADCS     overall=BLUE   cosmos=GREEN  points=9
+bridge-1          | ADCS     BLUE   ATTITUDE_ERROR=0.98 CCSDS_LENGTH=14 CCSDS_SECONDS=1.79372e+09 CCSDS_SEQUENCE=41
+telemetry-sink-1  | [sink] EPS      overall=BLUE   cosmos=GREEN  points=9
+bridge-1          | EPS      BLUE   BATT_CURRENT=-0.17 BATT_SOC=91.26 BATT_TEMP=21.19 BATT_VOLTAGE=15.4275
+telemetry-sink-1  | [sink] THERMAL  overall=YELLOW cosmos=YELLOW points=9
+bridge-1          | THERMAL  YELLOW BUS_TEMP=10.12 CCSDS_LENGTH=14 CCSDS_SECONDS=1.79372e+09 CCSDS_SEQUENCE=41
+bridge-1          |   !! limits violation on THERMAL: ['DROID_SIM__THERMAL__RW_TEMP=YELLOW_HIGH']
+telemetry-sink-1  | [sink] ADCS     overall=BLUE   cosmos=GREEN  points=9
+bridge-1          | ADCS     BLUE   ATTITUDE_ERROR=0.94 CCSDS_LENGTH=14 CCSDS_SECONDS=1.79372e+09 CCSDS_SEQUENCE=42
+telemetry-sink-1  | [sink] EPS      overall=BLUE   cosmos=GREEN  points=9
+bridge-1          | EPS      BLUE   BATT_CURRENT=-0.17 BATT_SOC=91.26 BATT_TEMP=21.21 BATT_VOLTAGE=15.43
+telemetry-sink-1  | [sink] THERMAL  overall=YELLOW cosmos=YELLOW points=9
+bridge-1          | THERMAL  YELLOW BUS_TEMP=10.15 CCSDS_LENGTH=14 CCSDS_SECONDS=1.79372e+09 CCSDS_SEQUENCE=42
+bridge-1          |   !! limits violation on THERMAL: ['DROID_SIM__THERMAL__RW_TEMP=YELLOW_HIGH']
+telemetry-sink-1  | [sink] ADCS     overall=BLUE   cosmos=GREEN  points=9
+bridge-1          | ADCS     BLUE   ATTITUDE_ERROR=0.908 CCSDS_LENGTH=14 CCSDS_SECONDS=1.79372e+09 CCSDS_SEQUENCE=43
+telemetry-sink-1  | [sink] EPS      overall=BLUE   cosmos=GREEN  points=9
+bridge-1          | EPS      BLUE   BATT_CURRENT=-0.17 BATT_SOC=91.25 BATT_TEMP=21.23 BATT_VOLTAGE=15.43
+telemetry-sink-1  | [sink] THERMAL  overall=YELLOW cosmos=YELLOW points=9
+bridge-1          | THERMAL  YELLOW BUS_TEMP=10.17 CCSDS_LENGTH=14 CCSDS_SECONDS=1.79372e+09 CCSDS_SEQUENCE=43
+bridge-1          |   !! limits violation on THERMAL: ['DROID_SIM__THERMAL__RW_TEMP=YELLOW_HIGH']
+telemetry-sink-1  | [sink] ADCS     overall=BLUE   cosmos=GREEN  points=9
+bridge-1          | ADCS     BLUE   ATTITUDE_ERROR=0.871 CCSDS_LENGTH=14 CCSDS_SECONDS=1.79372e+09 CCSDS_SEQUENCE=44
+telemetry-sink-1  | [sink] EPS      overall=BLUE   cosmos=GREEN  points=9
+bridge-1          | EPS      BLUE   BATT_CURRENT=-0.18 BATT_SOC=91.24 BATT_TEMP=21.25 BATT_VOLTAGE=15.43
+telemetry-sink-1  | [sink] THERMAL  overall=YELLOW cosmos=YELLOW points=9
+bridge-1          | THERMAL  YELLOW BUS_TEMP=10.19 CCSDS_LENGTH=14 CCSDS_SECONDS=1.79372e+09 CCSDS_SEQUENCE=44
+bridge-1          |   !! limits violation on THERMAL: ['DROID_SIM__THERMAL__RW_TEMP=YELLOW_HIGH']
+telemetry-sink-1  | [sink] ADCS     overall=BLUE   cosmos=GREEN  points=9
+bridge-1          | ADCS     BLUE   ATTITUDE_ERROR=0.836 CCSDS_LENGTH=14 CCSDS_SECONDS=1.79372e+09 CCSDS_SEQUENCE=45
+telemetry-sink-1  | [sink] EPS      overall=BLUE   cosmos=GREEN  points=9
+bridge-1          | EPS      BLUE   BATT_CURRENT=-0.18 BATT_SOC=91.24 BATT_TEMP=21.27 BATT_VOLTAGE=15.43
+telemetry-sink-1  | [sink] THERMAL  overall=YELLOW cosmos=YELLOW points=9
+bridge-1          | THERMAL  YELLOW BUS_TEMP=10.22 CCSDS_LENGTH=14 CCSDS_SECONDS=1.79372e+09 CCSDS_SEQUENCE=45
+bridge-1          |   !! limits violation on THERMAL: ['DROID_SIM__THERMAL__RW_TEMP=YELLOW_HIGH']
+telemetry-sink-1  | [sink] ADCS     overall=BLUE   cosmos=GREEN  points=9
+bridge-1          | ADCS     BLUE   ATTITUDE_ERROR=0.803 CCSDS_LENGTH=14 CCSDS_SECONDS=1.79372e+09 CCSDS_SEQUENCE=46
+telemetry-sink-1  | [sink] EPS      overall=BLUE   cosmos=GREEN  points=9
+bridge-1          | EPS      BLUE   BATT_CURRENT=-0.19 BATT_SOC=91.23 BATT_TEMP=21.29 BATT_VOLTAGE=15.43
+telemetry-sink-1  | [sink] THERMAL  overall=YELLOW cosmos=YELLOW points=9
+bridge-1          | THERMAL  YELLOW BUS_TEMP=10.24 CCSDS_LENGTH=14 CCSDS_SECONDS=1.79372e+09 CCSDS_SEQUENCE=46
+bridge-1          |   !! limits violation on THERMAL: ['DROID_SIM__THERMAL__RW_TEMP=YELLOW_HIGH']
+telemetry-sink-1  | [sink] ADCS     overall=BLUE   cosmos=GREEN  points=9
+bridge-1          | ADCS     BLUE   ATTITUDE_ERROR=0.769 CCSDS_LENGTH=14 CCSDS_SECONDS=1.79372e+09 CCSDS_SEQUENCE=47
+telemetry-sink-1  | [sink] EPS      overall=BLUE   cosmos=GREEN  points=9
+bridge-1          | EPS      BLUE   BATT_CURRENT=-0.19 BATT_SOC=91.23 BATT_TEMP=21.31 BATT_VOLTAGE=15.43
+telemetry-sink-1  | [sink] THERMAL  overall=YELLOW cosmos=YELLOW points=9
+bridge-1          | THERMAL  YELLOW BUS_TEMP=10.26 CCSDS_LENGTH=14 CCSDS_SECONDS=1.79372e+09 CCSDS_SEQUENCE=47
+bridge-1          |   !! limits violation on THERMAL: ['DROID_SIM__THERMAL__RW_TEMP=YELLOW_HIGH']
+telemetry-sink-1  | [sink] ADCS     overall=BLUE   cosmos=GREEN  points=9
+bridge-1          | ADCS     BLUE   ATTITUDE_ERROR=0.735 CCSDS_LENGTH=14 CCSDS_SECONDS=1.79372e+09 CCSDS_SEQUENCE=48
+telemetry-sink-1  | [sink] EPS      overall=BLUE   cosmos=GREEN  points=9
+bridge-1          | EPS      BLUE   BATT_CURRENT=-0.2 BATT_SOC=91.22 BATT_TEMP=21.32 BATT_VOLTAGE=15.4275
+bridge-1          | THERMAL  YELLOW BUS_TEMP=10.29 CCSDS_LENGTH=14 CCSDS_SECONDS=1.79372e+09 CCSDS_SEQUENCE=48
+bridge-1          |   !! limits violation on THERMAL: ['DROID_SIM__THERMAL__RW_TEMP=YELLOW_HIGH']
+telemetry-sink-1  | [sink] THERMAL  overall=YELLOW cosmos=YELLOW points=9
+telemetry-sink-1  | [sink] ADCS     overall=BLUE   cosmos=GREEN  points=9
+bridge-1          | ADCS     BLUE   ATTITUDE_ERROR=0.696 CCSDS_LENGTH=14 CCSDS_SECONDS=1.79372e+09 CCSDS_SEQUENCE=49
+telemetry-sink-1  | [sink] EPS      overall=BLUE   cosmos=GREEN  points=9
+bridge-1          | EPS      BLUE   BATT_CURRENT=-0.2 BATT_SOC=91.22 BATT_TEMP=21.34 BATT_VOLTAGE=15.4275
+telemetry-sink-1  | [sink] THERMAL  overall=YELLOW cosmos=YELLOW points=9
+bridge-1          | THERMAL  YELLOW BUS_TEMP=10.31 CCSDS_LENGTH=14 CCSDS_SECONDS=1.79372e+09 CCSDS_SEQUENCE=49
+bridge-1          |   !! limits violation on THERMAL: ['DROID_SIM__THERMAL__RW_TEMP=YELLOW_HIGH']
+telemetry-sink-1  | [sink] ADCS     overall=BLUE   cosmos=GREEN  points=9
+bridge-1          | ADCS     BLUE   ATTITUDE_ERROR=0.665 CCSDS_LENGTH=14 CCSDS_SECONDS=1.79372e+09 CCSDS_SEQUENCE=50
+telemetry-sink-1  | [sink] EPS      overall=BLUE   cosmos=GREEN  points=9
+bridge-1          | EPS      BLUE   BATT_CURRENT=-0.21 BATT_SOC=91.21 BATT_TEMP=21.35 BATT_VOLTAGE=15.4275
+telemetry-sink-1  | [sink] THERMAL  overall=YELLOW cosmos=YELLOW points=9
+bridge-1          | THERMAL  YELLOW BUS_TEMP=10.33 CCSDS_LENGTH=14 CCSDS_SECONDS=1.79372e+09 CCSDS_SEQUENCE=50
+bridge-1          |   !! limits violation on THERMAL: ['DROID_SIM__THERMAL__RW_TEMP=YELLOW_HIGH']
+telemetry-sink-1  | [sink] ADCS     overall=BLUE   cosmos=GREEN  points=9
+bridge-1          | ADCS     BLUE   ATTITUDE_ERROR=0.636 CCSDS_LENGTH=14 CCSDS_SECONDS=1.79372e+09 CCSDS_SEQUENCE=51
+telemetry-sink-1  | [sink] EPS      overall=BLUE   cosmos=GREEN  points=9
+bridge-1          | EPS      BLUE   BATT_CURRENT=-0.21 BATT_SOC=91.2 BATT_TEMP=21.37 BATT_VOLTAGE=15.425
+telemetry-sink-1  | [sink] THERMAL  overall=YELLOW cosmos=YELLOW points=9
+bridge-1          | THERMAL  YELLOW BUS_TEMP=10.37 CCSDS_LENGTH=14 CCSDS_SECONDS=1.79372e+09 CCSDS_SEQUENCE=52
+bridge-1          |   !! limits violation on THERMAL: ['DROID_SIM__THERMAL__RW_TEMP=YELLOW_HIGH']
+telemetry-sink-1  | [sink] ADCS     overall=BLUE   cosmos=GREEN  points=9
+bridge-1          | ADCS     BLUE   ATTITUDE_ERROR=0.579 CCSDS_LENGTH=14 CCSDS_SECONDS=1.79372e+09 CCSDS_SEQUENCE=53
+telemetry-sink-1  | [sink] EPS      overall=BLUE   cosmos=GREEN  points=9
+bridge-1          | EPS      BLUE   BATT_CURRENT=-0.23 BATT_SOC=91.19 BATT_TEMP=21.39 BATT_VOLTAGE=15.4225
+telemetry-sink-1  | [sink] THERMAL  overall=YELLOW cosmos=YELLOW points=9
+bridge-1          | THERMAL  YELLOW BUS_TEMP=10.4 CCSDS_LENGTH=14 CCSDS_SECONDS=1.79372e+09 CCSDS_SEQUENCE=53
+bridge-1          |   !! limits violation on THERMAL: ['DROID_SIM__THERMAL__RW_TEMP=YELLOW_HIGH']
+telemetry-sink-1  | [sink] ADCS     overall=BLUE   cosmos=GREEN  points=9
+bridge-1          | ADCS     BLUE   ATTITUDE_ERROR=0.556 CCSDS_LENGTH=14 CCSDS_SECONDS=1.79372e+09 CCSDS_SEQUENCE=54
+bridge-1          | EPS      BLUE   BATT_CURRENT=-0.23 BATT_SOC=91.18 BATT_TEMP=21.41 BATT_VOLTAGE=15.42
+telemetry-sink-1  | [sink] EPS      overall=BLUE   cosmos=GREEN  points=9
+telemetry-sink-1  | [sink] THERMAL  overall=YELLOW cosmos=YELLOW points=9
+bridge-1          | THERMAL  YELLOW BUS_TEMP=10.42 CCSDS_LENGTH=14 CCSDS_SECONDS=1.79372e+09 CCSDS_SEQUENCE=54
+bridge-1          |   !! limits violation on THERMAL: ['DROID_SIM__THERMAL__RW_TEMP=YELLOW_HIGH']
+telemetry-sink-1  | [sink] ADCS     overall=BLUE   cosmos=GREEN  points=9
+bridge-1          | ADCS     BLUE   ATTITUDE_ERROR=0.532 CCSDS_LENGTH=14 CCSDS_SECONDS=1.79372e+09 CCSDS_SEQUENCE=55
+telemetry-sink-1  | [sink] EPS      overall=BLUE   cosmos=GREEN  points=9
+bridge-1          | EPS      BLUE   BATT_CURRENT=-0.24 BATT_SOC=91.18 BATT_TEMP=21.42 BATT_VOLTAGE=15.4175
+telemetry-sink-1  | [sink] THERMAL  overall=YELLOW cosmos=YELLOW points=9
+bridge-1          | THERMAL  YELLOW BUS_TEMP=10.44 CCSDS_LENGTH=14 CCSDS_SECONDS=1.79372e+09 CCSDS_SEQUENCE=55
+bridge-1          |   !! limits violation on THERMAL: ['DROID_SIM__THERMAL__RW_TEMP=YELLOW_HIGH']
+telemetry-sink-1  | [sink] ADCS     overall=BLUE   cosmos=GREEN  points=9
+bridge-1          | ADCS     BLUE   ATTITUDE_ERROR=0.515 CCSDS_LENGTH=14 CCSDS_SECONDS=1.79372e+09 CCSDS_SEQUENCE=56
+telemetry-sink-1  | [sink] EPS      overall=BLUE   cosmos=GREEN  points=9
+bridge-1          | EPS      BLUE   BATT_CURRENT=-0.25 BATT_SOC=91.17 BATT_TEMP=21.43 BATT_VOLTAGE=15.415
+telemetry-sink-1  | [sink] THERMAL  overall=YELLOW cosmos=YELLOW points=9
+bridge-1          | THERMAL  YELLOW BUS_TEMP=10.46 CCSDS_LENGTH=14 CCSDS_SECONDS=1.79372e+09 CCSDS_SEQUENCE=56
+bridge-1          |   !! limits violation on THERMAL: ['DROID_SIM__THERMAL__RW_TEMP=YELLOW_HIGH']
+telemetry-sink-1  | [sink] ADCS     overall=BLUE   cosmos=GREEN  points=9
+bridge-1          | ADCS     BLUE   ATTITUDE_ERROR=0.497 CCSDS_LENGTH=14 CCSDS_SECONDS=1.79372e+09 CCSDS_SEQUENCE=57
+telemetry-sink-1  | [sink] EPS      overall=BLUE   cosmos=GREEN  points=9
+bridge-1          | EPS      BLUE   BATT_CURRENT=-0.25 BATT_SOC=91.17 BATT_TEMP=21.44 BATT_VOLTAGE=15.4125
+telemetry-sink-1  | [sink] THERMAL  overall=YELLOW cosmos=YELLOW points=9
+bridge-1          | THERMAL  YELLOW BUS_TEMP=10.48 CCSDS_LENGTH=14 CCSDS_SECONDS=1.79372e+09 CCSDS_SEQUENCE=57
+bridge-1          |   !! limits violation on THERMAL: ['DROID_SIM__THERMAL__RW_TEMP=YELLOW_HIGH']
+telemetry-sink-1  | [sink] ADCS     overall=BLUE   cosmos=GREEN  points=9
+bridge-1          | ADCS     BLUE   ATTITUDE_ERROR=0.482 CCSDS_LENGTH=14 CCSDS_SECONDS=1.79372e+09 CCSDS_SEQUENCE=58
+telemetry-sink-1  | [sink] EPS      overall=BLUE   cosmos=GREEN  points=9
+bridge-1          | EPS      BLUE   BATT_CURRENT=-0.26 BATT_SOC=91.16 BATT_TEMP=21.45 BATT_VOLTAGE=15.41
+telemetry-sink-1  | [sink] THERMAL  overall=YELLOW cosmos=YELLOW points=9
+bridge-1          | THERMAL  YELLOW BUS_TEMP=10.5 CCSDS_LENGTH=14 CCSDS_SECONDS=1.79372e+09 CCSDS_SEQUENCE=58
+bridge-1          |   !! limits violation on THERMAL: ['DROID_SIM__THERMAL__RW_TEMP=YELLOW_HIGH']
+telemetry-sink-1  | [sink] ADCS     overall=BLUE   cosmos=GREEN  points=9
+bridge-1          | ADCS     BLUE   ATTITUDE_ERROR=0.468 CCSDS_LENGTH=14 CCSDS_SECONDS=1.79372e+09 CCSDS_SEQUENCE=59
+telemetry-sink-1  | [sink] EPS      overall=BLUE   cosmos=GREEN  points=9
+bridge-1          | EPS      BLUE   BATT_CURRENT=-0.27 BATT_SOC=91.16 BATT_TEMP=21.46 BATT_VOLTAGE=15.4075
+telemetry-sink-1  | [sink] THERMAL  overall=YELLOW cosmos=YELLOW points=9
+bridge-1          | THERMAL  YELLOW BUS_TEMP=10.52 CCSDS_LENGTH=14 CCSDS_SECONDS=1.79372e+09 CCSDS_SEQUENCE=59
+bridge-1          |   !! limits violation on THERMAL: ['DROID_SIM__THERMAL__RW_TEMP=YELLOW_HIGH']
+telemetry-sink-1  | [sink] ADCS     overall=BLUE   cosmos=GREEN  points=9
+bridge-1          | ADCS     BLUE   ATTITUDE_ERROR=0.461 CCSDS_LENGTH=14 CCSDS_SECONDS=1.79372e+09 CCSDS_SEQUENCE=60
+telemetry-sink-1  | [sink] EPS      overall=BLUE   cosmos=GREEN  points=9
+bridge-1          | EPS      BLUE   BATT_CURRENT=-0.28 BATT_SOC=91.15 BATT_TEMP=21.46 BATT_VOLTAGE=15.4025
+telemetry-sink-1  | [sink] THERMAL  overall=YELLOW cosmos=YELLOW points=9
+bridge-1          | THERMAL  YELLOW BUS_TEMP=10.54 CCSDS_LENGTH=14 CCSDS_SECONDS=1.79372e+09 CCSDS_SEQUENCE=60
+bridge-1          |   !! limits violation on THERMAL: ['DROID_SIM__THERMAL__RW_TEMP=YELLOW_HIGH']
+telemetry-sink-1  | [sink] ADCS     overall=BLUE   cosmos=GREEN  points=9
+bridge-1          | ADCS     BLUE   ATTITUDE_ERROR=0.454 CCSDS_LENGTH=14 CCSDS_SECONDS=1.79372e+09 CCSDS_SEQUENCE=61
+telemetry-sink-1  | [sink] EPS      overall=BLUE   cosmos=GREEN  points=9
+bridge-1          | EPS      BLUE   BATT_CURRENT=-0.28 BATT_SOC=91.14 BATT_TEMP=21.47 BATT_VOLTAGE=15.4
+telemetry-sink-1  | [sink] THERMAL  overall=YELLOW cosmos=YELLOW points=9
+bridge-1          | THERMAL  YELLOW BUS_TEMP=10.55 CCSDS_LENGTH=14 CCSDS_SECONDS=1.79372e+09 CCSDS_SEQUENCE=61
+bridge-1          |   !! limits violation on THERMAL: ['DROID_SIM__THERMAL__RW_TEMP=YELLOW_HIGH']
+telemetry-sink-1  | [sink] ADCS     overall=BLUE   cosmos=GREEN  points=9
+bridge-1          | ADCS     BLUE   ATTITUDE_ERROR=0.453 CCSDS_LENGTH=14 CCSDS_SECONDS=1.79372e+09 CCSDS_SEQUENCE=62
+telemetry-sink-1  | [sink] EPS      overall=BLUE   cosmos=GREEN  points=9
+bridge-1          | EPS      BLUE   BATT_CURRENT=-0.29 BATT_SOC=91.14 BATT_TEMP=21.48 BATT_VOLTAGE=15.395
+telemetry-sink-1  | [sink] THERMAL  overall=YELLOW cosmos=YELLOW points=9
+bridge-1          | THERMAL  YELLOW BUS_TEMP=10.57 CCSDS_LENGTH=14 CCSDS_SECONDS=1.79372e+09 CCSDS_SEQUENCE=62
+bridge-1          |   !! limits violation on THERMAL: ['DROID_SIM__THERMAL__RW_TEMP=YELLOW_HIGH']
+telemetry-sink-1  | [sink] ADCS     overall=BLUE   cosmos=GREEN  points=9
+bridge-1          | ADCS     BLUE   ATTITUDE_ERROR=0.458 CCSDS_LENGTH=14 CCSDS_SECONDS=1.79372e+09 CCSDS_SEQUENCE=63
+telemetry-sink-1  | [sink] EPS      overall=BLUE   cosmos=GREEN  points=9
+bridge-1          | EPS      BLUE   BATT_CURRENT=-0.3 BATT_SOC=91.13 BATT_TEMP=21.48 BATT_VOLTAGE=15.3925
+telemetry-sink-1  | [sink] THERMAL  overall=YELLOW cosmos=YELLOW points=9
+bridge-1          | THERMAL  YELLOW BUS_TEMP=10.59 CCSDS_LENGTH=14 CCSDS_SECONDS=1.79372e+09 CCSDS_SEQUENCE=63
+bridge-1          |   !! limits violation on THERMAL: ['DROID_SIM__THERMAL__RW_TEMP=YELLOW_HIGH']
+telemetry-sink-1  | [sink] ADCS     overall=BLUE   cosmos=GREEN  points=9
+bridge-1          | ADCS     BLUE   ATTITUDE_ERROR=0.459 CCSDS_LENGTH=14 CCSDS_SECONDS=1.79372e+09 CCSDS_SEQUENCE=64
+telemetry-sink-1  | [sink] EPS      overall=BLUE   cosmos=GREEN  points=9
+bridge-1          | EPS      BLUE   BATT_CURRENT=-0.31 BATT_SOC=91.12 BATT_TEMP=21.49 BATT_VOLTAGE=15.3875
+telemetry-sink-1  | [sink] THERMAL  overall=YELLOW cosmos=YELLOW points=9
+bridge-1          | THERMAL  YELLOW BUS_TEMP=10.61 CCSDS_LENGTH=14 CCSDS_SECONDS=1.79372e+09 CCSDS_SEQUENCE=64
+bridge-1          |   !! limits violation on THERMAL: ['DROID_SIM__THERMAL__RW_TEMP=YELLOW_HIGH']
+telemetry-sink-1  | [sink] ADCS     overall=BLUE   cosmos=GREEN  points=9
+bridge-1          | ADCS     BLUE   ATTITUDE_ERROR=0.465 CCSDS_LENGTH=14 CCSDS_SECONDS=1.79372e+09 CCSDS_SEQUENCE=65
+telemetry-sink-1  | [sink] EPS      overall=BLUE   cosmos=GREEN  points=9
+bridge-1          | EPS      BLUE   BATT_CURRENT=-0.31 BATT_SOC=91.12 BATT_TEMP=21.49 BATT_VOLTAGE=15.385
+telemetry-sink-1  | [sink] THERMAL  overall=YELLOW cosmos=YELLOW points=9
+bridge-1          | THERMAL  YELLOW BUS_TEMP=10.63 CCSDS_LENGTH=14 CCSDS_SECONDS=1.79372e+09 CCSDS_SEQUENCE=65
+bridge-1          |   !! limits violation on THERMAL: ['DROID_SIM__THERMAL__RW_TEMP=YELLOW_HIGH']
+telemetry-sink-1  | [sink] ADCS     overall=BLUE   cosmos=GREEN  points=9
+bridge-1          | ADCS     BLUE   ATTITUDE_ERROR=0.472 CCSDS_LENGTH=14 CCSDS_SECONDS=1.79372e+09 CCSDS_SEQUENCE=66
+bridge-1          | EPS      BLUE   BATT_CURRENT=-0.32 BATT_SOC=91.11 BATT_TEMP=21.49 BATT_VOLTAGE=15.38
+telemetry-sink-1  | [sink] EPS      overall=BLUE   cosmos=GREEN  points=9
+telemetry-sink-1  | [sink] THERMAL  overall=YELLOW cosmos=YELLOW points=9
+bridge-1          | THERMAL  YELLOW BUS_TEMP=10.64 CCSDS_LENGTH=14 CCSDS_SECONDS=1.79372e+09 CCSDS_SEQUENCE=66
+bridge-1          |   !! limits violation on THERMAL: ['DROID_SIM__THERMAL__RW_TEMP=YELLOW_HIGH']
+telemetry-sink-1  | [sink] ADCS     overall=BLUE   cosmos=GREEN  points=9
+bridge-1          | ADCS     BLUE   ATTITUDE_ERROR=0.489 CCSDS_LENGTH=14 CCSDS_SECONDS=1.79372e+09 CCSDS_SEQUENCE=67
+telemetry-sink-1  | [sink] EPS      overall=BLUE   cosmos=GREEN  points=9
+bridge-1          | EPS      BLUE   BATT_CURRENT=-0.33 BATT_SOC=91.11 BATT_TEMP=21.5 BATT_VOLTAGE=15.375
+telemetry-sink-1  | [sink] THERMAL  overall=YELLOW cosmos=YELLOW points=9
+bridge-1          | THERMAL  YELLOW BUS_TEMP=10.66 CCSDS_LENGTH=14 CCSDS_SECONDS=1.79372e+09 CCSDS_SEQUENCE=67
+bridge-1          |   !! limits violation on THERMAL: ['DROID_SIM__THERMAL__RW_TEMP=YELLOW_HIGH']
+telemetry-sink-1  | [sink] ADCS     overall=BLUE   cosmos=GREEN  points=9
+bridge-1          | ADCS     BLUE   ATTITUDE_ERROR=0.508 CCSDS_LENGTH=14 CCSDS_SECONDS=1.79372e+09 CCSDS_SEQUENCE=68
+telemetry-sink-1  | [sink] EPS      overall=BLUE   cosmos=GREEN  points=9
+bridge-1          | EPS      BLUE   BATT_CURRENT=-0.33 BATT_SOC=91.1 BATT_TEMP=21.5 BATT_VOLTAGE=15.37
+telemetry-sink-1  | [sink] THERMAL  overall=YELLOW cosmos=YELLOW points=9
+bridge-1          | THERMAL  YELLOW BUS_TEMP=10.68 CCSDS_LENGTH=14 CCSDS_SECONDS=1.79372e+09 CCSDS_SEQUENCE=68
+bridge-1          |   !! limits violation on THERMAL: ['DROID_SIM__THERMAL__RW_TEMP=YELLOW_HIGH']
+telemetry-sink-1  | [sink] ADCS     overall=BLUE   cosmos=GREEN  points=9
+bridge-1          | ADCS     BLUE   ATTITUDE_ERROR=0.528 CCSDS_LENGTH=14 CCSDS_SECONDS=1.79372e+09 CCSDS_SEQUENCE=69
+telemetry-sink-1  | [sink] EPS      overall=BLUE   cosmos=GREEN  points=9
+bridge-1          | EPS      BLUE   BATT_CURRENT=-0.34 BATT_SOC=91.1 BATT_TEMP=21.5 BATT_VOLTAGE=15.365
+telemetry-sink-1  | [sink] THERMAL  overall=YELLOW cosmos=YELLOW points=9
+bridge-1          | THERMAL  YELLOW BUS_TEMP=10.69 CCSDS_LENGTH=14 CCSDS_SECONDS=1.79372e+09 CCSDS_SEQUENCE=69
+bridge-1          |   !! limits violation on THERMAL: ['DROID_SIM__THERMAL__RW_TEMP=YELLOW_HIGH']
+telemetry-sink-1  | [sink] ADCS     overall=BLUE   cosmos=GREEN  points=9
+bridge-1          | ADCS     BLUE   ATTITUDE_ERROR=0.553 CCSDS_LENGTH=14 CCSDS_SECONDS=1.79372e+09 CCSDS_SEQUENCE=70
+telemetry-sink-1  | [sink] EPS      overall=BLUE   cosmos=GREEN  points=9
+bridge-1          | EPS      BLUE   BATT_CURRENT=-0.35 BATT_SOC=91.09 BATT_TEMP=21.5 BATT_VOLTAGE=15.36
+telemetry-sink-1  | [sink] THERMAL  overall=YELLOW cosmos=YELLOW points=9
+bridge-1          | THERMAL  YELLOW BUS_TEMP=10.71 CCSDS_LENGTH=14 CCSDS_SECONDS=1.79372e+09 CCSDS_SEQUENCE=70
+bridge-1          |   !! limits violation on THERMAL: ['DROID_SIM__THERMAL__RW_TEMP=YELLOW_HIGH']
+telemetry-sink-1  | [sink] ADCS     overall=BLUE   cosmos=GREEN  points=9
+bridge-1          | ADCS     BLUE   ATTITUDE_ERROR=0.576 CCSDS_LENGTH=14 CCSDS_SECONDS=1.79372e+09 CCSDS_SEQUENCE=71
+telemetry-sink-1  | [sink] EPS      overall=BLUE   cosmos=GREEN  points=9
+bridge-1          | EPS      BLUE   BATT_CURRENT=-0.36 BATT_SOC=91.08 BATT_TEMP=21.5 BATT_VOLTAGE=15.355
+telemetry-sink-1  | [sink] THERMAL  overall=YELLOW cosmos=YELLOW points=9
+bridge-1          | THERMAL  YELLOW BUS_TEMP=10.72 CCSDS_LENGTH=14 CCSDS_SECONDS=1.79372e+09 CCSDS_SEQUENCE=71
+bridge-1          |   !! limits violation on THERMAL: ['DROID_SIM__THERMAL__RW_TEMP=YELLOW_HIGH']
+telemetry-sink-1  | [sink] ADCS     overall=BLUE   cosmos=GREEN  points=9
+bridge-1          | ADCS     BLUE   ATTITUDE_ERROR=0.6 CCSDS_LENGTH=14 CCSDS_SECONDS=1.79372e+09 CCSDS_SEQUENCE=72
+telemetry-sink-1  | [sink] EPS      overall=BLUE   cosmos=GREEN  points=9
+bridge-1          | EPS      BLUE   BATT_CURRENT=-0.36 BATT_SOC=91.08 BATT_TEMP=21.5 BATT_VOLTAGE=15.35
+telemetry-sink-1  | [sink] THERMAL  overall=YELLOW cosmos=YELLOW points=9
+bridge-1          | THERMAL  YELLOW BUS_TEMP=10.74 CCSDS_LENGTH=14 CCSDS_SECONDS=1.79372e+09 CCSDS_SEQUENCE=72
+bridge-1          |   !! limits violation on THERMAL: ['DROID_SIM__THERMAL__RW_TEMP=YELLOW_HIGH']
+telemetry-sink-1  | [sink] ADCS     overall=BLUE   cosmos=GREEN  points=9
+bridge-1          | ADCS     BLUE   ATTITUDE_ERROR=0.632 CCSDS_LENGTH=14 CCSDS_SECONDS=1.79372e+09 CCSDS_SEQUENCE=73
+telemetry-sink-1  | [sink] EPS      overall=BLUE   cosmos=GREEN  points=9
+bridge-1          | EPS      BLUE   BATT_CURRENT=-0.37 BATT_SOC=91.07 BATT_TEMP=21.5 BATT_VOLTAGE=15.345
+telemetry-sink-1  | [sink] THERMAL  overall=YELLOW cosmos=YELLOW points=9
+bridge-1          | THERMAL  YELLOW BUS_TEMP=10.75 CCSDS_LENGTH=14 CCSDS_SECONDS=1.79372e+09 CCSDS_SEQUENCE=73
+bridge-1          |   !! limits violation on THERMAL: ['DROID_SIM__THERMAL__RW_TEMP=YELLOW_HIGH']
+telemetry-sink-1  | [sink] ADCS     overall=BLUE   cosmos=GREEN  points=9
+bridge-1          | ADCS     BLUE   ATTITUDE_ERROR=0.66 CCSDS_LENGTH=14 CCSDS_SECONDS=1.79372e+09 CCSDS_SEQUENCE=74
+telemetry-sink-1  | [sink] EPS      overall=BLUE   cosmos=GREEN  points=9
+bridge-1          | EPS      BLUE   BATT_CURRENT=-0.38 BATT_SOC=91.06 BATT_TEMP=21.49 BATT_VOLTAGE=15.34
+telemetry-sink-1  | [sink] THERMAL  overall=YELLOW cosmos=YELLOW points=9
+bridge-1          | THERMAL  YELLOW BUS_TEMP=10.76 CCSDS_LENGTH=14 CCSDS_SECONDS=1.79372e+09 CCSDS_SEQUENCE=74
+bridge-1          |   !! limits violation on THERMAL: ['DROID_SIM__THERMAL__RW_TEMP=YELLOW_HIGH']
+telemetry-sink-1  | [sink] ADCS     overall=BLUE   cosmos=GREEN  points=9
+bridge-1          | ADCS     BLUE   ATTITUDE_ERROR=0.687 CCSDS_LENGTH=14 CCSDS_SECONDS=1.79372e+09 CCSDS_SEQUENCE=75
+telemetry-sink-1  | [sink] EPS      overall=BLUE   cosmos=GREEN  points=9
+bridge-1          | EPS      BLUE   BATT_CURRENT=-0.38 BATT_SOC=91.06 BATT_TEMP=21.49 BATT_VOLTAGE=15.3325
+telemetry-sink-1  | [sink] THERMAL  overall=YELLOW cosmos=YELLOW points=9
+bridge-1          | THERMAL  YELLOW BUS_TEMP=10.78 CCSDS_LENGTH=14 CCSDS_SECONDS=1.79372e+09 CCSDS_SEQUENCE=75
+bridge-1          |   !! limits violation on THERMAL: ['DROID_SIM__THERMAL__RW_TEMP=YELLOW_HIGH']
+telemetry-sink-1  | [sink] ADCS     overall=BLUE   cosmos=GREEN  points=9
+bridge-1          | ADCS     BLUE   ATTITUDE_ERROR=0.716 CCSDS_LENGTH=14 CCSDS_SECONDS=1.79372e+09 CCSDS_SEQUENCE=76
+telemetry-sink-1  | [sink] EPS      overall=BLUE   cosmos=GREEN  points=9
+bridge-1          | EPS      BLUE   BATT_CURRENT=-0.39 BATT_SOC=91.05 BATT_TEMP=21.48 BATT_VOLTAGE=15.3275
+telemetry-sink-1  | [sink] THERMAL  overall=YELLOW cosmos=YELLOW points=9
+bridge-1          | THERMAL  YELLOW BUS_TEMP=10.79 CCSDS_LENGTH=14 CCSDS_SECONDS=1.79372e+09 CCSDS_SEQUENCE=76
+bridge-1          |   !! limits violation on THERMAL: ['DROID_SIM__THERMAL__RW_TEMP=YELLOW_HIGH']
+telemetry-sink-1  | [sink] ADCS     overall=BLUE   cosmos=GREEN  points=9
+bridge-1          | ADCS     BLUE   ATTITUDE_ERROR=0.748 CCSDS_LENGTH=14 CCSDS_SECONDS=1.79372e+09 CCSDS_SEQUENCE=77
+telemetry-sink-1  | [sink] EPS      overall=BLUE   cosmos=GREEN  points=9
+bridge-1          | EPS      BLUE   BATT_CURRENT=-0.39 BATT_SOC=91.05 BATT_TEMP=21.48 BATT_VOLTAGE=15.3225
+telemetry-sink-1  | [sink] THERMAL  overall=YELLOW cosmos=YELLOW points=9
+bridge-1          | THERMAL  YELLOW BUS_TEMP=10.8 CCSDS_LENGTH=14 CCSDS_SECONDS=1.79372e+09 CCSDS_SEQUENCE=77
+bridge-1          |   !! limits violation on THERMAL: ['DROID_SIM__THERMAL__RW_TEMP=YELLOW_HIGH']
+telemetry-sink-1  | [sink] ADCS     overall=BLUE   cosmos=GREEN  points=9
+bridge-1          | ADCS     BLUE   ATTITUDE_ERROR=0.79 CCSDS_LENGTH=14 CCSDS_SECONDS=1.79372e+09 CCSDS_SEQUENCE=78
+telemetry-sink-1  | [sink] EPS      overall=BLUE   cosmos=GREEN  points=9
+bridge-1          | EPS      BLUE   BATT_CURRENT=-0.4 BATT_SOC=91.04 BATT_TEMP=21.47 BATT_VOLTAGE=15.315
+telemetry-sink-1  | [sink] THERMAL  overall=YELLOW cosmos=YELLOW points=9
+bridge-1          | THERMAL  YELLOW BUS_TEMP=10.82 CCSDS_LENGTH=14 CCSDS_SECONDS=1.79372e+09 CCSDS_SEQUENCE=78
+bridge-1          |   !! limits violation on THERMAL: ['DROID_SIM__THERMAL__RW_TEMP=YELLOW_HIGH']
+telemetry-sink-1  | [sink] ADCS     overall=BLUE   cosmos=GREEN  points=9
+bridge-1          | ADCS     BLUE   ATTITUDE_ERROR=0.822 CCSDS_LENGTH=14 CCSDS_SECONDS=1.79372e+09 CCSDS_SEQUENCE=79
+telemetry-sink-1  | [sink] EPS      overall=BLUE   cosmos=GREEN  points=9
+bridge-1          | EPS      BLUE   BATT_CURRENT=-0.41 BATT_SOC=91.04 BATT_TEMP=21.47 BATT_VOLTAGE=15.31
+telemetry-sink-1  | [sink] THERMAL  overall=YELLOW cosmos=YELLOW points=9
+bridge-1          | THERMAL  YELLOW BUS_TEMP=10.83 CCSDS_LENGTH=14 CCSDS_SECONDS=1.79372e+09 CCSDS_SEQUENCE=79
+bridge-1          |   !! limits violation on THERMAL: ['DROID_SIM__THERMAL__RW_TEMP=YELLOW_HIGH']
+telemetry-sink-1  | [sink] ADCS     overall=BLUE   cosmos=GREEN  points=9
+bridge-1          | ADCS     BLUE   ATTITUDE_ERROR=0.865 CCSDS_LENGTH=14 CCSDS_SECONDS=1.79372e+09 CCSDS_SEQUENCE=80
+telemetry-sink-1  | [sink] EPS      overall=BLUE   cosmos=GREEN  points=9
+bridge-1          | EPS      BLUE   BATT_CURRENT=-0.41 BATT_SOC=91.03 BATT_TEMP=21.46 BATT_VOLTAGE=15.3025
+telemetry-sink-1  | [sink] THERMAL  overall=YELLOW cosmos=YELLOW points=9
+bridge-1          | THERMAL  YELLOW BUS_TEMP=10.84 CCSDS_LENGTH=14 CCSDS_SECONDS=1.79372e+09 CCSDS_SEQUENCE=80
+bridge-1          |   !! limits violation on THERMAL: ['DROID_SIM__THERMAL__RW_TEMP=YELLOW_HIGH']
+telemetry-sink-1  | [sink] ADCS     overall=BLUE   cosmos=GREEN  points=9
+bridge-1          | ADCS     BLUE   ATTITUDE_ERROR=0.903 CCSDS_LENGTH=14 CCSDS_SECONDS=1.79372e+09 CCSDS_SEQUENCE=81
+telemetry-sink-1  | [sink] EPS      overall=BLUE   cosmos=GREEN  points=9
+bridge-1          | EPS      BLUE   BATT_CURRENT=-0.42 BATT_SOC=91.02 BATT_TEMP=21.45 BATT_VOLTAGE=15.2975
+telemetry-sink-1  | [sink] THERMAL  overall=YELLOW cosmos=YELLOW points=9
+bridge-1          | THERMAL  YELLOW BUS_TEMP=10.85 CCSDS_LENGTH=14 CCSDS_SECONDS=1.79372e+09 CCSDS_SEQUENCE=81
+bridge-1          |   !! limits violation on THERMAL: ['DROID_SIM__THERMAL__RW_TEMP=YELLOW_HIGH']
+telemetry-sink-1  | [sink] ADCS     overall=BLUE   cosmos=GREEN  points=9
+bridge-1          | ADCS     BLUE   ATTITUDE_ERROR=0.941 CCSDS_LENGTH=14 CCSDS_SECONDS=1.79372e+09 CCSDS_SEQUENCE=82
+telemetry-sink-1  | [sink] EPS      overall=BLUE   cosmos=GREEN  points=9
+bridge-1          | EPS      BLUE   BATT_CURRENT=-0.42 BATT_SOC=91.02 BATT_TEMP=21.44 BATT_VOLTAGE=15.29
+telemetry-sink-1  | [sink] THERMAL  overall=YELLOW cosmos=YELLOW points=9
+bridge-1          | THERMAL  YELLOW BUS_TEMP=10.86 CCSDS_LENGTH=14 CCSDS_SECONDS=1.79372e+09 CCSDS_SEQUENCE=82
+bridge-1          |   !! limits violation on THERMAL: ['DROID_SIM__THERMAL__RW_TEMP=YELLOW_HIGH']
+telemetry-sink-1  | [sink] ADCS     overall=BLUE   cosmos=GREEN  points=9
+bridge-1          | ADCS     BLUE   ATTITUDE_ERROR=0.973 CCSDS_LENGTH=14 CCSDS_SECONDS=1.79372e+09 CCSDS_SEQUENCE=83
+telemetry-sink-1  | [sink] EPS      overall=BLUE   cosmos=GREEN  points=9
+bridge-1          | EPS      BLUE   BATT_CURRENT=-0.42 BATT_SOC=91.01 BATT_TEMP=21.43 BATT_VOLTAGE=15.285
+telemetry-sink-1  | [sink] THERMAL  overall=YELLOW cosmos=YELLOW points=9
+bridge-1          | THERMAL  YELLOW BUS_TEMP=10.87 CCSDS_LENGTH=14 CCSDS_SECONDS=1.79372e+09 CCSDS_SEQUENCE=83
+bridge-1          |   !! limits violation on THERMAL: ['DROID_SIM__THERMAL__RW_TEMP=YELLOW_HIGH']
+telemetry-sink-1  | [sink] ADCS     overall=BLUE   cosmos=GREEN  points=9
+bridge-1          | ADCS     BLUE   ATTITUDE_ERROR=1.015 CCSDS_LENGTH=14 CCSDS_SECONDS=1.79372e+09 CCSDS_SEQUENCE=84
+telemetry-sink-1  | [sink] EPS      overall=BLUE   cosmos=GREEN  points=9
+bridge-1          | EPS      BLUE   BATT_CURRENT=-0.43 BATT_SOC=91 BATT_TEMP=21.41 BATT_VOLTAGE=15.2725
+telemetry-sink-1  | [sink] THERMAL  overall=YELLOW cosmos=YELLOW points=9
+bridge-1          | THERMAL  YELLOW BUS_TEMP=10.89 CCSDS_LENGTH=14 CCSDS_SECONDS=1.79372e+09 CCSDS_SEQUENCE=85
+bridge-1          |   !! limits violation on THERMAL: ['DROID_SIM__THERMAL__RW_TEMP=YELLOW_HIGH']
+telemetry-sink-1  | [sink] ADCS     overall=BLUE   cosmos=GREEN  points=9
+bridge-1          | ADCS     BLUE   ATTITUDE_ERROR=0.981 CCSDS_LENGTH=14 CCSDS_SECONDS=1.79372e+09 CCSDS_SEQUENCE=86
+telemetry-sink-1  | [sink] EPS      overall=BLUE   cosmos=GREEN  points=9
+bridge-1          | EPS      BLUE   BATT_CURRENT=-1.34 BATT_SOC=91 BATT_TEMP=19.4 BATT_VOLTAGE=15.565
+telemetry-sink-1  | [sink] THERMAL  overall=YELLOW cosmos=YELLOW points=9
+bridge-1          | THERMAL  YELLOW BUS_TEMP=9.9 CCSDS_LENGTH=14 CCSDS_SECONDS=1.79372e+09 CCSDS_SEQUENCE=86
+bridge-1          |   !! limits violation on THERMAL: ['DROID_SIM__THERMAL__RW_TEMP=YELLOW_HIGH']
+telemetry-sink-1  | [sink] ADCS     overall=BLUE   cosmos=GREEN  points=9
+bridge-1          | ADCS     BLUE   ATTITUDE_ERROR=0.908 CCSDS_LENGTH=14 CCSDS_SECONDS=1.79372e+09 CCSDS_SEQUENCE=87
+telemetry-sink-1  | [sink] EPS      overall=BLUE   cosmos=GREEN  points=9
+bridge-1          | EPS      BLUE   BATT_CURRENT=-1.34 BATT_SOC=91 BATT_TEMP=19.38 BATT_VOLTAGE=15.56
+telemetry-sink-1  | [sink] THERMAL  overall=BLUE   cosmos=GREEN  points=9
+bridge-1          | THERMAL  BLUE   BUS_TEMP=9.91 CCSDS_LENGTH=14 CCSDS_SECONDS=1.79372e+09 CCSDS_SEQUENCE=87
+telemetry-sink-1  | [sink] ADCS     overall=BLUE   cosmos=GREEN  points=9
+bridge-1          | ADCS     BLUE   ATTITUDE_ERROR=0.841 CCSDS_LENGTH=14 CCSDS_SECONDS=1.79372e+09 CCSDS_SEQUENCE=88
+telemetry-sink-1  | [sink] EPS      overall=BLUE   cosmos=GREEN  points=9
+bridge-1          | EPS      BLUE   BATT_CURRENT=-1.34 BATT_SOC=90.99 BATT_TEMP=19.37 BATT_VOLTAGE=15.5525
+telemetry-sink-1  | [sink] THERMAL  overall=BLUE   cosmos=GREEN  points=9
+bridge-1          | THERMAL  BLUE   BUS_TEMP=9.92 CCSDS_LENGTH=14 CCSDS_SECONDS=1.79372e+09 CCSDS_SEQUENCE=88
+telemetry-sink-1  | [sink] ADCS     overall=BLUE   cosmos=GREEN  points=9
+bridge-1          | ADCS     BLUE   ATTITUDE_ERROR=0.785 CCSDS_LENGTH=14 CCSDS_SECONDS=1.79372e+09 CCSDS_SEQUENCE=89
+telemetry-sink-1  | [sink] EPS      overall=BLUE   cosmos=GREEN  points=9
+bridge-1          | EPS      BLUE   BATT_CURRENT=-1.34 BATT_SOC=90.99 BATT_TEMP=19.36 BATT_VOLTAGE=15.5475
+telemetry-sink-1  | [sink] THERMAL  overall=BLUE   cosmos=GREEN  points=9
+bridge-1          | THERMAL  BLUE   BUS_TEMP=9.93 CCSDS_LENGTH=14 CCSDS_SECONDS=1.79372e+09 CCSDS_SEQUENCE=89
+telemetry-sink-1  | [sink] ADCS     overall=BLUE   cosmos=GREEN  points=9
+bridge-1          | ADCS     BLUE   ATTITUDE_ERROR=0.735 CCSDS_LENGTH=14 CCSDS_SECONDS=1.79372e+09 CCSDS_SEQUENCE=90
+telemetry-sink-1  | [sink] EPS      overall=BLUE   cosmos=GREEN  points=9
+bridge-1          | EPS      BLUE   BATT_CURRENT=-1.35 BATT_SOC=90.99 BATT_TEMP=19.34 BATT_VOLTAGE=15.54
+telemetry-sink-1  | [sink] THERMAL  overall=BLUE   cosmos=GREEN  points=9
+bridge-1          | THERMAL  BLUE   BUS_TEMP=9.94 CCSDS_LENGTH=14 CCSDS_SECONDS=1.79372e+09 CCSDS_SEQUENCE=90
+telemetry-sink-1  | [sink] ADCS     overall=BLUE   cosmos=GREEN  points=9
+bridge-1          | ADCS     BLUE   ATTITUDE_ERROR=0.689 CCSDS_LENGTH=14 CCSDS_SECONDS=1.79372e+09 CCSDS_SEQUENCE=91
+telemetry-sink-1  | [sink] EPS      overall=BLUE   cosmos=GREEN  points=9
+bridge-1          | EPS      BLUE   BATT_CURRENT=-1.35 BATT_SOC=90.99 BATT_TEMP=19.33 BATT_VOLTAGE=15.5325
+telemetry-sink-1  | [sink] THERMAL  overall=BLUE   cosmos=GREEN  points=9
+bridge-1          | THERMAL  BLUE   BUS_TEMP=9.94 CCSDS_LENGTH=14 CCSDS_SECONDS=1.79372e+09 CCSDS_SEQUENCE=91
+regress-1         |   PASS [steps] wheel leaves the yellow band after the slew completes
+regress-1         |   PASS [teardown] bus voltage still nominal at end of pass
+regress-1         |   -> PASS 15 passed, 0 failed, 0 errors
+regress-1         | junit  /app/artifacts/droid_pass_acceptance-junit.xml
+regress-1         | html   /app/artifacts/droid_pass_acceptance-report.html
+regress-1         | json   /app/artifacts/droid_pass_acceptance-results.json
+regress-1         | 
+regress-1         | PASS: 15 passed, 0 failed, 0 errors, 22.7s
+[Kregress-1 exited with code 0
+bridge-1          | ADCS     BLUE   ATTITUDE_ERROR=0.646 CCSDS_LENGTH=14 CCSDS_SECONDS=1.79372e+09 CCSDS_SEQUENCE=92
+telemetry-sink-1  | [sink] ADCS     overall=BLUE   cosmos=GREEN  points=9
+telemetry-sink-1  | [sink] EPS      overall=BLUE   cosmos=GREEN  points=9
+bridge-1          | EPS      BLUE   BATT_CURRENT=-1.35 BATT_SOC=90.99 BATT_TEMP=19.31 BATT_VOLTAGE=15.5275
+telemetry-sink-1  | [sink] THERMAL  overall=BLUE   cosmos=GREEN  points=9
+bridge-1          | THERMAL  BLUE   BUS_TEMP=9.95 CCSDS_LENGTH=14 CCSDS_SECONDS=1.79372e+09 CCSDS_SEQUENCE=92
+telemetry-sink-1  | [sink] ADCS     overall=BLUE   cosmos=GREEN  points=9
+bridge-1          | ADCS     BLUE   ATTITUDE_ERROR=0.603 CCSDS_LENGTH=14 CCSDS_SECONDS=1.79372e+09 CCSDS_SEQUENCE=93
+bridge-1          | EPS      BLUE   BATT_CURRENT=-1.35 BATT_SOC=90.99 BATT_TEMP=19.29 BATT_VOLTAGE=15.52
+telemetry-sink-1  | [sink] EPS      overall=BLUE   cosmos=GREEN  points=9
+telemetry-sink-1  | [sink] THERMAL  overall=BLUE   cosmos=GREEN  points=9
+bridge-1          | THERMAL  BLUE   BUS_TEMP=9.96 CCSDS_LENGTH=14 CCSDS_SECONDS=1.79372e+09 CCSDS_SEQUENCE=93
+telemetry-sink-1  | [sink] ADCS     overall=BLUE   cosmos=GREEN  points=9
+bridge-1          | ADCS     BLUE   ATTITUDE_ERROR=0.56 CCSDS_LENGTH=14 CCSDS_SECONDS=1.79372e+09 CCSDS_SEQUENCE=94
+telemetry-sink-1  | [sink] EPS      overall=BLUE   cosmos=GREEN  points=9
+bridge-1          | EPS      BLUE   BATT_CURRENT=-1.35 BATT_SOC=90.99 BATT_TEMP=19.28 BATT_VOLTAGE=15.515
+telemetry-sink-1  | [sink] THERMAL  overall=BLUE   cosmos=GREEN  points=9
+bridge-1          | THERMAL  BLUE   BUS_TEMP=9.96 CCSDS_LENGTH=14 CCSDS_SECONDS=1.79372e+09 CCSDS_SEQUENCE=94
+telemetry-sink-1  | [sink] ADCS     overall=BLUE   cosmos=GREEN  points=9
+bridge-1          | ADCS     BLUE   ATTITUDE_ERROR=0.527 CCSDS_LENGTH=14 CCSDS_SECONDS=1.79372e+09 CCSDS_SEQUENCE=95
+telemetry-sink-1  | [sink] EPS      overall=BLUE   cosmos=GREEN  points=9
+bridge-1          | EPS      BLUE   BATT_CURRENT=-1.35 BATT_SOC=90.98 BATT_TEMP=19.26 BATT_VOLTAGE=15.5075
+telemetry-sink-1  | [sink] THERMAL  overall=BLUE   cosmos=GREEN  points=9
+bridge-1          | THERMAL  BLUE   BUS_TEMP=9.97 CCSDS_LENGTH=14 CCSDS_SECONDS=1.79372e+09 CCSDS_SEQUENCE=95
+telemetry-sink-1  | [sink] ADCS     overall=BLUE   cosmos=GREEN  points=9
+bridge-1          | ADCS     BLUE   ATTITUDE_ERROR=0.496 CCSDS_LENGTH=14 CCSDS_SECONDS=1.79372e+09 CCSDS_SEQUENCE=96
+telemetry-sink-1  | [sink] EPS      overall=BLUE   cosmos=GREEN  points=9
+bridge-1          | EPS      BLUE   BATT_CURRENT=-1.35 BATT_SOC=90.98 BATT_TEMP=19.24 BATT_VOLTAGE=15.5025
+telemetry-sink-1  | [sink] THERMAL  overall=BLUE   cosmos=GREEN  points=9
+bridge-1          | THERMAL  BLUE   BUS_TEMP=9.97 CCSDS_LENGTH=14 CCSDS_SECONDS=1.79372e+09 CCSDS_SEQUENCE=96
+telemetry-sink-1  | [sink] ADCS     overall=BLUE   cosmos=GREEN  points=9
+bridge-1          | ADCS     BLUE   ATTITUDE_ERROR=0.462 CCSDS_LENGTH=14 CCSDS_SECONDS=1.79372e+09 CCSDS_SEQUENCE=97
+telemetry-sink-1  | [sink] EPS      overall=BLUE   cosmos=GREEN  points=9
+bridge-1          | EPS      BLUE   BATT_CURRENT=-1.35 BATT_SOC=90.98 BATT_TEMP=19.22 BATT_VOLTAGE=15.495
+telemetry-sink-1  | [sink] THERMAL  overall=BLUE   cosmos=GREEN  points=9
+bridge-1          | THERMAL  BLUE   BUS_TEMP=9.98 CCSDS_LENGTH=14 CCSDS_SECONDS=1.79372e+09 CCSDS_SEQUENCE=97
+telemetry-sink-1  | [sink] ADCS     overall=BLUE   cosmos=GREEN  points=9
+bridge-1          | ADCS     BLUE   ATTITUDE_ERROR=0.431 CCSDS_LENGTH=14 CCSDS_SECONDS=1.79372e+09 CCSDS_SEQUENCE=98
+telemetry-sink-1  | [sink] EPS      overall=BLUE   cosmos=GREEN  points=9
+bridge-1          | EPS      BLUE   BATT_CURRENT=-1.35 BATT_SOC=90.98 BATT_TEMP=19.2 BATT_VOLTAGE=15.49
+telemetry-sink-1  | [sink] THERMAL  overall=BLUE   cosmos=GREEN  points=9
+bridge-1          | THERMAL  BLUE   BUS_TEMP=9.98 CCSDS_LENGTH=14 CCSDS_SECONDS=1.79372e+09 CCSDS_SEQUENCE=98
+telemetry-sink-1  | [sink] ADCS     overall=BLUE   cosmos=GREEN  points=9
+bridge-1          | ADCS     BLUE   ATTITUDE_ERROR=0.41 CCSDS_LENGTH=14 CCSDS_SECONDS=1.79372e+09 CCSDS_SEQUENCE=99
+telemetry-sink-1  | [sink] EPS      overall=BLUE   cosmos=GREEN  points=9
+bridge-1          | EPS      BLUE   BATT_CURRENT=-1.35 BATT_SOC=90.98 BATT_TEMP=19.18 BATT_VOLTAGE=15.4825
+telemetry-sink-1  | [sink] THERMAL  overall=BLUE   cosmos=GREEN  points=9
+bridge-1          | THERMAL  BLUE   BUS_TEMP=9.99 CCSDS_LENGTH=14 CCSDS_SECONDS=1.79372e+09 CCSDS_SEQUENCE=99
+telemetry-sink-1  | [sink] ADCS     overall=BLUE   cosmos=GREEN  points=9
+bridge-1          | ADCS     BLUE   ATTITUDE_ERROR=0.384 CCSDS_LENGTH=14 CCSDS_SECONDS=1.79372e+09 CCSDS_SEQUENCE=100
+telemetry-sink-1  | [sink] EPS      overall=BLUE   cosmos=GREEN  points=9
+bridge-1          | EPS      BLUE   BATT_CURRENT=-1.34 BATT_SOC=90.98 BATT_TEMP=19.16 BATT_VOLTAGE=15.4775
+telemetry-sink-1  | [sink] THERMAL  overall=BLUE   cosmos=GREEN  points=9
+bridge-1          | THERMAL  BLUE   BUS_TEMP=9.99 CCSDS_LENGTH=14 CCSDS_SECONDS=1.79372e+09 CCSDS_SEQUENCE=100
+telemetry-sink-1  | [sink] ADCS     overall=BLUE   cosmos=GREEN  points=9
+bridge-1          | ADCS     BLUE   ATTITUDE_ERROR=0.359 CCSDS_LENGTH=14 CCSDS_SECONDS=1.79372e+09 CCSDS_SEQUENCE=101
+telemetry-sink-1  | [sink] EPS      overall=BLUE   cosmos=GREEN  points=9
+bridge-1          | EPS      BLUE   BATT_CURRENT=-1.34 BATT_SOC=90.98 BATT_TEMP=19.13 BATT_VOLTAGE=15.4725
+telemetry-sink-1  | [sink] THERMAL  overall=BLUE   cosmos=GREEN  points=9
+bridge-1          | THERMAL  BLUE   BUS_TEMP=9.99 CCSDS_LENGTH=14 CCSDS_SECONDS=1.79372e+09 CCSDS_SEQUENCE=101
+telemetry-sink-1  | [sink] ADCS     overall=BLUE   cosmos=GREEN  points=9
+bridge-1          | ADCS     BLUE   ATTITUDE_ERROR=0.343 CCSDS_LENGTH=14 CCSDS_SECONDS=1.79372e+09 CCSDS_SEQUENCE=102
+telemetry-sink-1  | [sink] EPS      overall=BLUE   cosmos=GREEN  points=9
+bridge-1          | EPS      BLUE   BATT_CURRENT=-1.34 BATT_SOC=90.97 BATT_TEMP=19.11 BATT_VOLTAGE=15.465
+telemetry-sink-1  | [sink] THERMAL  overall=BLUE   cosmos=GREEN  points=9
+bridge-1          | THERMAL  BLUE   BUS_TEMP=9.99 CCSDS_LENGTH=14 CCSDS_SECONDS=1.79372e+09 CCSDS_SEQUENCE=102
+telemetry-sink-1  | [sink] ADCS     overall=BLUE   cosmos=GREEN  points=9
+bridge-1          | ADCS     BLUE   ATTITUDE_ERROR=0.325 CCSDS_LENGTH=14 CCSDS_SECONDS=1.79372e+09 CCSDS_SEQUENCE=103
+telemetry-sink-1  | [sink] EPS      overall=BLUE   cosmos=GREEN  points=9
+bridge-1          | EPS      BLUE   BATT_CURRENT=-1.34 BATT_SOC=90.97 BATT_TEMP=19.09 BATT_VOLTAGE=15.46
+telemetry-sink-1  | [sink] THERMAL  overall=BLUE   cosmos=GREEN  points=9
+bridge-1          | THERMAL  BLUE   BUS_TEMP=10 CCSDS_LENGTH=14 CCSDS_SECONDS=1.79372e+09 CCSDS_SEQUENCE=103
+telemetry-sink-1  | [sink] ADCS     overall=BLUE   cosmos=GREEN  points=9
+bridge-1          | ADCS     BLUE   ATTITUDE_ERROR=0.306 CCSDS_LENGTH=14 CCSDS_SECONDS=1.79372e+09 CCSDS_SEQUENCE=104
+telemetry-sink-1  | [sink] EPS      overall=BLUE   cosmos=GREEN  points=9
+bridge-1          | EPS      BLUE   BATT_CURRENT=-1.33 BATT_SOC=90.97 BATT_TEMP=19.06 BATT_VOLTAGE=15.455
+telemetry-sink-1  | [sink] THERMAL  overall=BLUE   cosmos=GREEN  points=9
+bridge-1          | THERMAL  BLUE   BUS_TEMP=10 CCSDS_LENGTH=14 CCSDS_SECONDS=1.79372e+09 CCSDS_SEQUENCE=104
+telemetry-sink-1  | [sink] ADCS     overall=BLUE   cosmos=GREEN  points=9
+bridge-1          | ADCS     BLUE   ATTITUDE_ERROR=0.294 CCSDS_LENGTH=14 CCSDS_SECONDS=1.79372e+09 CCSDS_SEQUENCE=105
+telemetry-sink-1  | [sink] EPS      overall=BLUE   cosmos=GREEN  points=9
+bridge-1          | EPS      BLUE   BATT_CURRENT=-1.33 BATT_SOC=90.97 BATT_TEMP=19.04 BATT_VOLTAGE=15.45
+telemetry-sink-1  | [sink] THERMAL  overall=BLUE   cosmos=GREEN  points=9
+bridge-1          | THERMAL  BLUE   BUS_TEMP=10 CCSDS_LENGTH=14 CCSDS_SECONDS=1.79372e+09 CCSDS_SEQUENCE=105
+telemetry-sink-1  | [sink] ADCS     overall=BLUE   cosmos=GREEN  points=9
+bridge-1          | ADCS     BLUE   ATTITUDE_ERROR=0.279 CCSDS_LENGTH=14 CCSDS_SECONDS=1.79372e+09 CCSDS_SEQUENCE=106
+telemetry-sink-1  | [sink] EPS      overall=BLUE   cosmos=GREEN  points=9
+bridge-1          | EPS      BLUE   BATT_CURRENT=-1.33 BATT_SOC=90.97 BATT_TEMP=19.01 BATT_VOLTAGE=15.445
+telemetry-sink-1  | [sink] THERMAL  overall=BLUE   cosmos=GREEN  points=9
+bridge-1          | THERMAL  BLUE   BUS_TEMP=10 CCSDS_LENGTH=14 CCSDS_SECONDS=1.79372e+09 CCSDS_SEQUENCE=106
+telemetry-sink-1  | [sink] ADCS     overall=BLUE   cosmos=GREEN  points=9
+bridge-1          | ADCS     BLUE   ATTITUDE_ERROR=0.262 CCSDS_LENGTH=14 CCSDS_SECONDS=1.79372e+09 CCSDS_SEQUENCE=107
+telemetry-sink-1  | [sink] EPS      overall=BLUE   cosmos=GREEN  points=9
+bridge-1          | EPS      BLUE   BATT_CURRENT=-1.32 BATT_SOC=90.97 BATT_TEMP=18.99 BATT_VOLTAGE=15.44
+telemetry-sink-1  | [sink] THERMAL  overall=BLUE   cosmos=GREEN  points=9
+bridge-1          | THERMAL  BLUE   BUS_TEMP=10 CCSDS_LENGTH=14 CCSDS_SECONDS=1.79372e+09 CCSDS_SEQUENCE=107
+telemetry-sink-1  | [sink] ADCS     overall=BLUE   cosmos=GREEN  points=9
+bridge-1          | ADCS     BLUE   ATTITUDE_ERROR=0.252 CCSDS_LENGTH=14 CCSDS_SECONDS=1.79372e+09 CCSDS_SEQUENCE=108
+telemetry-sink-1  | [sink] EPS      overall=BLUE   cosmos=GREEN  points=9
+bridge-1          | EPS      BLUE   BATT_CURRENT=-1.32 BATT_SOC=90.96 BATT_TEMP=18.96 BATT_VOLTAGE=15.435
+telemetry-sink-1  | [sink] THERMAL  overall=BLUE   cosmos=GREEN  points=9
+bridge-1          | THERMAL  BLUE   BUS_TEMP=10 CCSDS_LENGTH=14 CCSDS_SECONDS=1.79372e+09 CCSDS_SEQUENCE=108
+telemetry-sink-1  | [sink] ADCS     overall=BLUE   cosmos=GREEN  points=9
+bridge-1          | ADCS     BLUE   ATTITUDE_ERROR=0.237 CCSDS_LENGTH=14 CCSDS_SECONDS=1.79372e+09 CCSDS_SEQUENCE=109
+telemetry-sink-1  | [sink] EPS      overall=BLUE   cosmos=GREEN  points=9
+bridge-1          | EPS      BLUE   BATT_CURRENT=-1.31 BATT_SOC=90.96 BATT_TEMP=18.94 BATT_VOLTAGE=15.43
+telemetry-sink-1  | [sink] THERMAL  overall=BLUE   cosmos=GREEN  points=9
+bridge-1          | THERMAL  BLUE   BUS_TEMP=10 CCSDS_LENGTH=14 CCSDS_SECONDS=1.79372e+09 CCSDS_SEQUENCE=109
+telemetry-sink-1  | [sink] ADCS     overall=BLUE   cosmos=GREEN  points=9
+bridge-1          | ADCS     BLUE   ATTITUDE_ERROR=0.224 CCSDS_LENGTH=14 CCSDS_SECONDS=1.79372e+09 CCSDS_SEQUENCE=110
+telemetry-sink-1  | [sink] EPS      overall=BLUE   cosmos=GREEN  points=9
+bridge-1          | EPS      BLUE   BATT_CURRENT=-1.31 BATT_SOC=90.96 BATT_TEMP=18.91 BATT_VOLTAGE=15.425
+telemetry-sink-1  | [sink] THERMAL  overall=BLUE   cosmos=GREEN  points=9
+bridge-1          | THERMAL  BLUE   BUS_TEMP=10 CCSDS_LENGTH=14 CCSDS_SECONDS=1.79372e+09 CCSDS_SEQUENCE=110
+telemetry-sink-1  | [sink] ADCS     overall=BLUE   cosmos=GREEN  points=9
+bridge-1          | ADCS     BLUE   ATTITUDE_ERROR=0.215 CCSDS_LENGTH=14 CCSDS_SECONDS=1.79372e+09 CCSDS_SEQUENCE=111
+telemetry-sink-1  | [sink] EPS      overall=BLUE   cosmos=GREEN  points=9
+bridge-1          | EPS      BLUE   BATT_CURRENT=-1.3 BATT_SOC=90.96 BATT_TEMP=18.88 BATT_VOLTAGE=15.42
+telemetry-sink-1  | [sink] THERMAL  overall=BLUE   cosmos=GREEN  points=9
+bridge-1          | THERMAL  BLUE   BUS_TEMP=10 CCSDS_LENGTH=14 CCSDS_SECONDS=1.79372e+09 CCSDS_SEQUENCE=111
+telemetry-sink-1  | [sink] ADCS     overall=BLUE   cosmos=GREEN  points=9
+bridge-1          | ADCS     BLUE   ATTITUDE_ERROR=0.208 CCSDS_LENGTH=14 CCSDS_SECONDS=1.79372e+09 CCSDS_SEQUENCE=112
+telemetry-sink-1  | [sink] EPS      overall=BLUE   cosmos=GREEN  points=9
+bridge-1          | EPS      BLUE   BATT_CURRENT=-1.3 BATT_SOC=90.96 BATT_TEMP=18.86 BATT_VOLTAGE=15.415
+telemetry-sink-1  | [sink] THERMAL  overall=BLUE   cosmos=GREEN  points=9
+bridge-1          | THERMAL  BLUE   BUS_TEMP=10 CCSDS_LENGTH=14 CCSDS_SECONDS=1.79372e+09 CCSDS_SEQUENCE=112
+telemetry-sink-1  | [sink] ADCS     overall=BLUE   cosmos=GREEN  points=9
+bridge-1          | ADCS     BLUE   ATTITUDE_ERROR=0.203 CCSDS_LENGTH=14 CCSDS_SECONDS=1.79372e+09 CCSDS_SEQUENCE=113
+telemetry-sink-1  | [sink] EPS      overall=BLUE   cosmos=GREEN  points=9
+bridge-1          | EPS      BLUE   BATT_CURRENT=-1.29 BATT_SOC=90.96 BATT_TEMP=18.83 BATT_VOLTAGE=15.4125
+telemetry-sink-1  | [sink] THERMAL  overall=BLUE   cosmos=GREEN  points=9
+bridge-1          | THERMAL  BLUE   BUS_TEMP=9.99 CCSDS_LENGTH=14 CCSDS_SECONDS=1.79372e+09 CCSDS_SEQUENCE=113
+telemetry-sink-1  | [sink] ADCS     overall=BLUE   cosmos=GREEN  points=9
+bridge-1          | ADCS     BLUE   ATTITUDE_ERROR=0.199 CCSDS_LENGTH=14 CCSDS_SECONDS=1.79372e+09 CCSDS_SEQUENCE=114
+telemetry-sink-1  | [sink] EPS      overall=BLUE   cosmos=GREEN  points=9
+bridge-1          | EPS      BLUE   BATT_CURRENT=-1.29 BATT_SOC=90.96 BATT_TEMP=18.8 BATT_VOLTAGE=15.4075
+telemetry-sink-1  | [sink] THERMAL  overall=BLUE   cosmos=GREEN  points=9
+bridge-1          | THERMAL  BLUE   BUS_TEMP=9.99 CCSDS_LENGTH=14 CCSDS_SECONDS=1.79372e+09 CCSDS_SEQUENCE=114
+telemetry-sink-1  | [sink] ADCS     overall=BLUE   cosmos=GREEN  points=9
+bridge-1          | ADCS     BLUE   ATTITUDE_ERROR=0.192 CCSDS_LENGTH=14 CCSDS_SECONDS=1.79372e+09 CCSDS_SEQUENCE=115
+telemetry-sink-1  | [sink] EPS      overall=BLUE   cosmos=GREEN  points=9
+bridge-1          | EPS      BLUE   BATT_CURRENT=-1.28 BATT_SOC=90.95 BATT_TEMP=18.77 BATT_VOLTAGE=15.4025
+telemetry-sink-1  | [sink] THERMAL  overall=BLUE   cosmos=GREEN  points=9
+bridge-1          | THERMAL  BLUE   BUS_TEMP=9.99 CCSDS_LENGTH=14 CCSDS_SECONDS=1.79372e+09 CCSDS_SEQUENCE=115
+telemetry-sink-1  | [sink] ADCS     overall=BLUE   cosmos=GREEN  points=9
+bridge-1          | ADCS     BLUE   ATTITUDE_ERROR=0.184 CCSDS_LENGTH=14 CCSDS_SECONDS=1.79372e+09 CCSDS_SEQUENCE=116
+telemetry-sink-1  | [sink] EPS      overall=BLUE   cosmos=GREEN  points=9
+bridge-1          | EPS      BLUE   BATT_CURRENT=-1.27 BATT_SOC=90.95 BATT_TEMP=18.74 BATT_VOLTAGE=15.4
+telemetry-sink-1  | [sink] THERMAL  overall=BLUE   cosmos=GREEN  points=9
+bridge-1          | THERMAL  BLUE   BUS_TEMP=9.98 CCSDS_LENGTH=14 CCSDS_SECONDS=1.79372e+09 CCSDS_SEQUENCE=116
+telemetry-sink-1  | [sink] demo window complete after 35s
+[Kcosmos-1 exited with code 0
+telemetry-sink-1  | [sink] frames=342 points=3078 last_overall=BLUE
+[Ktelemetry-sink-1 exited with code 0
+bridge-1          | 
+bridge-1          | frames=342 points=3078 webhook_ok=342 webhook_failed=0 violations=68
+bridge-1          | warnings: ['could not reach COSMOS at http://cosmos:2900/openc3-api/api: [Errno 104] Connection reset by peer', 'could not reach COSMOS at http://cosmos:2900/openc3-api/api: [Errno 111] Connection refused', 'could not reach COSMOS at http://cosmos:2900/openc3-api/api: [Errno 111] Connection refused']
+[Kbridge-1 exited with code 0
+compose up 42220ms
+
+== Summary ==
+PASS  Python >= 3.11  9ms
+PASS  Python dependencies + package import  199ms
+PASS  pytest (80 tests)  51439ms
+PASS  cosmos-tlm-bridge demo < 45 s  23556ms
+PASS  full CI acceptance sweep < 105 s  26779ms
+PASS  typed bridge + webhook + YELLOW_HIGH pipeline  12975ms
+PASS  no Ruby source anywhere  13ms
+PASS  go vet: typed bridge  7776ms
+PASS  go test: typed bridge  3124ms
+PASS  gofmt clean: linter  11ms
+PASS  go vet: linter  369ms
+PASS  go test: linter  2985ms
+PASS  go test -race: linter  10118ms
+PASS  DoD scan < 30 s  147ms
+PASS  generate + validate both targets  556ms
+PASS  zero AWS / public-registry references  3ms
+PASS  all 26 linter rules fire  123ms
+PASS  linter accuracy matrix  383ms
+PASS  linter harness (no cluster)  65636ms
+SKIP  linter harness (real kube-apiserver + apply)  set RUN_CLUSTER=1
+FAIL  kubectl apply --dry-run=client: kubernetes bundle  67ms (rc=1)
+FAIL  kubectl apply --dry-run=client: crossplane bundle  69ms (rc=1)
+PASS  docker compose build  11537ms
+PASS  plain docker compose up < 45 s  42226ms
+21 passed, 2 failed, 1 skipped
+verify-all.sh exit code: 1
