@@ -1,0 +1,71 @@
+name: Verify once and commit evidence
+on:
+  push:
+    branches: [arena/ba799aff-for-turion]
+    paths: [.github/workflows/verify-once.yml]
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+jobs:
+  evidence:
+    name: Run gates, commit the real CI log
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+    steps:
+      - name: Checkout session branch
+        uses: actions/checkout@v4
+        with:
+          ref: arena/ba799aff-for-turion
+          fetch-depth: 0
+          persist-credentials: true
+
+      - name: Set up Python 3.11
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+          cache: pip
+
+      - name: Set up Go 1.23
+        uses: actions/setup-go@v5
+        with:
+          go-version: '1.23.x'
+          cache: false
+
+      - name: Install kubectl client
+        run: |
+          set -euo pipefail
+          sudo curl -fsSLo /usr/local/bin/kubectl \
+            https://dl.k8s.io/release/v1.31.0/bin/linux/amd64/kubectl
+          sudo chmod +x /usr/local/bin/kubectl
+          kubectl version --client
+
+      - name: Confirm Docker
+        run: docker compose version && docker info --format '{{.ServerVersion}}'
+
+      - name: Run every gate (always keep the log)
+        env:
+          RUN_CLUSTER: '1'
+          VERIFY_LOG: docs/evidence/verification-all.log
+        run: |
+          set +e
+          bash scripts/verify-all.sh
+          rc=$?
+          echo "verify-all.sh exit code: $rc" | tee -a docs/evidence/verification-all.log
+          cp docs/evidence/verification-all.log docs/evidence/ci-verification.log
+          exit 0
+
+      - name: Commit evidence
+        run: |
+          set -euo pipefail
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add docs/evidence/verification-all.log docs/evidence/ci-verification.log
+          if git diff --cached --quiet; then
+            echo "No evidence changes to commit"
+            exit 0
+          fi
+          git commit -m "docs: commit real GitHub Actions verification evidence [skip ci]"
+          git pull --rebase origin arena/ba799aff-for-turion
+          git push origin HEAD:arena/ba799aff-for-turion

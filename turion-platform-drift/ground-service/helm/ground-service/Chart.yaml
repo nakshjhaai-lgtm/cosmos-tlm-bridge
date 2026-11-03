@@ -1,0 +1,5 @@
+apiVersion: v2
+name: ground-service
+description: Turion ground-service Helm chart (AWS-coupled baseline)
+version: 2.4.1
+appVersion: "2.4.1"

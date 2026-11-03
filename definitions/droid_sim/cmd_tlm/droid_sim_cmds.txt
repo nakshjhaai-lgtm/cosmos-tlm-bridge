@@ -1,0 +1,36 @@
+# OpenC3 COSMOS v5 command definition for the Turion DROID_SIM target.
+# CMD_SLEW_TARGET is the maneuver command that drives the acceptance test:
+# it commands an attitude slew which (deterministically) heats the reaction
+# wheel past YELLOW_HIGH on THERMAL RW_TEMP.
+
+COMMAND DROID_SIM CMD_SLEW_TARGET BIG_ENDIAN "Command an attitude slew to a target slot"
+  APPEND_ID_ITEM CCSDS_STREAMID 16 UINT 0x18AD
+  APPEND_ITEM CCSDS_SEQUENCE 16 UINT
+  APPEND_ITEM CCSDS_LENGTH 16 UINT
+  APPEND_PARAMETER SLEW_RATE 32 FLOAT "Slew rate"
+    UNITS Degrees_per_Second dps
+    MIN_VALUE 0.0
+    MAX_VALUE 10.0
+    DEFAULT 2.0
+  APPEND_PARAMETER TARGET_ID 16 UINT "Target slot identifier"
+    MIN_VALUE 0
+    MAX_VALUE 255
+    DEFAULT 1
+  APPEND_PARAMETER DURATION 16 UINT "Slew duration"
+    UNITS Seconds s
+    MIN_VALUE 1
+    MAX_VALUE 600
+    DEFAULT 60
+  APPEND_PARAMETER ABORT_ON_LIMITS 8 UINT "Abort the slew if any item enters RED"
+    STATE FALSE 0
+    STATE TRUE 1
+
+COMMAND DROID_SIM CMD_SET_LIMITS BIG_ENDIAN "Switch the active COSMOS limits set"
+  APPEND_ID_ITEM CCSDS_STREAMID 16 UINT 0x18AE
+  APPEND_ITEM CCSDS_SEQUENCE 16 UINT
+  APPEND_ITEM CCSDS_LENGTH 16 UINT
+  APPEND_PARAMETER LIMITS_SET 8 UINT "Limits set to activate"
+    STATE DEFAULT 0
+    STATE TVAC 1
+    STATE SAFE 2
+    DEFAULT 0

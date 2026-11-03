@@ -1,0 +1,94 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>turion-platform-drift — portability scorecard</title>
+<style>
+  :root { color-scheme: light; }
+  * { box-sizing: border-box; }
+  body { margin:0; background:#f5f6f8; color:#14181f;
+         font:14px/1.55 -apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Helvetica,Arial,sans-serif; }
+  .wrap { max-width:1040px; margin:0 auto; padding:26px 20px 60px; }
+  .hero { background:#0e1420; color:#e8edf5; border-radius:14px; padding:24px; display:flex;
+          gap:26px; align-items:center; flex-wrap:wrap; }
+  .hero h1 { margin:0; font-size:19px; font-weight:600; }
+  .hero .sub { color:#8f9bb0; font-size:12.5px; margin-top:4px; }
+  .score { margin-left:auto; text-align:center; }
+  .score .n { font-size:42px; font-weight:750; line-height:1; color:#d64545; }
+  .score .g { font-size:12px; letter-spacing:2px; color:#8f9bb0; margin-top:4px; }
+  .verdict { color:#a9b4c6; font-size:13px; margin:14px 0 0; }
+  .tiles { display:flex; gap:11px; flex-wrap:wrap; margin:20px 0; }
+  .tile { background:#fff; border:1px solid #e3e6ec; border-radius:11px; padding:12px 16px; min-width:96px; }
+  .tile .v { font-size:21px; font-weight:700; }
+  .tile .l { font-size:11px; text-transform:uppercase; letter-spacing:.7px; color:#69727f; }
+  .card { background:#fff; border:1px solid #e3e6ec; border-radius:12px; padding:16px 18px; margin-bottom:16px; }
+  .card h2 { margin:0 0 12px; font-size:14.5px; }
+  table { width:100%; border-collapse:collapse; }
+  th { text-align:left; font-size:11px; letter-spacing:.6px; text-transform:uppercase;
+       color:#7b8593; padding:7px 8px; border-bottom:1px solid #eef0f4; }
+  td { padding:8px; border-bottom:1px solid #f2f4f7; font-size:13px; vertical-align:top; }
+  tr:last-child td { border-bottom:none; }
+  .num { text-align:right; font-variant-numeric:tabular-nums; }
+  code { background:#f1f3f6; padding:1px 5px; border-radius:4px; font-size:12px; }
+  .sev { color:#fff; font-size:10px; font-weight:700; letter-spacing:.5px; padding:2px 7px; border-radius:999px; }
+  .rem { color:#7b8593; font-size:12px; margin-top:2px; }
+  .kv { display:flex; justify-content:space-between; padding:5px 0; border-bottom:1px solid #f2f4f7; font-size:13px; }
+  .kv:last-child { border-bottom:none; }
+  .kv span { color:#69727f; }
+  ul { margin:0; padding-left:18px; font-size:13px; }
+  footer { color:#8a94a6; font-size:11.5px; text-align:center; margin-top:24px; }
+</style>
+</head>
+<body>
+<div class="wrap">
+  <div class="hero">
+    <div>
+      <h1>turion-platform-drift</h1>
+      <div class="sub">Cloud-agnostic ground-station portability scorecard &middot; ./ground-service</div>
+      <div class="verdict">Cannot run off-AWS: 80 critical couplings block an air-gapped deployment.</div>
+    </div>
+    <div class="score">
+      <div class="n">0</div>
+      <div class="g">GRADE F</div>
+    </div>
+  </div>
+
+  <div class="tiles">
+    <div class="tile"><div class="v">112</div><div class="l">Findings</div></div>
+    <div class="tile"><div class="v" style="color:#d64545">80</div><div class="l">Critical</div></div>
+    <div class="tile"><div class="v" style="color:#c98a00">32</div><div class="l">High</div></div>
+    <div class="tile"><div class="v">18</div><div class="l">Files</div></div>
+    <div class="tile"><div class="v">0.0s</div><div class="l">Scan time</div></div>
+  </div>
+
+  <section class="card">
+    <h2>Coupling by capability</h2>
+    <table><thead><tr><th>Capability</th><th class="num">Findings</th><th class="num">Critical</th><th class="num">Penalty</th></tr></thead>
+    <tbody><tr><td>compute</td><td class="num">42</td><td class="num">38</td><td class="num">484</td></tr><tr><td>identity</td><td class="num">30</td><td class="num">30</td><td class="num">360</td></tr><tr><td>object-storage</td><td class="num">14</td><td class="num">0</td><td class="num">98</td></tr><tr><td>serverless</td><td class="num">6</td><td class="num">6</td><td class="num">72</td></tr><tr><td>network</td><td class="num">6</td><td class="num">0</td><td class="num">42</td></tr><tr><td>config</td><td class="num">3</td><td class="num">3</td><td class="num">36</td></tr><tr><td>registry</td><td class="num">3</td><td class="num">3</td><td class="num">36</td></tr><tr><td>observability</td><td class="num">4</td><td class="num">0</td><td class="num">28</td></tr><tr><td>messaging</td><td class="num">3</td><td class="num">0</td><td class="num">21</td></tr><tr><td>database</td><td class="num">1</td><td class="num">0</td><td class="num">7</td></tr></tbody></table>
+  </section>
+
+  <section class="card">
+    <h2>Rules triggered</h2>
+    <table><thead><tr><th>Rule</th><th>Severity</th><th class="num">Count</th><th>Finding &amp; portable replacement</th></tr></thead>
+    <tbody><tr><td><code>TPD001</code></td><td><span class="sev" style="background:#d64545">critical</span></td><td class="num">5</td><td>boto3 / botocore SDK import<div class="rem">→ Replace with the portable ground-station storage interface (any S3-compatible endpoint: MinIO, VersityGW) and read ARNs from environment configuration.</div></td></tr><tr><td><code>TPD002</code></td><td><span class="sev" style="background:#d64545">critical</span></td><td class="num">7</td><td>boto3 client bound to a proprietary AWS service<div class="rem">→ Route the call through the portability interface; Batch becomes a Kubernetes Job, Lambda becomes a Deployment/Job, DynamoDB becomes PostgreSQL/Postgres-compatible, SQS/SNS becomes NATS/Redpanda.</div></td></tr><tr><td><code>TPD003</code></td><td><span class="sev" style="background:#d64545">critical</span></td><td class="num">2</td><td>AWS Lambda invocation<div class="rem">→ Deploy the function body as a Kubernetes Job/Deployment and call it over HTTP (or the Knative Serving route) instead of Invoke.</div></td></tr><tr><td><code>TPD004</code></td><td><span class="sev" style="background:#d64545">critical</span></td><td class="num">13</td><td>AWS Batch job submission<div class="rem">→ Generate a Kubernetes Job (with backoffLimit and ttlSecondsAfterFinished) from the Batch job definition.</div></td></tr><tr><td><code>TPD007</code></td><td><span class="sev" style="background:#d64545">critical</span></td><td class="num">18</td><td>arn:aws literal in source<div class="rem">→ Externalise into configuration and use Crossplane-provisioned resources with generated names.</div></td></tr><tr><td><code>TPD008</code></td><td><span class="sev" style="background:#d64545">critical</span></td><td class="num">3</td><td>AWS IAM / STS role assumption<div class="rem">→ Use workload identity from Kubernetes ServiceAccount (SPIFFE/IRSA-equivalent) or a Vault-injected token.</div></td></tr><tr><td><code>TPD009</code></td><td><span class="sev" style="background:#d64545">critical</span></td><td class="num">7</td><td>Non-portable IAM policy document<div class="rem">→ Replace with Kubernetes RBAC and an S3-compatible access key scoped to a bucket.</div></td></tr><tr><td><code>TPD020</code></td><td><span class="sev" style="background:#d64545">critical</span></td><td class="num">4</td><td>aws-sdk-go / aws-sdk-go-v2 import<div class="rem">→ Swap to the portable interface; keep an S3-compatible client backed by configuration.</div></td></tr><tr><td><code>TPD021</code></td><td><span class="sev" style="background:#d64545">critical</span></td><td class="num">2</td><td>AWS SDK service client in Go<div class="rem">→ Repoint at the portable replacement generated by this tool.</div></td></tr><tr><td><code>TPD030</code></td><td><span class="sev" style="background:#d64545">critical</span></td><td class="num">2</td><td>@aws-sdk/* package import<div class="rem">→ Use an S3-compatible client (for example the S3 API via a configured endpoint) and call ground microservices over HTTP.</div></td></tr><tr><td><code>TPD031</code></td><td><span class="sev" style="background:#d64545">critical</span></td><td class="num">2</td><td>AWS SDK Lambda client usage<div class="rem">→ Call the generated Kubernetes Service instead of InvokeCommand.</div></td></tr><tr><td><code>TPD040</code></td><td><span class="sev" style="background:#d64545">critical</span></td><td class="num">2</td><td>AWS Batch job definition manifest<div class="rem">→ Generate an equivalent Kubernetes Job (backoffLimit, ttlSecondsAfterFinished, resources).</div></td></tr><tr><td><code>TPD041</code></td><td><span class="sev" style="background:#d64545">critical</span></td><td class="num">1</td><td>AWS Batch compute environment manifest<div class="rem">→ Use a Kubernetes node pool or Karpenter NodePool plus a PriorityClass.</div></td></tr><tr><td><code>TPD042</code></td><td><span class="sev" style="background:#d64545">critical</span></td><td class="num">3</td><td>Amazon ECR image reference<div class="rem">→ Mirror into the ground-station registry (Harbor/Zot) and reference it by local name.</div></td></tr><tr><td><code>TPD043</code></td><td><span class="sev" style="background:#d64545">critical</span></td><td class="num">2</td><td>IRSA annotation (eks.amazonaws.com/role-arn)<div class="rem">→ Use a Kubernetes ServiceAccount with an S3-compatible access key Secret, or SPIFFE workload identity.</div></td></tr><tr><td><code>TPD046</code></td><td><span class="sev" style="background:#d64545">critical</span></td><td class="num">3</td><td>AWS Secrets Manager / SSM CSI volume<div class="rem">→ Mount Kubernetes Secrets, optionally synced by External Secrets Operator from Vault.</div></td></tr><tr><td><code>TPD049</code></td><td><span class="sev" style="background:#d64545">critical</span></td><td class="num">4</td><td>aws_* Terraform / CloudFormation resource<div class="rem">→ Express the same resource as a Crossplane composite (portable) or plain Kubernetes objects.</div></td></tr><tr><td><code>TPD005</code></td><td><span class="sev" style="background:#c98a00">high</span></td><td class="num">4</td><td>Hard-coded S3 bucket / ARN literal<div class="rem">→ Read the endpoint, bucket, and credentials from a ConfigMap/Secret; point them at MinIO or VersityGW.</div></td></tr><tr><td><code>TPD006</code></td><td><span class="sev" style="background:#c98a00">high</span></td><td class="num">9</td><td>Proprietary S3 primitive usage<div class="rem">→ Wrap in the object-store interface; the S3 API is portable, the SDK is not.</div></td></tr><tr><td><code>TPD010</code></td><td><span class="sev" style="background:#c98a00">high</span></td><td class="num">3</td><td>AWS messaging service usage<div class="rem">→ Target NATS JetStream or Redpanda, both of which run air-gapped.</div></td></tr><tr><td><code>TPD011</code></td><td><span class="sev" style="background:#c98a00">high</span></td><td class="num">1</td><td>AWS managed database usage<div class="rem">→ Use PostgreSQL (CloudNativePG) or an S3-backed open table format.</div></td></tr><tr><td><code>TPD012</code></td><td><span class="sev" style="background:#c98a00">high</span></td><td class="num">3</td><td>AWS CLI invocation of a proprietary service<div class="rem">→ Replace with kubectl/Helm or Crossplane; the ground station must not require AWS credentials.</div></td></tr><tr><td><code>TPD044</code></td><td><span class="sev" style="background:#c98a00">high</span></td><td class="num">6</td><td>AWS Load Balancer Controller ingress<div class="rem">→ Use a portable ingress (NGINX or Gateway API) with no cloud-specific annotations.</div></td></tr><tr><td><code>TPD045</code></td><td><span class="sev" style="background:#c98a00">high</span></td><td class="num">1</td><td>AWS EBS/EFS storage class<div class="rem">→ Use the ground station&#39;s portable storage class (local-path, Longhorn, Ceph RBD).</div></td></tr><tr><td><code>TPD047</code></td><td><span class="sev" style="background:#c98a00">high</span></td><td class="num">1</td><td>Karpenter EC2NodeClass<div class="rem">→ Use a portable NodePool/Cluster Autoscaler for the ground-station cluster.</div></td></tr><tr><td><code>TPD048</code></td><td><span class="sev" style="background:#c98a00">high</span></td><td class="num">4</td><td>CloudWatch Logs / X-Ray dependency<div class="rem">→ Ship OTLP to a local OpenTelemetry Collector exported to Prometheus/Loki/Tempo.</div></td></tr></tbody></table>
+  </section>
+
+  <section class="card">
+    <h2>Top hotspots</h2>
+    <table><thead><tr><th>Location</th><th>Rule</th><th>Symbol &amp; replacement</th></tr></thead>
+    <tbody><tr><td><code>batch/compute-environment.json:2</code></td><td><code>TPD004</code></td><td>&#34;computeEnvironmentName&#34;: &#34;droid-pass-compute&#34;,<div class="rem">→ Kubernetes Job manifest</div></td></tr><tr><td><code>batch/compute-environment.json:2</code></td><td><code>TPD041</code></td><td>computeEnvironmentName<div class="rem">→ NodePool / PriorityClass</div></td></tr><tr><td><code>batch/compute-environment.json:12</code></td><td><code>TPD009</code></td><td>&#34;instanceRole&#34;: &#34;arn:aws:iam::123456789012:instance-profile/ecsInstanc…<div class="rem">→ RBAC Role/RoleBinding + MinIO policy</div></td></tr><tr><td><code>batch/job-definition.json:2</code></td><td><code>TPD004</code></td><td>&#34;jobDefinitionName&#34;: &#34;droid-pass-processor&#34;,<div class="rem">→ Kubernetes Job manifest</div></td></tr><tr><td><code>batch/job-definition.json:2</code></td><td><code>TPD040</code></td><td>jobDefinitionName<div class="rem">→ Kubernetes Job manifest</div></td></tr><tr><td><code>batch/job-definition.json:4</code></td><td><code>TPD040</code></td><td>containerProperties<div class="rem">→ Kubernetes Job manifest</div></td></tr><tr><td><code>batch/job-definition.json:5</code></td><td><code>TPD042</code></td><td>&#34;image&#34;: &#34;123456789012.dkr.ecr.us-west-2.amazonaws.com/turion/pass-pro…<div class="rem">→ Harbor / Zot registry</div></td></tr><tr><td><code>batch/job-queue.yaml:1</code></td><td><code>TPD004</code></td><td>jobQueueName: droid-pass-queue<div class="rem">→ Kubernetes Job manifest</div></td></tr><tr><td><code>batch/job-queue.yaml:4</code></td><td><code>TPD004</code></td><td>computeEnvironmentOrder:<div class="rem">→ Kubernetes Job manifest</div></td></tr><tr><td><code>batch/job-queue.yaml:6</code></td><td><code>TPD004</code></td><td>computeEnvironment: arn:aws:batch:us-west-2:123456789012:compute-envir…<div class="rem">→ Kubernetes Job manifest</div></td></tr><tr><td><code>batch/job-queue.yaml:6</code></td><td><code>TPD007</code></td><td>computeEnvironment: arn:aws:batch:us-west-2:123456789012:compute-envir…<div class="rem">→ Crossplane composite + ConfigMap</div></td></tr><tr><td><code>batch/submit_pass_processing.py:14</code></td><td><code>TPD001</code></td><td>import boto3<div class="rem">→ OpenC3-compatible object-store shim + typed config</div></td></tr></tbody></table>
+  </section>
+
+  <section class="card">
+    <h2>Air-gapped manifest validation</h2>
+    <div class="kv"><span>Objects</span><b>27 across 1 file(s)</b></div>
+    <div class="kv"><span>Schema + structure</span><b style="color:#1f9d55">PASS</b></div>
+    <div class="kv"><span>kubectl dry-run</span><b>skipped — no reachable Kubernetes API server; embedded structural + schema validation used instead</b></div>
+    <div class="kv"><span>Residual AWS references</span><b style="color:#1f9d55">0</b></div>
+  </section>
+<section class="card"><h2>Generated portable replacements</h2><ul><li><code>reports/kustomize/kustomization.yaml</code></li><li><code>reports/ground-station-portable.yaml</code></li></ul></section>
+  <footer>turion-platform-drift 1.0.0 &middot; no proprietary AWS API called during analysis</footer>
+</div>
+</body>
+</html>

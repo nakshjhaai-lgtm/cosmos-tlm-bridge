@@ -1,0 +1,6 @@
+jobQueueName: droid-pass-queue
+state: ENABLED
+priority: 10
+computeEnvironmentOrder:
+  - order: 1
+    computeEnvironment: arn:aws:batch:us-west-2:123456789012:compute-environment/droid-pass-compute

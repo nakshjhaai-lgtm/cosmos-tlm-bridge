@@ -1,0 +1,28 @@
+# Baseline values — note every AWS-specific key, all flagged by the linter.
+replicaCount: 3
+
+image:
+  repository: 123456789012.dkr.ecr.us-west-2.amazonaws.com/turion/ground-telemetry-api
+  tag: "2.4.1"
+  pullPolicy: IfNotPresent
+
+aws:
+  region: us-west-2
+  accountId: "123456789012"
+  roleArn: arn:aws:iam::123456789012:role/ground-telemetry-api
+  jobQueue: arn:aws:batch:us-west-2:123456789012:job-queue/droid-pass-processing
+  jobDefinition: arn:aws:batch:us-west-2:123456789012:job-definition/pass-processor:7
+  archiveBucket: turion-tlm-archive-prod
+  telemetryTable: droid-telemetry-index
+  lambdaEnrich: arn:aws:lambda:us-west-2:123456789012:function:droid-telemetry-enrich
+
+storage:
+  className: gp3
+  size: 200Gi
+
+ingress:
+  enabled: true
+  className: alb
+  annotations:
+    alb.ingress.kubernetes.io/scheme: internal
+    alb.ingress.kubernetes.io/target-type: ip

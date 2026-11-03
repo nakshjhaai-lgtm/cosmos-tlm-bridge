@@ -1,0 +1,81 @@
+
+[1m== 1. hygiene[0m
+  [32mPASS[0m  gofmt reports no diffs                                   27ms
+  [32mPASS[0m  go vet                                                  269ms
+  [32mPASS[0m  go build                                                766ms
+  [32mPASS[0m  zero external Go dependencies                             5ms
+
+[1m== 2. correctness (tests, race, coverage of every rule)[0m
+  [32mPASS[0m  go test ./...                                          2921ms
+  [32mPASS[0m  go test -race ./...                                    7993ms
+  [32mPASS[0m  every rule fires on its own probe                       239ms
+  [32mPASS[0m  portable corpus produces zero findings                  240ms
+
+[1m== 3. stress and adversarial input[0m
+  [32mPASS[0m  3000-file repository inside the 30s budget              607ms
+  [32mPASS[0m  adversarial tree (CRLF/BOM/NUL/binary/deep YAML)        252ms
+  [32mPASS[0m  scan is deterministic                                   346ms
+  [32mPASS[0m  generation is idempotent                                243ms
+
+[1m== 4. fuzzing (short budget; CI runs longer)[0m
+  [32mPASS[0m  fuzz yamlite parser                                   21271ms
+  [32mPASS[0m  fuzz manifest scanner                                 16737ms
+  [32mPASS[0m  fuzz Go AST analyzer                                  11213ms
+
+[1m== 5. Definition-of-Done scan: scorecard under 30s[0m
+  [32mPASS[0m  go run turion-platform-drift scan ./ground-service      248ms
+  [32mPASS[0m  all 26 rules fire on the AWS-bound fixture              243ms
+
+[1m== 6. generation + air-gapped validation (no cluster needed)[0m
+  [32mPASS[0m  generate kubernetes target                              247ms
+  [32mPASS[0m  generate crossplane target                              245ms
+  [32mPASS[0m  validate kubernetes bundle (embedded schema)            202ms
+  [32mPASS[0m  validate crossplane bundle (embedded schema)            199ms
+  [32mPASS[0m  validate reference templates + render Helm chart        247ms
+  [32mPASS[0m  kubernetes bundle contains only builtin kinds             4ms
+  [32mPASS[0m  no residual AWS in either bundle                          4ms
+
+[1m== 7. real cluster gates (kwok: etcd + kube-apiserver, no Docker)[0m
+  [32mPASS[0m  install upstream CRDs at current versions             13347ms
+  [32mPASS[0m  kubectl apply --dry-run=client: kubernetes bundle       427ms
+  [32mPASS[0m  kubectl apply --dry-run=server: kubernetes bundle       562ms
+  [32mPASS[0m  kubectl apply --dry-run=client: crossplane bundle       910ms
+  [32mPASS[0m  kubectl apply --dry-run=server: crossplane bundle       654ms
+  [32mPASS[0m  REAL apply: kubernetes bundle (bare cluster, no operators)    619ms
+  [32mPASS[0m  REAL apply: crossplane bundle (CRDs installed)          827ms
+  [32mPASS[0m  validator kubectl gate is enforced (--require-kubectl)   2879ms
+
+[1m== summary[0m
+  32 passed, 0 failed
+
+  PASS  gofmt reports no diffs  (27ms)
+  PASS  go vet  (269ms)
+  PASS  go build  (766ms)
+  PASS  zero external Go dependencies  (5ms)
+  PASS  go test ./...  (2921ms)
+  PASS  go test -race ./...  (7993ms)
+  PASS  every rule fires on its own probe  (239ms)
+  PASS  portable corpus produces zero findings  (240ms)
+  PASS  3000-file repository inside the 30s budget  (607ms)
+  PASS  adversarial tree (CRLF/BOM/NUL/binary/deep YAML)  (252ms)
+  PASS  scan is deterministic  (346ms)
+  PASS  generation is idempotent  (243ms)
+  PASS  fuzz yamlite parser  (21271ms)
+  PASS  fuzz manifest scanner  (16737ms)
+  PASS  fuzz Go AST analyzer  (11213ms)
+  PASS  all 26 rules fire on the AWS-bound fixture  (243ms)
+  PASS  generate kubernetes target  (247ms)
+  PASS  generate crossplane target  (245ms)
+  PASS  validate kubernetes bundle (embedded schema)  (202ms)
+  PASS  validate crossplane bundle (embedded schema)  (199ms)
+  PASS  validate reference templates + render Helm chart  (247ms)
+  PASS  kubernetes bundle contains only builtin kinds  (4ms)
+  PASS  no residual AWS in either bundle  (4ms)
+  PASS  install upstream CRDs at current versions  (13347ms)
+  PASS  kubectl apply --dry-run=client: kubernetes bundle  (427ms)
+  PASS  kubectl apply --dry-run=server: kubernetes bundle  (562ms)
+  PASS  kubectl apply --dry-run=client: crossplane bundle  (910ms)
+  PASS  kubectl apply --dry-run=server: crossplane bundle  (654ms)
+  PASS  REAL apply: kubernetes bundle (bare cluster, no operators)  (619ms)
+  PASS  REAL apply: crossplane bundle (CRDs installed)  (827ms)
+  PASS  validator kubectl gate is enforced (--require-kubectl)  (2879ms)

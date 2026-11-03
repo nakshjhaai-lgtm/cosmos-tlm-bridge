@@ -1,0 +1,777 @@
+[
+  {
+    "suite": "droid_pass_acceptance",
+    "target": "DROID_SIM",
+    "scope": "DEFAULT",
+    "started_at": 1793716445.6500208,
+    "duration_s": 22.729121923446655,
+    "cases": [
+      {
+        "name": "[setup] all packets are streaming",
+        "kind": "wait",
+        "status": "passed",
+        "duration_s": 0.10245316800001092,
+        "message": "DROID_SIM EPS received (1 packets)",
+        "details": [],
+        "samples": 0,
+        "stdout": ""
+      },
+      {
+        "name": "[setup] attitude packet is streaming",
+        "kind": "wait",
+        "status": "passed",
+        "duration_s": 0.0008818030000838917,
+        "message": "DROID_SIM ADCS received (1 packets)",
+        "details": [],
+        "samples": 0,
+        "stdout": ""
+      },
+      {
+        "name": "[setup] thermal packet is streaming",
+        "kind": "wait",
+        "status": "passed",
+        "duration_s": 0.0006909379999342491,
+        "message": "DROID_SIM THERMAL received (1 packets)",
+        "details": [],
+        "samples": 0,
+        "stdout": ""
+      },
+      {
+        "name": "[steps] precondition - bus is nominal, no point is out of limits",
+        "kind": "assert",
+        "status": "passed",
+        "duration_s": 0.003987318000099549,
+        "message": "assert EPS__BATT_SOC [EU] BETWEEN: value 20.0 <= 91.5 <= 100.0; assert EPS__BATT_SOC [EU] color=GREEN: color=GREEN expected=GREEN; assert THERMAL__RW_TEMP [EU] color=BLUE: color=BLUE expected=BLUE; assert ADCS__RW_SPEED [EU] color=GREEN: color=GREEN expected=GREEN",
+        "details": [
+          {
+            "channel": "DROID_SIM__EPS__BATT_SOC",
+            "dn_eu": "EU",
+            "value": 91.5,
+            "limits_state": "GREEN",
+            "limits_color": "GREEN",
+            "checks": [
+              {
+                "ok": true,
+                "detail": "value 20.0 <= 91.5 <= 100.0"
+              }
+            ],
+            "t": 1793716445.7569
+          },
+          {
+            "channel": "DROID_SIM__EPS__BATT_SOC",
+            "dn_eu": "EU",
+            "value": 91.5,
+            "limits_state": "GREEN",
+            "limits_color": "GREEN",
+            "checks": [
+              {
+                "ok": true,
+                "detail": "color=GREEN expected=GREEN"
+              }
+            ],
+            "t": 1793716445.7578
+          },
+          {
+            "channel": "DROID_SIM__THERMAL__RW_TEMP",
+            "dn_eu": "EU",
+            "value": 21.0,
+            "limits_state": "BLUE",
+            "limits_color": "BLUE",
+            "checks": [
+              {
+                "ok": true,
+                "detail": "color=BLUE expected=BLUE"
+              }
+            ],
+            "t": 1793716445.7588
+          },
+          {
+            "channel": "DROID_SIM__ADCS__RW_SPEED",
+            "dn_eu": "EU",
+            "value": 300.3,
+            "limits_state": "GREEN",
+            "limits_color": "GREEN",
+            "checks": [
+              {
+                "ok": true,
+                "detail": "color=GREEN expected=GREEN"
+              }
+            ],
+            "t": 1793716445.7597
+          }
+        ],
+        "samples": 4,
+        "stdout": ""
+      },
+      {
+        "name": "[steps] command the attitude slew",
+        "kind": "command",
+        "status": "passed",
+        "duration_s": 0.40086651299998266,
+        "message": "sent DROID_SIM CMD_SLEW_TARGET with SLEW_RATE 2.5, TARGET_ID 7, DURATION 60, ABORT_ON_LIMITS 0 (check=ENABLED)",
+        "details": [
+          {
+            "response": {
+              "name": "CMD_SLEW_TARGET",
+              "args": {
+                "SLEW_RATE": 2.5,
+                "TARGET_ID": 7,
+                "DURATION": 60,
+                "ABORT_ON_LIMITS": 0
+              },
+              "received_time": 1793716445.7603707,
+              "elapsed": 0.109,
+              "cmd_string": "DROID_SIM CMD_SLEW_TARGET with SLEW_RATE 2.5, TARGET_ID 7, DURATION 60, ABORT_ON_LIMITS 0",
+              "check": true
+            }
+          }
+        ],
+        "samples": 0,
+        "stdout": ""
+      },
+      {
+        "name": "[steps] slew is acknowledged in telemetry (DN mode)",
+        "kind": "assert",
+        "status": "passed",
+        "duration_s": 0.0030711920001067483,
+        "message": "assert ADCS__SLEW_ACTIVE [DN] EQUAL: value 1.0 == 1.0 (tol 0.0); assert ADCS__SLEW_TARGET_ID [DN] EQUAL: value 7.0 == 7.0 (tol 0.0)",
+        "details": [
+          {
+            "channel": "DROID_SIM__ADCS__SLEW_ACTIVE",
+            "dn_eu": "DN",
+            "value": 1.0,
+            "limits_state": "UNKNOWN",
+            "limits_color": "GREEN",
+            "checks": [
+              {
+                "ok": true,
+                "detail": "value 1.0 == 1.0 (tol 0.0)"
+              }
+            ],
+            "t": 1793716446.1626
+          },
+          {
+            "channel": "DROID_SIM__ADCS__SLEW_TARGET_ID",
+            "dn_eu": "DN",
+            "value": 7.0,
+            "limits_state": "UNKNOWN",
+            "limits_color": "GREEN",
+            "checks": [
+              {
+                "ok": true,
+                "detail": "value 7.0 == 7.0 (tol 0.0)"
+              }
+            ],
+            "t": 1793716446.1639
+          }
+        ],
+        "samples": 2,
+        "stdout": ""
+      },
+      {
+        "name": "[steps] slewing target slot decodes to the commanded slot (EU mode)",
+        "kind": "assert",
+        "status": "passed",
+        "duration_s": 0.0010843219999969733,
+        "message": "assert ADCS__SLEW_TARGET_ID [EU] EQUAL: value 7.0 == 7.0 (tol 0.0)",
+        "details": [
+          {
+            "channel": "DROID_SIM__ADCS__SLEW_TARGET_ID",
+            "dn_eu": "EU",
+            "value": 7.0,
+            "limits_state": "UNKNOWN",
+            "limits_color": "GREEN",
+            "checks": [
+              {
+                "ok": true,
+                "detail": "value 7.0 == 7.0 (tol 0.0)"
+              }
+            ],
+            "t": 1793716446.1654
+          }
+        ],
+        "samples": 1,
+        "stdout": ""
+      },
+      {
+        "name": "[steps] attitude error leaves the tight deadband during the slew",
+        "kind": "assert",
+        "status": "passed",
+        "duration_s": 0.3070039619999534,
+        "message": "assert ADCS__ATTITUDE_ERROR [EU] BETWEEN: value 0.3 <= 0.38 <= 2.0; assert ADCS__ATTITUDE_ERROR [DN] BETWEEN: value 300.0 <= 380.0 <= 2000.0",
+        "details": [
+          {
+            "channel": "DROID_SIM__ADCS__ATTITUDE_ERROR",
+            "dn_eu": "EU",
+            "value": 0.121,
+            "limits_state": "BLUE",
+            "limits_color": "BLUE",
+            "checks": [
+              {
+                "ok": false,
+                "detail": "value 0.3 <= 0.121 <= 2.0"
+              }
+            ],
+            "t": 1793716446.1664
+          },
+          {
+            "channel": "DROID_SIM__ADCS__ATTITUDE_ERROR",
+            "dn_eu": "EU",
+            "value": 0.258,
+            "limits_state": "BLUE",
+            "limits_color": "BLUE",
+            "checks": [
+              {
+                "ok": false,
+                "detail": "value 0.3 <= 0.258 <= 2.0"
+              }
+            ],
+            "t": 1793716446.3183
+          },
+          {
+            "channel": "DROID_SIM__ADCS__ATTITUDE_ERROR",
+            "dn_eu": "EU",
+            "value": 0.38,
+            "limits_state": "BLUE",
+            "limits_color": "BLUE",
+            "checks": [
+              {
+                "ok": true,
+                "detail": "value 0.3 <= 0.38 <= 2.0"
+              }
+            ],
+            "t": 1793716446.4711
+          },
+          {
+            "channel": "DROID_SIM__ADCS__ATTITUDE_ERROR",
+            "dn_eu": "DN",
+            "value": 380.0,
+            "limits_state": "BLUE",
+            "limits_color": "BLUE",
+            "checks": [
+              {
+                "ok": true,
+                "detail": "value 300.0 <= 380.0 <= 2000.0"
+              }
+            ],
+            "t": 1793716446.4725
+          }
+        ],
+        "samples": 4,
+        "stdout": ""
+      },
+      {
+        "name": "[steps] bus voltage stays inside the BLUE operational band",
+        "kind": "assert",
+        "status": "passed",
+        "duration_s": 0.0012060799999744631,
+        "message": "assert EPS__BATT_VOLTAGE [EU] color=BLUE: color=BLUE expected=BLUE",
+        "details": [
+          {
+            "channel": "DROID_SIM__EPS__BATT_VOLTAGE",
+            "dn_eu": "EU",
+            "value": 15.27,
+            "limits_state": "BLUE",
+            "limits_color": "BLUE",
+            "checks": [
+              {
+                "ok": true,
+                "detail": "color=BLUE expected=BLUE"
+              }
+            ],
+            "t": 1793716446.4738
+          }
+        ],
+        "samples": 1,
+        "stdout": ""
+      },
+      {
+        "name": "[steps] reaction wheel thermal limit violation is caught (EU mode)",
+        "kind": "assert",
+        "status": "passed",
+        "duration_s": 3.0405352459999904,
+        "message": "assert THERMAL__RW_TEMP [EU] limits=YELLOW_HIGH: limits_state=YELLOW_HIGH expected=YELLOW_HIGH",
+        "details": [
+          {
+            "channel": "DROID_SIM__THERMAL__RW_TEMP",
+            "dn_eu": "EU",
+            "value": 50.54,
+            "limits_state": "GREEN",
+            "limits_color": "GREEN",
+            "checks": [
+              {
+                "ok": false,
+                "detail": "limits_state=GREEN expected=YELLOW_HIGH"
+              }
+            ],
+            "t": 1793716448.4507
+          },
+          {
+            "channel": "DROID_SIM__THERMAL__RW_TEMP",
+            "dn_eu": "EU",
+            "value": 51.85,
+            "limits_state": "GREEN",
+            "limits_color": "GREEN",
+            "checks": [
+              {
+                "ok": false,
+                "detail": "limits_state=GREEN expected=YELLOW_HIGH"
+              }
+            ],
+            "t": 1793716448.603
+          },
+          {
+            "channel": "DROID_SIM__THERMAL__RW_TEMP",
+            "dn_eu": "EU",
+            "value": 52.96,
+            "limits_state": "GREEN",
+            "limits_color": "GREEN",
+            "checks": [
+              {
+                "ok": false,
+                "detail": "limits_state=GREEN expected=YELLOW_HIGH"
+              }
+            ],
+            "t": 1793716448.7548
+          },
+          {
+            "channel": "DROID_SIM__THERMAL__RW_TEMP",
+            "dn_eu": "EU",
+            "value": 52.96,
+            "limits_state": "GREEN",
+            "limits_color": "GREEN",
+            "checks": [
+              {
+                "ok": false,
+                "detail": "limits_state=GREEN expected=YELLOW_HIGH"
+              }
+            ],
+            "t": 1793716448.9066
+          },
+          {
+            "channel": "DROID_SIM__THERMAL__RW_TEMP",
+            "dn_eu": "EU",
+            "value": 53.89,
+            "limits_state": "GREEN",
+            "limits_color": "GREEN",
+            "checks": [
+              {
+                "ok": false,
+                "detail": "limits_state=GREEN expected=YELLOW_HIGH"
+              }
+            ],
+            "t": 1793716449.0588
+          },
+          {
+            "channel": "DROID_SIM__THERMAL__RW_TEMP",
+            "dn_eu": "EU",
+            "value": 53.89,
+            "limits_state": "GREEN",
+            "limits_color": "GREEN",
+            "checks": [
+              {
+                "ok": false,
+                "detail": "limits_state=GREEN expected=YELLOW_HIGH"
+              }
+            ],
+            "t": 1793716449.2106
+          },
+          {
+            "channel": "DROID_SIM__THERMAL__RW_TEMP",
+            "dn_eu": "EU",
+            "value": 54.68,
+            "limits_state": "GREEN",
+            "limits_color": "GREEN",
+            "checks": [
+              {
+                "ok": false,
+                "detail": "limits_state=GREEN expected=YELLOW_HIGH"
+              }
+            ],
+            "t": 1793716449.3625
+          },
+          {
+            "channel": "DROID_SIM__THERMAL__RW_TEMP",
+            "dn_eu": "EU",
+            "value": 55.35,
+            "limits_state": "YELLOW_HIGH",
+            "limits_color": "YELLOW",
+            "checks": [
+              {
+                "ok": true,
+                "detail": "limits_state=YELLOW_HIGH expected=YELLOW_HIGH"
+              }
+            ],
+            "t": 1793716449.5144
+          }
+        ],
+        "samples": 21,
+        "stdout": ""
+      },
+      {
+        "name": "[steps] reaction wheel thermal limit violation is caught (DN mode)",
+        "kind": "assert",
+        "status": "passed",
+        "duration_s": 0.001042669000071328,
+        "message": "assert THERMAL__RW_TEMP [DN] limits=YELLOW_HIGH: limits_state=YELLOW_HIGH expected=YELLOW_HIGH",
+        "details": [
+          {
+            "channel": "DROID_SIM__THERMAL__RW_TEMP",
+            "dn_eu": "DN",
+            "value": 9535.0,
+            "limits_state": "YELLOW_HIGH",
+            "limits_color": "YELLOW",
+            "checks": [
+              {
+                "ok": true,
+                "detail": "limits_state=YELLOW_HIGH expected=YELLOW_HIGH"
+              }
+            ],
+            "t": 1793716449.5155
+          }
+        ],
+        "samples": 1,
+        "stdout": ""
+      },
+      {
+        "name": "[steps] the same violation rolls up to a YELLOW overall system state",
+        "kind": "assert",
+        "status": "passed",
+        "duration_s": 0.0009535109998068947,
+        "message": "assert THERMAL__RW_TEMP [EU] color=YELLOW: color=YELLOW expected=YELLOW",
+        "details": [
+          {
+            "channel": "DROID_SIM__THERMAL__RW_TEMP",
+            "dn_eu": "EU",
+            "value": 55.35,
+            "limits_state": "YELLOW_HIGH",
+            "limits_color": "YELLOW",
+            "checks": [
+              {
+                "ok": true,
+                "detail": "color=YELLOW expected=YELLOW"
+              }
+            ],
+            "t": 1793716449.5165
+          }
+        ],
+        "samples": 1,
+        "stdout": ""
+      },
+      {
+        "name": "[steps] the radiator stays healthy while the wheel is hot",
+        "kind": "assert",
+        "status": "passed",
+        "duration_s": 0.0017766109999683977,
+        "message": "assert THERMAL__RADIATOR_TEMP [EU] color=BLUE: color=BLUE expected=BLUE; assert THERMAL__RADIATOR_TEMP [EU] BETWEEN: value -15.0 <= 17.37 <= 35.0",
+        "details": [
+          {
+            "channel": "DROID_SIM__THERMAL__RADIATOR_TEMP",
+            "dn_eu": "EU",
+            "value": 17.37,
+            "limits_state": "BLUE",
+            "limits_color": "BLUE",
+            "checks": [
+              {
+                "ok": true,
+                "detail": "color=BLUE expected=BLUE"
+              }
+            ],
+            "t": 1793716449.5175
+          },
+          {
+            "channel": "DROID_SIM__THERMAL__RADIATOR_TEMP",
+            "dn_eu": "EU",
+            "value": 17.37,
+            "limits_state": "BLUE",
+            "limits_color": "BLUE",
+            "checks": [
+              {
+                "ok": true,
+                "detail": "value -15.0 <= 17.37 <= 35.0"
+              }
+            ],
+            "t": 1793716449.5184
+          }
+        ],
+        "samples": 2,
+        "stdout": ""
+      },
+      {
+        "name": "[steps] wheel leaves the yellow band after the slew completes",
+        "kind": "assert",
+        "status": "passed",
+        "duration_s": 18.859347602999833,
+        "message": "assert THERMAL__RW_TEMP [EU] LT: value 53.19 < 55.0; assert THERMAL__RW_TEMP [EU] color=BLUE: color=BLUE expected=BLUE",
+        "details": [
+          {
+            "channel": "DROID_SIM__THERMAL__RW_TEMP",
+            "dn_eu": "EU",
+            "value": 59.01,
+            "limits_state": "YELLOW_HIGH",
+            "limits_color": "YELLOW",
+            "checks": [
+              {
+                "ok": false,
+                "detail": "value 59.01 < 55.0"
+              }
+            ],
+            "t": 1793716466.2475
+          },
+          {
+            "channel": "DROID_SIM__THERMAL__RW_TEMP",
+            "dn_eu": "EU",
+            "value": 59.01,
+            "limits_state": "YELLOW_HIGH",
+            "limits_color": "YELLOW",
+            "checks": [
+              {
+                "ok": false,
+                "detail": "value 59.01 < 55.0"
+              }
+            ],
+            "t": 1793716466.3994
+          },
+          {
+            "channel": "DROID_SIM__THERMAL__RW_TEMP",
+            "dn_eu": "EU",
+            "value": 59.0,
+            "limits_state": "YELLOW_HIGH",
+            "limits_color": "YELLOW",
+            "checks": [
+              {
+                "ok": false,
+                "detail": "value 59.0 < 55.0"
+              }
+            ],
+            "t": 1793716466.5514
+          },
+          {
+            "channel": "DROID_SIM__THERMAL__RW_TEMP",
+            "dn_eu": "EU",
+            "value": 59.0,
+            "limits_state": "YELLOW_HIGH",
+            "limits_color": "YELLOW",
+            "checks": [
+              {
+                "ok": false,
+                "detail": "value 59.0 < 55.0"
+              }
+            ],
+            "t": 1793716466.7031
+          },
+          {
+            "channel": "DROID_SIM__THERMAL__RW_TEMP",
+            "dn_eu": "EU",
+            "value": 59.01,
+            "limits_state": "YELLOW_HIGH",
+            "limits_color": "YELLOW",
+            "checks": [
+              {
+                "ok": false,
+                "detail": "value 59.01 < 55.0"
+              }
+            ],
+            "t": 1793716466.8549
+          },
+          {
+            "channel": "DROID_SIM__THERMAL__RW_TEMP",
+            "dn_eu": "EU",
+            "value": 55.98,
+            "limits_state": "YELLOW_HIGH",
+            "limits_color": "YELLOW",
+            "checks": [
+              {
+                "ok": false,
+                "detail": "value 55.98 < 55.0"
+              }
+            ],
+            "t": 1793716467.0068
+          },
+          {
+            "channel": "DROID_SIM__THERMAL__RW_TEMP",
+            "dn_eu": "EU",
+            "value": 55.98,
+            "limits_state": "YELLOW_HIGH",
+            "limits_color": "YELLOW",
+            "checks": [
+              {
+                "ok": false,
+                "detail": "value 55.98 < 55.0"
+              }
+            ],
+            "t": 1793716467.159
+          },
+          {
+            "channel": "DROID_SIM__THERMAL__RW_TEMP",
+            "dn_eu": "EU",
+            "value": 53.19,
+            "limits_state": "GREEN",
+            "limits_color": "GREEN",
+            "checks": [
+              {
+                "ok": true,
+                "detail": "value 53.19 < 55.0"
+              }
+            ],
+            "t": 1793716467.3109
+          },
+          {
+            "channel": "DROID_SIM__THERMAL__RW_TEMP",
+            "dn_eu": "EU",
+            "value": 53.19,
+            "limits_state": "GREEN",
+            "limits_color": "GREEN",
+            "checks": [
+              {
+                "ok": false,
+                "detail": "color=GREEN expected=BLUE"
+              }
+            ],
+            "t": 1793716467.3123
+          },
+          {
+            "channel": "DROID_SIM__THERMAL__RW_TEMP",
+            "dn_eu": "EU",
+            "value": 53.19,
+            "limits_state": "GREEN",
+            "limits_color": "GREEN",
+            "checks": [
+              {
+                "ok": false,
+                "detail": "color=GREEN expected=BLUE"
+              }
+            ],
+            "t": 1793716467.4653
+          },
+          {
+            "channel": "DROID_SIM__THERMAL__RW_TEMP",
+            "dn_eu": "EU",
+            "value": 50.62,
+            "limits_state": "GREEN",
+            "limits_color": "GREEN",
+            "checks": [
+              {
+                "ok": false,
+                "detail": "color=GREEN expected=BLUE"
+              }
+            ],
+            "t": 1793716467.6172
+          },
+          {
+            "channel": "DROID_SIM__THERMAL__RW_TEMP",
+            "dn_eu": "EU",
+            "value": 48.26,
+            "limits_state": "GREEN",
+            "limits_color": "GREEN",
+            "checks": [
+              {
+                "ok": false,
+                "detail": "color=GREEN expected=BLUE"
+              }
+            ],
+            "t": 1793716467.769
+          },
+          {
+            "channel": "DROID_SIM__THERMAL__RW_TEMP",
+            "dn_eu": "EU",
+            "value": 48.26,
+            "limits_state": "GREEN",
+            "limits_color": "GREEN",
+            "checks": [
+              {
+                "ok": false,
+                "detail": "color=GREEN expected=BLUE"
+              }
+            ],
+            "t": 1793716467.9209
+          },
+          {
+            "channel": "DROID_SIM__THERMAL__RW_TEMP",
+            "dn_eu": "EU",
+            "value": 46.09,
+            "limits_state": "GREEN",
+            "limits_color": "GREEN",
+            "checks": [
+              {
+                "ok": false,
+                "detail": "color=GREEN expected=BLUE"
+              }
+            ],
+            "t": 1793716468.0733
+          },
+          {
+            "channel": "DROID_SIM__THERMAL__RW_TEMP",
+            "dn_eu": "EU",
+            "value": 46.09,
+            "limits_state": "GREEN",
+            "limits_color": "GREEN",
+            "checks": [
+              {
+                "ok": false,
+                "detail": "color=GREEN expected=BLUE"
+              }
+            ],
+            "t": 1793716468.2259
+          },
+          {
+            "channel": "DROID_SIM__THERMAL__RW_TEMP",
+            "dn_eu": "EU",
+            "value": 44.08,
+            "limits_state": "BLUE",
+            "limits_color": "BLUE",
+            "checks": [
+              {
+                "ok": true,
+                "detail": "color=BLUE expected=BLUE"
+              }
+            ],
+            "t": 1793716468.3778
+          }
+        ],
+        "samples": 126,
+        "stdout": ""
+      },
+      {
+        "name": "[teardown] bus voltage still nominal at end of pass",
+        "kind": "assert",
+        "status": "passed",
+        "duration_s": 0.0011979410001003998,
+        "message": "assert EPS__BATT_VOLTAGE [EU] BETWEEN: value 14.0 <= 15.535 <= 17.0",
+        "details": [
+          {
+            "channel": "DROID_SIM__EPS__BATT_VOLTAGE",
+            "dn_eu": "EU",
+            "value": 15.535,
+            "limits_state": "BLUE",
+            "limits_color": "BLUE",
+            "checks": [
+              {
+                "ok": true,
+                "detail": "value 14.0 <= 15.535 <= 17.0"
+              }
+            ],
+            "t": 1793716468.3791
+          }
+        ],
+        "samples": 1,
+        "stdout": ""
+      }
+    ],
+    "environment": {
+      "cosmos_url": "http://localhost:2900",
+      "scope": "DEFAULT",
+      "target": "DROID_SIM",
+      "auth_mode": "keyless",
+      "python": "3.13.16"
+    },
+    "errors": [],
+    "passed": true,
+    "counts": {
+      "passed": 15,
+      "failed": 0,
+      "error": 0,
+      "skipped": 0
+    }
+  }
+]

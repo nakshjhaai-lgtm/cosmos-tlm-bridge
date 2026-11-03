@@ -1,0 +1,50 @@
+# cluster state after scripts/verify.sh (2026-11-03T14:30:29+00:00)
+kube-apiserver v1.36.1
+CRDs: 45
+objects: 96
+buckets: 3
+acraccesstokens.generators.external-secrets.io
+backups.postgresql.cnpg.io
+beyondtrustworkloadcredentialsdynamicsecrets.generators.external-secrets.io
+buckets.minio.crossplane.io
+cloudsmithaccesstokens.generators.external-secrets.io
+clusterexternalsecrets.external-secrets.io
+clustergenerators.generators.external-secrets.io
+clusterimagecatalogs.postgresql.cnpg.io
+clusterpushsecrets.external-secrets.io
+clusters.postgresql.cnpg.io
+clustersecretstores.external-secrets.io
+compositeresourcedefinitions.apiextensions.crossplane.io
+compositions.apiextensions.crossplane.io
+databaseroles.postgresql.cnpg.io
+databases.postgresql.cnpg.io
+ecrauthorizationtokens.generators.external-secrets.io
+externalsecrets.external-secrets.io
+failoverquorums.postgresql.cnpg.io
+fakes.generators.external-secrets.io
+gcraccesstokens.generators.external-secrets.io
+generatorstates.generators.external-secrets.io
+githubaccesstokens.generators.external-secrets.io
+gitlabdeploytokens.generators.external-secrets.io
+grafanas.generators.external-secrets.io
+imagecatalogs.postgresql.cnpg.io
+instrumentations.opentelemetry.io
+mfas.generators.external-secrets.io
+opampbridges.opentelemetry.io
+opentelemetrycollectors.opentelemetry.io
+passwords.generators.external-secrets.io
+poolers.postgresql.cnpg.io
+providerconfigs.minio.crossplane.io
+providers.pkg.crossplane.io
+publications.postgresql.cnpg.io
+pushsecrets.external-secrets.io
+quayaccesstokens.generators.external-secrets.io
+scheduledbackups.postgresql.cnpg.io
+secretstores.external-secrets.io
+sshkeys.generators.external-secrets.io
+stssessiontokens.generators.external-secrets.io
+subscriptions.postgresql.cnpg.io
+targetallocators.opentelemetry.io
+uuids.generators.external-secrets.io
+vaultdynamicsecrets.generators.external-secrets.io
+webhooks.generators.external-secrets.io

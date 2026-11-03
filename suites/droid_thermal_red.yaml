@@ -1,0 +1,70 @@
+# RED-limit acceptance: a high-rate slew drives the reaction wheel bearing
+# past RW_TEMP RED_HIGH (70 C). Proves the bridge catches RED as well as
+# YELLOW_HIGH, in both DN and EU modes, and that the overall system state
+# rolls up to RED.
+
+suite: droid_thermal_red
+description: >
+  Aggressive slew at 10 dps heats the reaction wheel through YELLOW_HIGH and
+  into RED_HIGH. Asserts the RED transition in DN and EU modes plus the
+  system-level roll-up.
+target: DROID_SIM
+scope: DEFAULT
+fresh_sim: true
+timeout_s: 90
+tags: [thermal, limits, red, droid]
+
+packets: [THERMAL, ADCS]
+
+setup:
+  - wait_for_packet: THERMAL
+    within_s: 15
+
+steps:
+  - name: wheel starts inside its operational band
+    assert:
+      - channel: THERMAL__RW_TEMP
+        dn_eu: EU
+        expect_limits_color: BLUE
+        within_s: 10
+
+  - name: command the aggressive slew
+    cmd: DROID_SIM CMD_SLEW_TARGET with SLEW_RATE 10.0, TARGET_ID 3, DURATION 120, ABORT_ON_LIMITS 0
+    check: ENABLED
+    settle_s: 0.3
+
+  - name: wheel passes through YELLOW_HIGH on the way up
+    assert:
+      - channel: THERMAL__RW_TEMP
+        dn_eu: EU
+        expect_limits: YELLOW_HIGH
+        within_s: 25
+
+  - name: wheel reaches RED_HIGH (EU mode)
+    assert:
+      - channel: THERMAL__RW_TEMP
+        dn_eu: EU
+        expect_limits: RED_HIGH
+        within_s: 40
+      - channel: THERMAL__RW_TEMP
+        dn_eu: EU
+        condition: ">= 70.0"
+        within_s: 40
+
+  - name: wheel reaches RED_HIGH (DN mode)
+    assert:
+      - channel: THERMAL__RW_TEMP
+        dn_eu: DN
+        expect_limits: RED_HIGH
+        within_s: 40
+      - channel: THERMAL__RW_TEMP
+        dn_eu: DN
+        condition: ">= 11000"
+        within_s: 40
+
+  - name: radiator remains healthy while the wheel is in RED
+    assert:
+      - channel: THERMAL__RADIATOR_TEMP
+        dn_eu: EU
+        condition: "< 45.0"
+        within_s: 20

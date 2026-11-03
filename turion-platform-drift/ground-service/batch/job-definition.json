@@ -1,0 +1,17 @@
+{
+  "jobDefinitionName": "droid-pass-processor",
+  "type": "container",
+  "containerProperties": {
+    "image": "123456789012.dkr.ecr.us-west-2.amazonaws.com/turion/pass-processor:7",
+    "vcpus": 4,
+    "memory": 8192,
+    "command": ["python", "-m", "ground_service.pass_processor", "Ref::passId"],
+    "environment": [
+      {"name": "ARCHIVE_BUCKET", "value": "turion-tlm-archive-prod"},
+      {"name": "AWS_DEFAULT_REGION", "value": "us-west-2"}
+    ]
+  },
+  "retryStrategy": {"attempts": 3},
+  "timeout": {"attemptDurationSeconds": 3600},
+  "platformCapabilities": ["FARGATE"]
+}

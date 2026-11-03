@@ -1,0 +1,20 @@
+# Ships telemetry to CloudWatch + X-Ray (AWS-only exporters).
+apiVersion: opentelemetry.io/v1beta1
+kind: OpenTelemetryCollector
+metadata:
+  name: ground-otel
+  namespace: ground-system
+spec:
+  mode: deployment
+  config:
+    exporters:
+      awscloudwatchlogs:
+        region: us-west-2
+      awsxray:
+        region: us-west-2
+    service:
+      pipelines:
+        traces:
+          exporters: [awsxray]
+        logs:
+          exporters: [awscloudwatchlogs]

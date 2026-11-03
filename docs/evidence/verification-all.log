@@ -1,0 +1,133 @@
+cosmos-tlm-bridge / turion-platform-drift — verification 2026-11-03T15:44:34Z
+root=/tmp/final
+
+== 1. Python package and acceptance ==
+........................................................................ [ 90%]
+........                                                                 [100%]
+cosmos-tlm-bridge [2mv1.0.0[0m
+[2mOpenC3 COSMOS v5 telemetry-to-microservice bridge[0m
+  target   [1mDROID_SIM[0m
+  cosmos   http://127.0.0.1:43799  [2m(scope DEFAULT)[0m
+  keyless  no API key, no Ruby scripts
+
+[1m1/4[0m booting DROID_SIM OpenC3 reference server ... ready [2m(0.00s)[0m
+[1m2/4[0m verifying JSON-RPC + typed decommutation ... ok [2m(9 points on EPS, server openc3-cosmos-init/5.0.0-droid-sim)[0m
+[1m3/4[0m running acceptance suite droid_pass_acceptance
+
+[1msuite[0m droid_pass_acceptance [2m(budget 105.0s)[0m
+  PASS [setup] all packets are streaming
+  PASS [setup] attitude packet is streaming
+  PASS [setup] thermal packet is streaming
+  PASS [steps] precondition - bus is nominal, no point is out of limits
+  PASS [steps] command the attitude slew
+  PASS [steps] slew is acknowledged in telemetry (DN mode)
+  PASS [steps] slewing target slot decodes to the commanded slot (EU mode)
+  PASS [steps] attitude error leaves the tight deadband during the slew
+  PASS [steps] bus voltage stays inside the BLUE operational band
+  PASS [steps] reaction wheel thermal limit violation is caught (EU mode)
+  PASS [steps] reaction wheel thermal limit violation is caught (DN mode)
+  PASS [steps] the same violation rolls up to a YELLOW overall system state
+  PASS [steps] the radiator stays healthy while the wheel is hot
+  PASS [steps] wheel leaves the yellow band after the slew completes
+  PASS [teardown] bus voltage still nominal at end of pass
+  -> PASS 15 passed, 0 failed, 0 errors
+
+[1m4/4[0m writing reports ... done
+  junit    /tmp/ctb-demo/droid_pass-junit.xml
+  html     /tmp/ctb-demo/droid_pass-report.html
+  json     /tmp/ctb-demo/droid_pass-results.json
+
+acceptance summary  PASS  [2m(suite 22.9s / total 22.9s, budget 45.0s)[0m
+  PASSED [setup] all packets are streaming
+  PASSED [setup] attitude packet is streaming
+  PASSED [setup] thermal packet is streaming
+  PASSED [steps] precondition - bus is nominal, no point is out of limits
+  PASSED [steps] command the attitude slew
+  PASSED [steps] slew is acknowledged in telemetry (DN mode)
+  PASSED [steps] slewing target slot decodes to the commanded slot (EU mode)
+  PASSED [steps] attitude error leaves the tight deadband during the slew
+  PASSED [steps] bus voltage stays inside the BLUE operational band
+  PASSED [steps] reaction wheel thermal limit violation is caught (EU mode)
+  PASSED [steps] reaction wheel thermal limit violation is caught (DN mode)
+  PASSED [steps] the same violation rolls up to a YELLOW overall system state
+  PASSED [steps] the radiator stays healthy while the wheel is hot
+  PASSED [steps] wheel leaves the yellow band after the slew completes
+  PASSED [teardown] bus voltage still nominal at end of pass
+
+instant spin-up  22.9s / 45.0s PASS
+demo 23538ms
+
+[1msuite[0m droid_smoke [2m(budget 30.0s)[0m
+  PASS [steps] wait for packet EPS
+  PASS [steps] battery voltage converts to a plausible EU value
+  PASS [steps] reaction wheel temperature is inside its operational band
+  -> PASS 3 passed, 0 failed, 0 errors
+junit  /tmp/ctb-suites/droid_smoke-junit.xml
+html   /tmp/ctb-suites/droid_smoke-report.html
+json   /tmp/ctb-suites/droid_smoke-results.json
+
+PASS: 3 passed, 0 failed, 0 errors, 0.1s
+
+[1msuite[0m droid_thermal_red [2m(budget 90.0s)[0m
+  PASS [setup] wait for packet THERMAL
+  PASS [steps] wheel starts inside its operational band
+  PASS [steps] command the aggressive slew
+  PASS [steps] wheel passes through YELLOW_HIGH on the way up
+  PASS [steps] wheel reaches RED_HIGH (EU mode)
+  PASS [steps] wheel reaches RED_HIGH (DN mode)
+  PASS [steps] radiator remains healthy while the wheel is in RED
+  -> PASS 7 passed, 0 failed, 0 errors
+junit  /tmp/ctb-suites/droid_thermal_red-junit.xml
+html   /tmp/ctb-suites/droid_thermal_red-report.html
+json   /tmp/ctb-suites/droid_thermal_red-results.json
+
+PASS: 7 passed, 0 failed, 0 errors, 3.7s
+
+[1msuite[0m droid_pass_acceptance [2m(budget 105.0s)[0m
+  PASS [setup] all packets are streaming
+  PASS [setup] attitude packet is streaming
+  PASS [setup] thermal packet is streaming
+  PASS [steps] precondition - bus is nominal, no point is out of limits
+  PASS [steps] command the attitude slew
+  PASS [steps] slew is acknowledged in telemetry (DN mode)
+  PASS [steps] slewing target slot decodes to the commanded slot (EU mode)
+  PASS [steps] attitude error leaves the tight deadband during the slew
+  PASS [steps] bus voltage stays inside the BLUE operational band
+  PASS [steps] reaction wheel thermal limit violation is caught (EU mode)
+  PASS [steps] reaction wheel thermal limit violation is caught (DN mode)
+  PASS [steps] the same violation rolls up to a YELLOW overall system state
+  PASS [steps] the radiator stays healthy while the wheel is hot
+  PASS [steps] wheel leaves the yellow band after the slew completes
+  PASS [teardown] bus voltage still nominal at end of pass
+  -> PASS 15 passed, 0 failed, 0 errors
+junit  /tmp/ctb-suites/droid_pass_acceptance-junit.xml
+html   /tmp/ctb-suites/droid_pass_acceptance-report.html
+json   /tmp/ctb-suites/droid_pass_acceptance-results.json
+
+PASS: 15 passed, 0 failed, 0 errors, 22.9s
+suite sweep 27165ms
+  DROID_SIM__ADCS__ATTITUDE_ERROR          DN=120    EU=0.120    state=BLUE
+  DROID_SIM__EPS__BATT_VOLTAGE             DN=780    EU=15.550   state=BLUE
+  DROID_SIM__THERMAL__RADIATOR_TEMP        DN=5200   EU=12.000   state=BLUE
+  CMD_SLEW_TARGET acknowledged: CMD_SLEW_TARGET target=7
+  bridge frames=138 points=1242 webhook_ok=138 webhook_failed=0
+  sink frames=138 last_overall=YELLOW YELLOW_HIGH samples=31
+  !! YELLOW_HIGH DROID_SIM__THERMAL__RW_TEMP DN=9597.0 EU=55.97 C
+PIPELINE PASS
+
+== 2. Go typed bridge and portability linter ==
+
+== 3. Docker one-command demo ==
+
+== Summary ==
+PASS  Python >= 3.11  11ms
+PASS  Python dependencies + package import  264ms
+PASS  pytest (80 tests)  51452ms
+PASS  cosmos-tlm-bridge demo < 45 s  23543ms
+PASS  full CI acceptance sweep < 105 s  27170ms
+PASS  typed bridge + webhook + YELLOW_HIGH pipeline  12800ms
+PASS  no Ruby source anywhere  9ms
+SKIP  all Go gates  go not installed
+SKIP  kubectl client dry-runs  kubectl not installed
+SKIP  docker compose demo  docker daemon not available
+7 passed, 0 failed, 3 skipped

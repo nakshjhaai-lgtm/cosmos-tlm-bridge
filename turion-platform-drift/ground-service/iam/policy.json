@@ -1,0 +1,36 @@
+{
+  "Version": "2012-10-17",
+  "Statement": [
+    {
+      "Sid": "ReadDownlink",
+      "Effect": "Allow",
+      "Action": ["s3:GetObject", "s3:ListBucket"],
+      "Resource": [
+        "arn:aws:s3:::turion-droid-downlink-raw",
+        "arn:aws:s3:::turion-droid-downlink-raw/*"
+      ]
+    },
+    {
+      "Sid": "WriteArchive",
+      "Effect": "Allow",
+      "Action": ["s3:PutObject", "s3:AbortMultipartUpload"],
+      "Resource": "arn:aws:s3:::turion-tlm-archive-prod/*"
+    },
+    {
+      "Sid": "SubmitPassJobs",
+      "Effect": "Allow",
+      "Action": [
+        "batch:SubmitJob",
+        "batch:DescribeJobs",
+        "batch:TerminateJob"
+      ],
+      "Resource": "arn:aws:batch:us-west-2:123456789012:job-queue/droid-pass-processing"
+    },
+    {
+      "Sid": "InvokeEnrich",
+      "Effect": "Allow",
+      "Action": ["lambda:InvokeFunction"],
+      "Resource": "arn:aws:lambda:us-west-2:123456789012:function:droid-telemetry-enrich"
+    }
+  ]
+}

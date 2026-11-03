@@ -1,0 +1,23 @@
+
+[1msuite[0m droid_pass_acceptance [2m(budget 105.0s)[0m
+  PASS [setup] all packets are streaming
+  PASS [setup] attitude packet is streaming
+  PASS [setup] thermal packet is streaming
+  PASS [steps] precondition - bus is nominal, no point is out of limits
+  PASS [steps] command the attitude slew
+  PASS [steps] slew is acknowledged in telemetry (DN mode)
+  PASS [steps] slewing target slot decodes to the commanded slot (EU mode)
+  PASS [steps] attitude error leaves the tight deadband during the slew
+  PASS [steps] bus voltage stays inside the BLUE operational band
+  PASS [steps] reaction wheel thermal limit violation is caught (EU mode)
+  PASS [steps] reaction wheel thermal limit violation is caught (DN mode)
+  PASS [steps] the same violation rolls up to a YELLOW overall system state
+  PASS [steps] the radiator stays healthy while the wheel is hot
+  PASS [steps] wheel leaves the yellow band after the slew completes
+  PASS [teardown] bus voltage still nominal at end of pass
+  -> PASS 15 passed, 0 failed, 0 errors
+junit  /tmp/p1/artifacts-suite/droid_pass_acceptance-junit.xml
+html   /tmp/p1/artifacts-suite/droid_pass_acceptance-report.html
+json   /tmp/p1/artifacts-suite/droid_pass_acceptance-results.json
+
+PASS: 15 passed, 0 failed, 0 errors, 22.6s

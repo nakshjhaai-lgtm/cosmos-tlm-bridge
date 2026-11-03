@@ -1,0 +1,27 @@
+apiVersion: karpenter.k8s.aws/v1beta1
+kind: EC2NodeClass
+metadata:
+  name: ground-etl
+spec:
+  amiFamily: Bottlerocket
+  role: ground-etl-node-role
+  subnetSelectorTerms:
+    - tags:
+        karpenter.sh/discovery: ground-eks
+  securityGroupSelectorTerms:
+    - tags:
+        karpenter.sh/discovery: ground-eks
+---
+apiVersion: karpenter.sh/v1beta1
+kind: NodePool
+metadata:
+  name: ground-etl
+spec:
+  template:
+    spec:
+      nodeClassRef:
+        name: ground-etl
+      requirements:
+        - key: node.kubernetes.io/instance-type
+          operator: In
+          values: ["c6i.4xlarge", "m6i.2xlarge"]

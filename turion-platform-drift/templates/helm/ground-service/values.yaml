@@ -1,0 +1,42 @@
+# Portable values. Nothing here references a proprietary cloud.
+replicaCount: 2
+
+image:
+  repository: registry.ground.local/ground/turion/pass-processor
+  tag: "1.0.0"
+  pullPolicy: IfNotPresent
+
+# S3-compatible object store (VersityGW or MinIO), in-cluster.
+objectStore:
+  implementation: versitygw       # versitygw | minio
+  endpoint: http://objectstore.ground-system.svc.cluster.local:7070
+  region: ground-local
+  forcePathStyle: true
+  buckets:
+    tlmArchive: tlm-archive
+    downlinkRaw: downlink-raw
+    ephemeris: ephemeris
+
+# Batch replacement.
+job:
+  backoffLimit: 3
+  ttlSecondsAfterFinished: 3600
+  resources:
+    requests: {cpu: "2", memory: 4Gi}
+    limits: {cpu: "4", memory: 8Gi}
+
+telemetry:
+  otlpEndpoint: http://otel-collector.ground-system.svc.cluster.local:4317
+  serviceName: pass-processor
+
+ingress:
+  enabled: false
+  className: nginx
+
+storage:
+  className: local-path
+  size: 100Gi
+
+resources:
+  requests: {cpu: 250m, memory: 512Mi}
+  limits: {cpu: "1", memory: 1Gi}
