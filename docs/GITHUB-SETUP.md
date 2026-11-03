@@ -13,6 +13,14 @@ HTTP 403: Resource not accessible by integration
 
 Concretely, these were attempted and blocked: `POST /user/repos`, `POST /repos/{owner}/{repo}/generate`, `PATCH /repos/{owner}/{repo}`, `POST /repos/{owner}/{repo}/forks`, `PUT /repos/{owner}/{repo}/topics`, and the GraphQL `createRepository` mutation. No repository named `cosmos-tlm-bridge` exists yet.
 
+**Final attempt (step 3, 2026-11-03):** `bash scripts/create-github-repo.sh` returned
+
+```
+GraphQL: Resource not accessible by integration (createRepository)
+```
+
+Because repository creation is refused, the five-topic assignment was not reached. The GitHub Actions workflow registrations for the temporary fetch/evidence jobs also cannot be deleted with this token (DELETE returns 404), but they are absent from the clean working tree and branch history.
+
 ## What to do
 
 1. In Arena, reconnect/enable GitHub with repository-creation and administration permission for `nakshjhaai-lgtm`.

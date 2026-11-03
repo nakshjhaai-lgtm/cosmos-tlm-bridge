@@ -80,7 +80,7 @@ The mock implements both JSON-RPC paths plus `/openc3-api/auth/verify` and the S
 
 Target repository: **`nakshjhaai-lgtm/cosmos-tlm-bridge`**, public, with topics `openc3`, `cosmos`, `satellite-telemetry`, `ground-software`, `satellite-operations`.
 
-The GitHub connection available in this sandbox can push to the session branch but cannot create repositories or set topics (`403 Resource not accessible by integration`). [`scripts/create-github-repo.sh`](scripts/create-github-repo.sh) is the prepared one-shot setup; reconnect GitHub in Arena with repository-creation permission, then run it. See [`docs/GITHUB-SETUP.md`](docs/GITHUB-SETUP.md).
+The final attempt returned `GraphQL: Resource not accessible by integration (createRepository)`: the current GitHub App token can push to the session branch but cannot create repositories or set topics. No public repo/topics exist yet. [`scripts/create-github-repo.sh`](scripts/create-github-repo.sh) is the prepared one-shot setup; reconnect GitHub in Arena with repository-creation permission, then run it. See [`docs/GITHUB-SETUP.md`](docs/GITHUB-SETUP.md).
 
 ## License
 

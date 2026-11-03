@@ -94,6 +94,10 @@ Legend: **EXACT** = satisfies the clause; **PARTIAL** = substantively present bu
 
 **Step 2 — “Production Readiness & Accuracy Criteria exactly done as stated” : PARTIAL / NOT MET in the strict sense.** Every executable clause is now reproduced in CI (23/23 top-level gates and 33/33 linter harness gates), including the < 45 s, < 105 s and < 30 s budgets. But the strict wording is not fully satisfiable without the residuals below: a PyPI publication, the upstream COSMOS container, an absolute 100%-over-unseen-code guarantee, and full air-gapped operator/container execution. This repository therefore reports **verified production readiness with explicit boundaries**, not an unqualified “exactly done” claim.
 
+**Step 3 — clean public `cosmos-tlm-bridge` repository + five topics : BLOCKED.** The current GitHub App installation token cannot create repositories (`GraphQL: Resource not accessible by integration (createRepository)`), rename, generate from a template, or set topics. [`scripts/create-github-repo.sh`](../scripts/create-github-repo.sh) and [`docs/GITHUB-SETUP.md`](GITHUB-SETUP.md) are ready; reconnect GitHub in Arena with repository-creation permission and run the script. No public repo or topics were created.
+
+**Step 4 — Zero-Ask README : DONE.** The first line of [`README.md`](../README.md) is the one-line command `docker compose up`; immediately below it is a **10.0 s / 50-frame** [`docs/demo.gif`](demo.gif) plus a [`.cast` terminal replay](demo.cast) showing OpenC3 JSON-RPC telemetry decommunicated into typed Go/Python structs and the simulated `YELLOW_HIGH` violation. The whole demo completes in under 90 seconds (CI: 36.976 s).
+
 ## 6. Residual limitations
 
 - **PyPI publication.** `uvx cosmos-tlm-bridge demo` cannot work verbatim until the wheel is published. The brief's `or docker compose up` path is satisfied; `uvx --from . cosmos-tlm-bridge demo` is the local equivalent.
