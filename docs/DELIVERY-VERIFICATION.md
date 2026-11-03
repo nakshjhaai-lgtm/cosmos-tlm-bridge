@@ -30,6 +30,23 @@
 
 Raw local logs: [`docs/evidence/`](evidence/).
 
+## 2b. Final CI reproduction (after fixes)
+
+GitHub Actions run `41670286164` on `ubuntu-latest` with Python 3.11, Go 1.23, kubectl v1.31.0 and Docker executed [`scripts/verify-all.sh`](../scripts/verify-all.sh) with `RUN_CLUSTER=1`:
+
+| Gate | Result |
+| --- | --- |
+| Overall | **23 passed, 0 failed, 0 skipped**, `verify-all.sh exit code: 0` |
+| `pytest` / `demo` / suite sweep / pipeline | 80 tests; 23.595 s / 27.051 s / 12.951 s |
+| `docker compose build` / plain `docker compose up` | 8.450 s / **36.976 s** (< 45 s); `PASS: 15 passed, 0 failed, 0 errors, 22.8s` |
+| `go run turion-platform-drift scan ./ground-service` | **0.220 s**; 112 findings, 80 critical, 32 high, 26 rules, 18 files |
+| Go vet/test/race, 26-rule accuracy matrix | all PASS |
+| Full linter harness including real cluster | **33 passed, 0 failed** in 88.422 s |
+| `kubectl apply --dry-run=client` (Kubernetes / Crossplane) | PASS (917 ms / 908 ms); server dry-runs and real apply also PASS |
+| Air-gap residuals | zero AWS identifiers, zero public-registry images |
+
+The exact log is [`docs/evidence/ci-verification.log`](evidence/ci-verification.log).
+
 ## 3. Clause-by-clause comparison
 
 Legend: **EXACT** = satisfies the clause; **PARTIAL** = substantively present but not literal; **CONTEXT** = narrative context, not a build artifact; **FIXED** = gap closed in this repository; **RESIDUAL** = formally impossible or externally blocked.
@@ -71,7 +88,13 @@ Legend: **EXACT** = satisfies the clause; **PARTIAL** = substantively present bu
 5. **Zero-Ask README**: exact one-line command at the top plus a **10.0 s / 50-frame** GIF and an asciinema-style `.cast`.
 6. **Honest documentation**: this report, DoD evidence, and explicit residuals instead of the ZIP's claim that every clause was MET.
 
-## 5. Residual limitations
+## 5. Final verdict
+
+**Step 1 — “Is the delivery exactly this?” : NO.** The ZIP was a strong but non-exact implementation. Independent reproduction found the literal `uvx` command broken, `docker compose up` unexecuted, public-registry images in “air-gapped” bundles, no React source, no replay media, and no clean public repository.
+
+**Step 2 — “Production Readiness & Accuracy Criteria exactly done as stated” : PARTIAL / NOT MET in the strict sense.** Every executable clause is now reproduced in CI (23/23 top-level gates and 33/33 linter harness gates), including the < 45 s, < 105 s and < 30 s budgets. But the strict wording is not fully satisfiable without the residuals below: a PyPI publication, the upstream COSMOS container, an absolute 100%-over-unseen-code guarantee, and full air-gapped operator/container execution. This repository therefore reports **verified production readiness with explicit boundaries**, not an unqualified “exactly done” claim.
+
+## 6. Residual limitations
 
 - **PyPI publication.** `uvx cosmos-tlm-bridge demo` cannot work verbatim until the wheel is published. The brief's `or docker compose up` path is satisfied; `uvx --from . cosmos-tlm-bridge demo` is the local equivalent.
 - **Upstream COSMOS container.** The Dockerized server is an OpenC3-compatible JSON-RPC mock with the exact required routes, not the multi-container upstream OpenC3 COSMOS v5 image. No Ruby/OpenC3 SDK is required.

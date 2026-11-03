@@ -26,7 +26,7 @@ Turion Space is scaling from single-satellite missions to multi-satellite **DROI
 | `go run turion-platform-drift scan ./ground-service` | Full cloud-agnostic portability scorecard. |
 | `bash scripts/verify-all.sh` | One-shot Definition-of-Done harness (auto-skips tools that are absent). |
 
-> The literal `uvx cosmos-tlm-bridge demo` resolves from PyPI. This package is **not published to PyPI**, so that exact form currently returns “package not found”. The brief accepts either `uvx ...` **or** `docker compose up`; the latter works verbatim. `uvx --from . cosmos-tlm-bridge demo` is the local equivalent. See [delivery verification](docs/DELIVERY-VERIFICATION.md#residual-limitations).
+> The literal `uvx cosmos-tlm-bridge demo` resolves from PyPI. This package is **not published to PyPI**, so that exact form currently returns “package not found”. The brief accepts either `uvx ...` **or** `docker compose up`; the latter works verbatim. `uvx --from . cosmos-tlm-bridge demo` is the local equivalent. See [delivery verification](docs/DELIVERY-VERIFICATION.md#6-residual-limitations).
 
 ## What is in the box
 
@@ -44,14 +44,14 @@ Turion Space is scaling from single-satellite missions to multi-satellite **DROI
 
 | Criterion | Result | Evidence |
 | --- | --- | --- |
-| `docker compose up` / demo initializes a LEO DROID pass in **< 45 s** | local `demo` **22.9 s**; plain `docker compose up` timed in CI (**< 45 s**, 30 s finite window) | [`docs/evidence/ci-verification.log`](docs/evidence/ci-verification.log), [`demo.log`](docs/evidence/demo.log) |
+| `docker compose up` / demo initializes a LEO DROID pass in **< 45 s** | CI: plain `docker compose up` **36.976 s**, `demo` **23.595 s**; 30 s finite window | [`docs/evidence/ci-verification.log`](docs/evidence/ci-verification.log), [`demo.log`](docs/evidence/demo.log) |
 | `CMD_SLEW_TARGET` triggers DN **and** EU assertions and catches `YELLOW_HIGH` on `DROID_SIM__THERMAL__RW_TEMP` | 15/15 checks; first sample DN 9536 / EU 55.36 °C; negative controls fail when expectations are wrong | [`pipeline.log`](docs/evidence/pipeline.log), [`droid_pass_acceptance-results.json`](docs/evidence/droid_pass_acceptance-results.json) |
-| Packets stream into typed Go/Python structs and forward to webhooks; no Ruby; full CI acceptance **< 105 s** | 141 frames, 1269 points, 141 webhook deliveries, 0 failures, 0 `.rb` files; suite sweep < 105 s | [`verification-all.log`](docs/evidence/verification-all.log), [`suite.log`](docs/evidence/suite.log) |
-| `go run turion-platform-drift scan ./ground-service` produces a scorecard in **< 30 s** | 18 files / 112 findings / 26 rules, sub-second scan | [`docs/evidence/ci-verification.log`](docs/evidence/ci-verification.log) |
+| Packets stream into typed Go/Python structs and forward to webhooks; no Ruby; full CI acceptance **< 105 s** | 141 frames, 1269 points, 141 webhook deliveries, 0 failures, 0 `.rb` files; CI suite sweep **27.051 s** | [`verification-all.log`](docs/evidence/verification-all.log), [`suite.log`](docs/evidence/suite.log) |
+| `go run turion-platform-drift scan ./ground-service` produces a scorecard in **< 30 s** | **0.220 s** in CI; 18 files / 112 findings / 26 rules | [`docs/evidence/ci-verification.log`](docs/evidence/ci-verification.log) |
 | Flags 100% of hardcoded AWS dependencies (`boto3`, AWS Batch manifests) | 26/26 rule probes fire on the shipped AWS-bound fixture; portable decoy corpus stays silent | [`turion-platform-drift/docs/verification.md`](turion-platform-drift/docs/verification.md) |
-| Generated Kubernetes/Crossplane manifests pass `kubectl apply --dry-run=client` and deploy without AWS APIs | 27 built-in-kind objects, zero `arn:aws`/`s3://`/`.amazonaws.com`, every image mirrored to `registry.ground.local`; real kube-apiserver apply in the full harness | [`turion-platform-drift/reports/`](turion-platform-drift/reports/), [`docs/evidence/ci-verification.log`](docs/evidence/ci-verification.log) |
+| Generated Kubernetes/Crossplane manifests pass `kubectl apply --dry-run=client` and deploy without AWS APIs | exact client + server dry-runs and real apply all pass against kwok kube-apiserver; 0 residual AWS or public-registry references | [`turion-platform-drift/reports/`](turion-platform-drift/reports/), [`docs/evidence/ci-verification.log`](docs/evidence/ci-verification.log) |
 
-Clause-by-clause detail: [`docs/DEFINITION-OF-DONE.md`](docs/DEFINITION-OF-DONE.md).
+Final GitHub Actions run `41670286164`: **23 passed, 0 failed, 0 skipped**; the linter’s full harness adds **33 passed, 0 failed**. Clause-by-clause detail: [`docs/DEFINITION-OF-DONE.md`](docs/DEFINITION-OF-DONE.md).
 
 ## Architecture
 
@@ -74,7 +74,7 @@ The mock implements both JSON-RPC paths plus `/openc3-api/auth/verify` and the S
 
 - **Keyless / zero-SDK:** no OpenC3 SDK, AWS SDK, boto3, Ruby, API key or cloud credential. Python runtime deps are Pydantic + PyYAML only; the Go modules have no third-party `require` lines.
 - **Air gap:** generated images are rewritten to `registry.ground.local` (or `--registry`); the validator and CI fail on `arn:aws`, `s3://`, `.amazonaws.com`, IRSA, ECR and public registries (`ghcr.io`, `docker.io`, `quay.io`, `public.ecr.aws`).
-- **Honest limits:** the kwok-based cluster gates validate admission, scheduling and API semantics; they do not execute container images or reconcile Crossplane/CloudNativePG operators. “Zero false negatives” is proven on the shipped fixture corpus, not on arbitrary unseen source code. See [residual limitations](docs/DELIVERY-VERIFICATION.md#residual-limitations).
+- **Honest limits:** the kwok-based cluster gates validate admission, scheduling and API semantics; they do not execute container images or reconcile Crossplane/CloudNativePG operators. “Zero false negatives” is proven on the shipped fixture corpus, not on arbitrary unseen source code. See [residual limitations](docs/DELIVERY-VERIFICATION.md#6-residual-limitations).
 
 ## GitHub repository setup
 
