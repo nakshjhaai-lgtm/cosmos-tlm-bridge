@@ -22,7 +22,6 @@ SKIP_FILES = {
     "README.md",
     "docs/DELIVERY-VERIFICATION.md",
     "docs/DEFINITION-OF-DONE.md",
-    "docs/GITHUB-SETUP.md",
     "docs/demo-replay.txt",
     "docs/demo.cast",
     "docs/demo.gif",

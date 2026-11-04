@@ -31,4 +31,4 @@ The first command runs every gate that works on the local machine. The second al
 
 4. Formal boundaries
 
-See `DELIVERY-VERIFICATION.md#6-residual-limitations`. PyPI publication is not performed. The mock is OpenC3-compatible rather than the upstream COSMOS image. Static analysis cannot prove a universal 100% result over unseen code. kwok validates admission rather than container execution or operator reconciliation.
+See `DELIVERY-VERIFICATION.md#6-residual-limitations`. PyPI publication is not performed. The mock is OpenC3-compatible rather than the upstream COSMOS image. Static analysis cannot prove a universal 100% result over unseen code. kwok validates admission rather than container execution or operator reconciliation. The public repository is renamed and described; its five topics are a manual About field listed in the README.

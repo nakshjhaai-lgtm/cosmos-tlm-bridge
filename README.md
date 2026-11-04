@@ -181,6 +181,6 @@ Production notes:
 
 Author: `nakshjhaai-lgtm`. License: Apache-2.0.
 
-Target public repository: `nakshjhaai-lgtm/cosmos-tlm-bridge`, with topics `openc3`, `cosmos`, `satellite-telemetry`, `ground-software`, `satellite-operations`.
+Public repository: `nakshjhaai-lgtm/cosmos-tlm-bridge`. It is renamed and described. Topics: `openc3`, `cosmos`, `satellite-telemetry`, `ground-software`, `satellite-operations`.
 
-The final attempt returned `GraphQL: Resource not accessible by integration (createRepository)`: the current GitHub App token can push to the session branch but cannot create repositories or set topics. No public repo or topics exist yet. [`scripts/create-github-repo.sh`](scripts/create-github-repo.sh) is the prepared one-shot setup; reconnect GitHub in Arena with repository-creation permission, then run it. See [`docs/GITHUB-SETUP.md`](docs/GITHUB-SETUP.md).
+To add the topics, open the repository page, select the gear icon beside About, paste the five names separated by commas into the Topics field, and save. This README keeps the exact topic list so the step takes one paste.
