@@ -24,7 +24,6 @@ COPY src/ ./src/
 COPY definitions/ ./definitions/
 COPY suites/ ./suites/
 COPY docker/ ./docker/
-COPY release/ ./release/
 COPY docker/entrypoint.sh /usr/local/bin/entrypoint.sh
 RUN chmod +x /usr/local/bin/entrypoint.sh && \
     mkdir -p /app/artifacts && \
