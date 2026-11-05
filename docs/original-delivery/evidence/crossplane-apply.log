@@ -1,0 +1,30 @@
+# Crossplane bundle applied to a clean cluster with the 45 upstream CRDs installed
+# 2026-11-03T14:27:51+00:00
+namespace/ground-system created
+secret/objectstore-credentials created
+configmap/objectstore-config created
+persistentvolumeclaim/versitygw-data created
+deployment.apps/versitygw created
+service/objectstore created
+serviceaccount/ground-service created
+secret/ground-service-credentials created
+role.rbac.authorization.k8s.io/ground-service created
+rolebinding.rbac.authorization.k8s.io/ground-service created
+deployment.apps/telemetry-enrich created
+service/telemetry-enrich created
+statefulset.apps/nats created
+service/nats created
+opentelemetrycollector.opentelemetry.io/otel created
+service/otel-collector created
+bucket.minio.crossplane.io/archive-bucket-turion-tlm-archive-prod created
+bucket.minio.crossplane.io/ephemeris-bucket-turion-droid-ephemeris created
+bucket.minio.crossplane.io/raw-bucket-turion-droid-downlink-raw created
+cluster.postgresql.cnpg.io/ground-telemetry-db created
+secretstore.external-secrets.io/ground-vault created
+externalsecret.external-secrets.io/ground-service-credentials created
+job.batch/cronjob created
+job.batch/droid-pass-processor created
+job.batch/submit-pass-processing created
+Warning: CompositeResourceDefinition v1 is deprecated and will be removed in a future release; consider migrating to v2
+compositeresourcedefinition.apiextensions.crossplane.io/groundstacks.ground.turion.space created
+composition.apiextensions.crossplane.io/groundstack.ground.turion.space created

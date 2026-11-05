@@ -1,0 +1,7 @@
+apiVersion: v2
+name: ground-service-portable
+description: Portable Turion ground-service chart — no AWS, runs air-gapped
+type: application
+version: 1.0.0
+appVersion: "1.0.0"
+keywords: [ground-segment, telemetry, openc3, air-gapped]

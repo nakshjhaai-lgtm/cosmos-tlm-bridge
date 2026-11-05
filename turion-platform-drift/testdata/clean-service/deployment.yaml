@@ -1,0 +1,25 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: clean-service
+  namespace: ground-system
+  annotations:
+    # Replaced IRSA with a Kubernetes Secret.
+    ground.turion.space/identity: workload-secret
+spec:
+  replicas: 2
+  selector:
+    matchLabels:
+      app: clean-service
+  template:
+    metadata:
+      labels:
+        app: clean-service
+    spec:
+      serviceAccountName: ground-service
+      containers:
+        - name: api
+          image: registry.ground.local/ground/clean-service:1.0.0
+          env:
+            - name: OBJECT_STORE_ENDPOINT
+              value: http://objectstore.ground-system.svc.cluster.local:7070

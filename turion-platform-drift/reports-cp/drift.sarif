@@ -1,0 +1,2776 @@
+{
+  "$schema": "https://json.schemastore.org/sarif-2.1.0.json",
+  "runs": [
+    {
+      "properties": {
+        "grade": "F",
+        "portabilityScore": 0
+      },
+      "results": [
+        {
+          "ruleId": "TPD012",
+          "level": "error",
+          "message": {
+            "text": "AWS CLI invocation of a proprietary service (aws ecs update-service --cluster ground-eks --service ground-telemetry…) — Replace with kubectl/Helm or Crossplane; the ground station must not require AWS credentials."
+          },
+          "locations": [
+            {
+              "physicalLocation": {
+                "artifactLocation": {
+                  "uri": "Makefile"
+                },
+                "region": {
+                  "startLine": 5
+                }
+              }
+            }
+          ]
+        },
+        {
+          "ruleId": "TPD012",
+          "level": "error",
+          "message": {
+            "text": "AWS CLI invocation of a proprietary service (aws batch register-job-definition --cli-input-json file://batch/job-de…) — Replace with kubectl/Helm or Crossplane; the ground station must not require AWS credentials."
+          },
+          "locations": [
+            {
+              "physicalLocation": {
+                "artifactLocation": {
+                  "uri": "Makefile"
+                },
+                "region": {
+                  "startLine": 8
+                }
+              }
+            }
+          ]
+        },
+        {
+          "ruleId": "TPD012",
+          "level": "error",
+          "message": {
+            "text": "AWS CLI invocation of a proprietary service (aws batch create-job-queue --job-queue-name droid-pass-queue) — Replace with kubectl/Helm or Crossplane; the ground station must not require AWS credentials."
+          },
+          "locations": [
+            {
+              "physicalLocation": {
+                "artifactLocation": {
+                  "uri": "Makefile"
+                },
+                "region": {
+                  "startLine": 11
+                }
+              }
+            }
+          ]
+        },
+        {
+          "ruleId": "TPD004",
+          "level": "error",
+          "message": {
+            "text": "AWS Batch job submission (\"computeEnvironmentName\": \"droid-pass-compute\",) — Generate a Kubernetes Job (with backoffLimit and ttlSecondsAfterFinished) from the Batch job definition."
+          },
+          "locations": [
+            {
+              "physicalLocation": {
+                "artifactLocation": {
+                  "uri": "batch/compute-environment.json"
+                },
+                "region": {
+                  "startLine": 2
+                }
+              }
+            }
+          ]
+        },
+        {
+          "ruleId": "TPD041",
+          "level": "error",
+          "message": {
+            "text": "AWS Batch compute environment manifest (computeEnvironmentName) — Use a Kubernetes node pool or Karpenter NodePool plus a PriorityClass."
+          },
+          "locations": [
+            {
+              "physicalLocation": {
+                "artifactLocation": {
+                  "uri": "batch/compute-environment.json"
+                },
+                "region": {
+                  "startLine": 2
+                }
+              }
+            }
+          ]
+        },
+        {
+          "ruleId": "TPD009",
+          "level": "error",
+          "message": {
+            "text": "Non-portable IAM policy document (\"instanceRole\": \"arn:aws:iam::123456789012:instance-profile/ecsInstanceRole\") — Replace with Kubernetes RBAC and an S3-compatible access key scoped to a bucket."
+          },
+          "locations": [
+            {
+              "physicalLocation": {
+                "artifactLocation": {
+                  "uri": "batch/compute-environment.json"
+                },
+                "region": {
+                  "startLine": 12
+                }
+              }
+            }
+          ]
+        },
+        {
+          "ruleId": "TPD004",
+          "level": "error",
+          "message": {
+            "text": "AWS Batch job submission (\"jobDefinitionName\": \"droid-pass-processor\",) — Generate a Kubernetes Job (with backoffLimit and ttlSecondsAfterFinished) from the Batch job definition."
+          },
+          "locations": [
+            {
+              "physicalLocation": {
+                "artifactLocation": {
+                  "uri": "batch/job-definition.json"
+                },
+                "region": {
+                  "startLine": 2
+                }
+              }
+            }
+          ]
+        },
+        {
+          "ruleId": "TPD040",
+          "level": "error",
+          "message": {
+            "text": "AWS Batch job definition manifest (jobDefinitionName) — Generate an equivalent Kubernetes Job (backoffLimit, ttlSecondsAfterFinished, resources)."
+          },
+          "locations": [
+            {
+              "physicalLocation": {
+                "artifactLocation": {
+                  "uri": "batch/job-definition.json"
+                },
+                "region": {
+                  "startLine": 2
+                }
+              }
+            }
+          ]
+        },
+        {
+          "ruleId": "TPD040",
+          "level": "error",
+          "message": {
+            "text": "AWS Batch job definition manifest (containerProperties) — Generate an equivalent Kubernetes Job (backoffLimit, ttlSecondsAfterFinished, resources)."
+          },
+          "locations": [
+            {
+              "physicalLocation": {
+                "artifactLocation": {
+                  "uri": "batch/job-definition.json"
+                },
+                "region": {
+                  "startLine": 4
+                }
+              }
+            }
+          ]
+        },
+        {
+          "ruleId": "TPD042",
+          "level": "error",
+          "message": {
+            "text": "Amazon ECR image reference (\"image\": \"123456789012.dkr.ecr.us-west-2.amazonaws.com/turion/pass-processor:7\",) — Mirror into the ground-station registry (Harbor/Zot) and reference it by local name."
+          },
+          "locations": [
+            {
+              "physicalLocation": {
+                "artifactLocation": {
+                  "uri": "batch/job-definition.json"
+                },
+                "region": {
+                  "startLine": 5
+                }
+              }
+            }
+          ]
+        },
+        {
+          "ruleId": "TPD004",
+          "level": "error",
+          "message": {
+            "text": "AWS Batch job submission (jobQueueName: droid-pass-queue) — Generate a Kubernetes Job (with backoffLimit and ttlSecondsAfterFinished) from the Batch job definition."
+          },
+          "locations": [
+            {
+              "physicalLocation": {
+                "artifactLocation": {
+                  "uri": "batch/job-queue.yaml"
+                },
+                "region": {
+                  "startLine": 1
+                }
+              }
+            }
+          ]
+        },
+        {
+          "ruleId": "TPD004",
+          "level": "error",
+          "message": {
+            "text": "AWS Batch job submission (computeEnvironmentOrder:) — Generate a Kubernetes Job (with backoffLimit and ttlSecondsAfterFinished) from the Batch job definition."
+          },
+          "locations": [
+            {
+              "physicalLocation": {
+                "artifactLocation": {
+                  "uri": "batch/job-queue.yaml"
+                },
+                "region": {
+                  "startLine": 4
+                }
+              }
+            }
+          ]
+        },
+        {
+          "ruleId": "TPD004",
+          "level": "error",
+          "message": {
+            "text": "AWS Batch job submission (computeEnvironment: arn:aws:batch:us-west-2:123456789012:compute-environment/droid-pass-co…) — Generate a Kubernetes Job (with backoffLimit and ttlSecondsAfterFinished) from the Batch job definition."
+          },
+          "locations": [
+            {
+              "physicalLocation": {
+                "artifactLocation": {
+                  "uri": "batch/job-queue.yaml"
+                },
+                "region": {
+                  "startLine": 6
+                }
+              }
+            }
+          ]
+        },
+        {
+          "ruleId": "TPD007",
+          "level": "error",
+          "message": {
+            "text": "arn:aws literal in source (computeEnvironment: arn:aws:batch:us-west-2:123456789012:compute-environment/droid-pass-co…) — Externalise into configuration and use Crossplane-provisioned resources with generated names."
+          },
+          "locations": [
+            {
+              "physicalLocation": {
+                "artifactLocation": {
+                  "uri": "batch/job-queue.yaml"
+                },
+                "region": {
+                  "startLine": 6
+                }
+              }
+            }
+          ]
+        },
+        {
+          "ruleId": "TPD001",
+          "level": "error",
+          "message": {
+            "text": "boto3 / botocore SDK import (import boto3) — Replace with the portable ground-station storage interface (any S3-compatible endpoint: MinIO, VersityGW) and read ARNs from environment configuration."
+          },
+          "locations": [
+            {
+              "physicalLocation": {
+                "artifactLocation": {
+                  "uri": "batch/submit_pass_processing.py"
+                },
+                "region": {
+                  "startLine": 14,
+                  "startColumn": 1
+                }
+              }
+            }
+          ]
+        },
+        {
+          "ruleId": "TPD001",
+          "level": "error",
+          "message": {
+            "text": "boto3 / botocore SDK import (from botocore.exceptions import ClientError) — Replace with the portable ground-station storage interface (any S3-compatible endpoint: MinIO, VersityGW) and read ARNs from environment configuration."
+          },
+          "locations": [
+            {
+              "physicalLocation": {
+                "artifactLocation": {
+                  "uri": "batch/submit_pass_processing.py"
+                },
+                "region": {
+                  "startLine": 15,
+                  "startColumn": 1
+                }
+              }
+            }
+          ]
+        },
+        {
+          "ruleId": "TPD007",
+          "level": "error",
+          "message": {
+            "text": "arn:aws literal in source (arn:aws:batch:us-west-2:123456789012:job-queue/droid-pass-processing) — Externalise into configuration and use Crossplane-provisioned resources with generated names."
+          },
+          "locations": [
+            {
+              "physicalLocation": {
+                "artifactLocation": {
+                  "uri": "batch/submit_pass_processing.py"
+                },
+                "region": {
+                  "startLine": 17,
+                  "startColumn": 13
+                }
+              }
+            }
+          ]
+        },
+        {
+          "ruleId": "TPD007",
+          "level": "error",
+          "message": {
+            "text": "arn:aws literal in source (arn:aws:batch:us-west-2:123456789012:job-definition/pass-processor:7) — Externalise into configuration and use Crossplane-provisioned resources with generated names."
+          },
+          "locations": [
+            {
+              "physicalLocation": {
+                "artifactLocation": {
+                  "uri": "batch/submit_pass_processing.py"
+                },
+                "region": {
+                  "startLine": 18,
+                  "startColumn": 18
+                }
+              }
+            }
+          ]
+        },
+        {
+          "ruleId": "TPD005",
+          "level": "error",
+          "message": {
+            "text": "Hard-coded S3 bucket / ARN literal (ARCHIVE_BUCKET = turion-tlm-archive-prod) — Read the endpoint, bucket, and credentials from a ConfigMap/Secret; point them at MinIO or VersityGW."
+          },
+          "locations": [
+            {
+              "physicalLocation": {
+                "artifactLocation": {
+                  "uri": "batch/submit_pass_processing.py"
+                },
+                "region": {
+                  "startLine": 19,
+                  "startColumn": 1
+                }
+              }
+            }
+          ]
+        },
+        {
+          "ruleId": "TPD005",
+          "level": "error",
+          "message": {
+            "text": "Hard-coded S3 bucket / ARN literal (EPHEMERIS_BUCKET = turion-droid-ephemeris) — Read the endpoint, bucket, and credentials from a ConfigMap/Secret; point them at MinIO or VersityGW."
+          },
+          "locations": [
+            {
+              "physicalLocation": {
+                "artifactLocation": {
+                  "uri": "batch/submit_pass_processing.py"
+                },
+                "region": {
+                  "startLine": 20,
+                  "startColumn": 1
+                }
+              }
+            }
+          ]
+        },
+        {
+          "ruleId": "TPD004",
+          "level": "error",
+          "message": {
+            "text": "AWS Batch job submission (session.client('batch')) — Generate a Kubernetes Job (with backoffLimit and ttlSecondsAfterFinished) from the Batch job definition."
+          },
+          "locations": [
+            {
+              "physicalLocation": {
+                "artifactLocation": {
+                  "uri": "batch/submit_pass_processing.py"
+                },
+                "region": {
+                  "startLine": 26,
+                  "startColumn": 12
+                }
+              }
+            }
+          ]
+        },
+        {
+          "ruleId": "TPD006",
+          "level": "error",
+          "message": {
+            "text": "Proprietary S3 primitive usage (boto3.client('s3')) — Wrap in the object-store interface; the S3 API is portable, the SDK is not."
+          },
+          "locations": [
+            {
+              "physicalLocation": {
+                "artifactLocation": {
+                  "uri": "batch/submit_pass_processing.py"
+                },
+                "region": {
+                  "startLine": 30,
+                  "startColumn": 12
+                }
+              }
+            }
+          ]
+        },
+        {
+          "ruleId": "TPD008",
+          "level": "error",
+          "message": {
+            "text": "AWS IAM / STS role assumption (boto3.client('sts')) — Use workload identity from Kubernetes ServiceAccount (SPIFFE/IRSA-equivalent) or a Vault-injected token."
+          },
+          "locations": [
+            {
+              "physicalLocation": {
+                "artifactLocation": {
+                  "uri": "batch/submit_pass_processing.py"
+                },
+                "region": {
+                  "startLine": 34,
+                  "startColumn": 11
+                }
+              }
+            }
+          ]
+        },
+        {
+          "ruleId": "TPD008",
+          "level": "error",
+          "message": {
+            "text": "AWS IAM / STS role assumption (sts.assume_role) — Use workload identity from Kubernetes ServiceAccount (SPIFFE/IRSA-equivalent) or a Vault-injected token."
+          },
+          "locations": [
+            {
+              "physicalLocation": {
+                "artifactLocation": {
+                  "uri": "batch/submit_pass_processing.py"
+                },
+                "region": {
+                  "startLine": 35,
+                  "startColumn": 12
+                }
+              }
+            }
+          ]
+        },
+        {
+          "ruleId": "TPD007",
+          "level": "error",
+          "message": {
+            "text": "arn:aws literal in source (arn:aws:iam::123456789012:role/droid-etl-runner) — Externalise into configuration and use Crossplane-provisioned resources with generated names."
+          },
+          "locations": [
+            {
+              "physicalLocation": {
+                "artifactLocation": {
+                  "uri": "batch/submit_pass_processing.py"
+                },
+                "region": {
+                  "startLine": 36,
+                  "startColumn": 17
+                }
+              }
+            }
+          ]
+        },
+        {
+          "ruleId": "TPD009",
+          "level": "error",
+          "message": {
+            "text": "Non-portable IAM policy document (arn:aws:iam::123456789012:role/droid-etl-runner) — Replace with Kubernetes RBAC and an S3-compatible access key scoped to a bucket."
+          },
+          "locations": [
+            {
+              "physicalLocation": {
+                "artifactLocation": {
+                  "uri": "batch/submit_pass_processing.py"
+                },
+                "region": {
+                  "startLine": 36,
+                  "startColumn": 17
+                }
+              }
+            }
+          ]
+        },
+        {
+          "ruleId": "TPD002",
+          "level": "error",
+          "message": {
+            "text": "boto3 client bound to a proprietary AWS service (batch_client) — Route the call through the portability interface; Batch becomes a Kubernetes Job, Lambda becomes a Deployment/Job, DynamoDB becomes PostgreSQL/Postgres-compatible, SQS/SNS becomes NATS/Redpanda."
+          },
+          "locations": [
+            {
+              "physicalLocation": {
+                "artifactLocation": {
+                  "uri": "batch/submit_pass_processing.py"
+                },
+                "region": {
+                  "startLine": 42,
+                  "startColumn": 14
+                }
+              }
+            }
+          ]
+        },
+        {
+          "ruleId": "TPD004",
+          "level": "error",
+          "message": {
+            "text": "AWS Batch job submission (client.submit_job) — Generate a Kubernetes Job (with backoffLimit and ttlSecondsAfterFinished) from the Batch job definition."
+          },
+          "locations": [
+            {
+              "physicalLocation": {
+                "artifactLocation": {
+                  "uri": "batch/submit_pass_processing.py"
+                },
+                "region": {
+                  "startLine": 43,
+                  "startColumn": 16
+                }
+              }
+            }
+          ]
+        },
+        {
+          "ruleId": "TPD002",
+          "level": "error",
+          "message": {
+            "text": "boto3 client bound to a proprietary AWS service (s3_client) — Route the call through the portability interface; Batch becomes a Kubernetes Job, Lambda becomes a Deployment/Job, DynamoDB becomes PostgreSQL/Postgres-compatible, SQS/SNS becomes NATS/Redpanda."
+          },
+          "locations": [
+            {
+              "physicalLocation": {
+                "artifactLocation": {
+                  "uri": "batch/submit_pass_processing.py"
+                },
+                "region": {
+                  "startLine": 60,
+                  "startColumn": 14
+                }
+              }
+            }
+          ]
+        },
+        {
+          "ruleId": "TPD006",
+          "level": "error",
+          "message": {
+            "text": "Proprietary S3 primitive usage (client.put_object) — Wrap in the object-store interface; the S3 API is portable, the SDK is not."
+          },
+          "locations": [
+            {
+              "physicalLocation": {
+                "artifactLocation": {
+                  "uri": "batch/submit_pass_processing.py"
+                },
+                "region": {
+                  "startLine": 62,
+                  "startColumn": 5
+                }
+              }
+            }
+          ]
+        },
+        {
+          "ruleId": "TPD002",
+          "level": "error",
+          "message": {
+            "text": "boto3 client bound to a proprietary AWS service (batch_client) — Route the call through the portability interface; Batch becomes a Kubernetes Job, Lambda becomes a Deployment/Job, DynamoDB becomes PostgreSQL/Postgres-compatible, SQS/SNS becomes NATS/Redpanda."
+          },
+          "locations": [
+            {
+              "physicalLocation": {
+                "artifactLocation": {
+                  "uri": "batch/submit_pass_processing.py"
+                },
+                "region": {
+                  "startLine": 68,
+                  "startColumn": 16
+                }
+              }
+            }
+          ]
+        },
+        {
+          "ruleId": "TPD004",
+          "level": "error",
+          "message": {
+            "text": "AWS Batch job submission (describe_jobs) — Generate a Kubernetes Job (with backoffLimit and ttlSecondsAfterFinished) from the Batch job definition."
+          },
+          "locations": [
+            {
+              "physicalLocation": {
+                "artifactLocation": {
+                  "uri": "batch/submit_pass_processing.py"
+                },
+                "region": {
+                  "startLine": 68,
+                  "startColumn": 16
+                }
+              }
+            }
+          ]
+        },
+        {
+          "ruleId": "TPD020",
+          "level": "error",
+          "message": {
+            "text": "aws-sdk-go / aws-sdk-go-v2 import (import github.com/aws/aws-sdk-go-v2/config) — Swap to the portable interface; keep an S3-compatible client backed by configuration."
+          },
+          "locations": [
+            {
+              "physicalLocation": {
+                "artifactLocation": {
+                  "uri": "etl/main.go"
+                },
+                "region": {
+                  "startLine": 11,
+                  "startColumn": 2
+                }
+              }
+            }
+          ]
+        },
+        {
+          "ruleId": "TPD020",
+          "level": "error",
+          "message": {
+            "text": "aws-sdk-go / aws-sdk-go-v2 import (import github.com/aws/aws-sdk-go-v2/service/batch) — Swap to the portable interface; keep an S3-compatible client backed by configuration."
+          },
+          "locations": [
+            {
+              "physicalLocation": {
+                "artifactLocation": {
+                  "uri": "etl/main.go"
+                },
+                "region": {
+                  "startLine": 12,
+                  "startColumn": 2
+                }
+              }
+            }
+          ]
+        },
+        {
+          "ruleId": "TPD020",
+          "level": "error",
+          "message": {
+            "text": "aws-sdk-go / aws-sdk-go-v2 import (import github.com/aws/aws-sdk-go-v2/service/s3) — Swap to the portable interface; keep an S3-compatible client backed by configuration."
+          },
+          "locations": [
+            {
+              "physicalLocation": {
+                "artifactLocation": {
+                  "uri": "etl/main.go"
+                },
+                "region": {
+                  "startLine": 13,
+                  "startColumn": 2
+                }
+              }
+            }
+          ]
+        },
+        {
+          "ruleId": "TPD020",
+          "level": "error",
+          "message": {
+            "text": "aws-sdk-go / aws-sdk-go-v2 import (import github.com/aws/aws-sdk-go-v2/service/sts) — Swap to the portable interface; keep an S3-compatible client backed by configuration."
+          },
+          "locations": [
+            {
+              "physicalLocation": {
+                "artifactLocation": {
+                  "uri": "etl/main.go"
+                },
+                "region": {
+                  "startLine": 14,
+                  "startColumn": 2
+                }
+              }
+            }
+          ]
+        },
+        {
+          "ruleId": "TPD004",
+          "level": "error",
+          "message": {
+            "text": "AWS Batch job submission (batch.NewFromConfig) — Generate a Kubernetes Job (with backoffLimit and ttlSecondsAfterFinished) from the Batch job definition."
+          },
+          "locations": [
+            {
+              "physicalLocation": {
+                "artifactLocation": {
+                  "uri": "etl/main.go"
+                },
+                "region": {
+                  "startLine": 24,
+                  "startColumn": 8
+                }
+              }
+            }
+          ]
+        },
+        {
+          "ruleId": "TPD004",
+          "level": "error",
+          "message": {
+            "text": "AWS Batch job submission (SubmitJob) — Generate a Kubernetes Job (with backoffLimit and ttlSecondsAfterFinished) from the Batch job definition."
+          },
+          "locations": [
+            {
+              "physicalLocation": {
+                "artifactLocation": {
+                  "uri": "etl/main.go"
+                },
+                "region": {
+                  "startLine": 25,
+                  "startColumn": 14
+                }
+              }
+            }
+          ]
+        },
+        {
+          "ruleId": "TPD007",
+          "level": "error",
+          "message": {
+            "text": "arn:aws literal in source (arn:aws:batch:us-west-2:123456789012:job-queue/droid-pass-pr…) — Externalise into configuration and use Crossplane-provisioned resources with generated names."
+          },
+          "locations": [
+            {
+              "physicalLocation": {
+                "artifactLocation": {
+                  "uri": "etl/main.go"
+                },
+                "region": {
+                  "startLine": 27,
+                  "startColumn": 25
+                }
+              }
+            }
+          ]
+        },
+        {
+          "ruleId": "TPD007",
+          "level": "error",
+          "message": {
+            "text": "arn:aws literal in source (arn:aws:batch:us-west-2:123456789012:job-definition/pass-pro…) — Externalise into configuration and use Crossplane-provisioned resources with generated names."
+          },
+          "locations": [
+            {
+              "physicalLocation": {
+                "artifactLocation": {
+                  "uri": "etl/main.go"
+                },
+                "region": {
+                  "startLine": 28,
+                  "startColumn": 25
+                }
+              }
+            }
+          ]
+        },
+        {
+          "ruleId": "TPD021",
+          "level": "error",
+          "message": {
+            "text": "AWS SDK service client in Go (s3.NewFromConfig) — Repoint at the portable replacement generated by this tool."
+          },
+          "locations": [
+            {
+              "physicalLocation": {
+                "artifactLocation": {
+                  "uri": "etl/main.go"
+                },
+                "region": {
+                  "startLine": 36,
+                  "startColumn": 8
+                }
+              }
+            }
+          ]
+        },
+        {
+          "ruleId": "TPD021",
+          "level": "error",
+          "message": {
+            "text": "AWS SDK service client in Go (sts.NewFromConfig) — Repoint at the portable replacement generated by this tool."
+          },
+          "locations": [
+            {
+              "physicalLocation": {
+                "artifactLocation": {
+                  "uri": "etl/main.go"
+                },
+                "region": {
+                  "startLine": 43,
+                  "startColumn": 9
+                }
+              }
+            }
+          ]
+        },
+        {
+          "ruleId": "TPD008",
+          "level": "error",
+          "message": {
+            "text": "AWS IAM / STS role assumption (AssumeRole) — Use workload identity from Kubernetes ServiceAccount (SPIFFE/IRSA-equivalent) or a Vault-injected token."
+          },
+          "locations": [
+            {
+              "physicalLocation": {
+                "artifactLocation": {
+                  "uri": "etl/main.go"
+                },
+                "region": {
+                  "startLine": 44,
+                  "startColumn": 11
+                }
+              }
+            }
+          ]
+        },
+        {
+          "ruleId": "TPD007",
+          "level": "error",
+          "message": {
+            "text": "arn:aws literal in source (arn:aws:iam::123456789012:role/droid-etl-runner) — Externalise into configuration and use Crossplane-provisioned resources with generated names."
+          },
+          "locations": [
+            {
+              "physicalLocation": {
+                "artifactLocation": {
+                  "uri": "etl/main.go"
+                },
+                "region": {
+                  "startLine": 45,
+                  "startColumn": 27
+                }
+              }
+            }
+          ]
+        },
+        {
+          "ruleId": "TPD004",
+          "level": "error",
+          "message": {
+            "text": "AWS Batch job submission (value: {{ .Values.aws.jobQueue }}) — Generate a Kubernetes Job (with backoffLimit and ttlSecondsAfterFinished) from the Batch job definition."
+          },
+          "locations": [
+            {
+              "physicalLocation": {
+                "artifactLocation": {
+                  "uri": "helm/ground-service/templates/cronjob.yaml"
+                },
+                "region": {
+                  "startLine": 22
+                }
+              }
+            }
+          ]
+        },
+        {
+          "ruleId": "TPD042",
+          "level": "error",
+          "message": {
+            "text": "Amazon ECR image reference (repository: 123456789012.dkr.ecr.us-west-2.amazonaws.com/turion/ground-telemetry-api) — Mirror into the ground-station registry (Harbor/Zot) and reference it by local name."
+          },
+          "locations": [
+            {
+              "physicalLocation": {
+                "artifactLocation": {
+                  "uri": "helm/ground-service/values.yaml"
+                },
+                "region": {
+                  "startLine": 5
+                }
+              }
+            }
+          ]
+        },
+        {
+          "ruleId": "TPD009",
+          "level": "error",
+          "message": {
+            "text": "Non-portable IAM policy document (roleArn: arn:aws:iam::123456789012:role/ground-telemetry-api) — Replace with Kubernetes RBAC and an S3-compatible access key scoped to a bucket."
+          },
+          "locations": [
+            {
+              "physicalLocation": {
+                "artifactLocation": {
+                  "uri": "helm/ground-service/values.yaml"
+                },
+                "region": {
+                  "startLine": 12
+                }
+              }
+            }
+          ]
+        },
+        {
+          "ruleId": "TPD004",
+          "level": "error",
+          "message": {
+            "text": "AWS Batch job submission (jobQueue: arn:aws:batch:us-west-2:123456789012:job-queue/droid-pass-processing) — Generate a Kubernetes Job (with backoffLimit and ttlSecondsAfterFinished) from the Batch job definition."
+          },
+          "locations": [
+            {
+              "physicalLocation": {
+                "artifactLocation": {
+                  "uri": "helm/ground-service/values.yaml"
+                },
+                "region": {
+                  "startLine": 13
+                }
+              }
+            }
+          ]
+        },
+        {
+          "ruleId": "TPD007",
+          "level": "error",
+          "message": {
+            "text": "arn:aws literal in source (jobQueue: arn:aws:batch:us-west-2:123456789012:job-queue/droid-pass-processing) — Externalise into configuration and use Crossplane-provisioned resources with generated names."
+          },
+          "locations": [
+            {
+              "physicalLocation": {
+                "artifactLocation": {
+                  "uri": "helm/ground-service/values.yaml"
+                },
+                "region": {
+                  "startLine": 13
+                }
+              }
+            }
+          ]
+        },
+        {
+          "ruleId": "TPD004",
+          "level": "error",
+          "message": {
+            "text": "AWS Batch job submission (jobDefinition: arn:aws:batch:us-west-2:123456789012:job-definition/pass-processor:7) — Generate a Kubernetes Job (with backoffLimit and ttlSecondsAfterFinished) from the Batch job definition."
+          },
+          "locations": [
+            {
+              "physicalLocation": {
+                "artifactLocation": {
+                  "uri": "helm/ground-service/values.yaml"
+                },
+                "region": {
+                  "startLine": 14
+                }
+              }
+            }
+          ]
+        },
+        {
+          "ruleId": "TPD007",
+          "level": "error",
+          "message": {
+            "text": "arn:aws literal in source (jobDefinition: arn:aws:batch:us-west-2:123456789012:job-definition/pass-processor:7) — Externalise into configuration and use Crossplane-provisioned resources with generated names."
+          },
+          "locations": [
+            {
+              "physicalLocation": {
+                "artifactLocation": {
+                  "uri": "helm/ground-service/values.yaml"
+                },
+                "region": {
+                  "startLine": 14
+                }
+              }
+            }
+          ]
+        },
+        {
+          "ruleId": "TPD007",
+          "level": "error",
+          "message": {
+            "text": "arn:aws literal in source (lambdaEnrich: arn:aws:lambda:us-west-2:123456789012:function:droid-telemetry-enrich) — Externalise into configuration and use Crossplane-provisioned resources with generated names."
+          },
+          "locations": [
+            {
+              "physicalLocation": {
+                "artifactLocation": {
+                  "uri": "helm/ground-service/values.yaml"
+                },
+                "region": {
+                  "startLine": 17
+                }
+              }
+            }
+          ]
+        },
+        {
+          "ruleId": "TPD044",
+          "level": "error",
+          "message": {
+            "text": "AWS Load Balancer Controller ingress (alb.ingress.kubernetes.io/scheme: internal) — Use a portable ingress (NGINX or Gateway API) with no cloud-specific annotations."
+          },
+          "locations": [
+            {
+              "physicalLocation": {
+                "artifactLocation": {
+                  "uri": "helm/ground-service/values.yaml"
+                },
+                "region": {
+                  "startLine": 27
+                }
+              }
+            }
+          ]
+        },
+        {
+          "ruleId": "TPD044",
+          "level": "error",
+          "message": {
+            "text": "AWS Load Balancer Controller ingress (alb.ingress.kubernetes.io/target-type: ip) — Use a portable ingress (NGINX or Gateway API) with no cloud-specific annotations."
+          },
+          "locations": [
+            {
+              "physicalLocation": {
+                "artifactLocation": {
+                  "uri": "helm/ground-service/values.yaml"
+                },
+                "region": {
+                  "startLine": 28
+                }
+              }
+            }
+          ]
+        },
+        {
+          "ruleId": "TPD009",
+          "level": "error",
+          "message": {
+            "text": "Non-portable IAM policy document (Statement) — Replace with Kubernetes RBAC and an S3-compatible access key scoped to a bucket."
+          },
+          "locations": [
+            {
+              "physicalLocation": {
+                "artifactLocation": {
+                  "uri": "iam/policy.json"
+                },
+                "region": {
+                  "startLine": 3
+                }
+              }
+            }
+          ]
+        },
+        {
+          "ruleId": "TPD007",
+          "level": "error",
+          "message": {
+            "text": "arn:aws literal in source (\"arn:aws:s3:::turion-droid-downlink-raw\",) — Externalise into configuration and use Crossplane-provisioned resources with generated names."
+          },
+          "locations": [
+            {
+              "physicalLocation": {
+                "artifactLocation": {
+                  "uri": "iam/policy.json"
+                },
+                "region": {
+                  "startLine": 9
+                }
+              }
+            }
+          ]
+        },
+        {
+          "ruleId": "TPD007",
+          "level": "error",
+          "message": {
+            "text": "arn:aws literal in source (\"arn:aws:s3:::turion-droid-downlink-raw/*\") — Externalise into configuration and use Crossplane-provisioned resources with generated names."
+          },
+          "locations": [
+            {
+              "physicalLocation": {
+                "artifactLocation": {
+                  "uri": "iam/policy.json"
+                },
+                "region": {
+                  "startLine": 10
+                }
+              }
+            }
+          ]
+        },
+        {
+          "ruleId": "TPD007",
+          "level": "error",
+          "message": {
+            "text": "arn:aws literal in source (\"Resource\": \"arn:aws:s3:::turion-tlm-archive-prod/*\") — Externalise into configuration and use Crossplane-provisioned resources with generated names."
+          },
+          "locations": [
+            {
+              "physicalLocation": {
+                "artifactLocation": {
+                  "uri": "iam/policy.json"
+                },
+                "region": {
+                  "startLine": 17
+                }
+              }
+            }
+          ]
+        },
+        {
+          "ruleId": "TPD007",
+          "level": "error",
+          "message": {
+            "text": "arn:aws literal in source (\"Resource\": \"arn:aws:batch:us-west-2:123456789012:job-queue/droid-pass-processing\") — Externalise into configuration and use Crossplane-provisioned resources with generated names."
+          },
+          "locations": [
+            {
+              "physicalLocation": {
+                "artifactLocation": {
+                  "uri": "iam/policy.json"
+                },
+                "region": {
+                  "startLine": 27
+                }
+              }
+            }
+          ]
+        },
+        {
+          "ruleId": "TPD007",
+          "level": "error",
+          "message": {
+            "text": "arn:aws literal in source (\"Resource\": \"arn:aws:lambda:us-west-2:123456789012:function:droid-telemetry-enrich\") — Externalise into configuration and use Crossplane-provisioned resources with generated names."
+          },
+          "locations": [
+            {
+              "physicalLocation": {
+                "artifactLocation": {
+                  "uri": "iam/policy.json"
+                },
+                "region": {
+                  "startLine": 33
+                }
+              }
+            }
+          ]
+        },
+        {
+          "ruleId": "TPD049",
+          "level": "error",
+          "message": {
+            "text": "aws_* Terraform / CloudFormation resource (aws_s3_bucket) — Express the same resource as a Crossplane composite (portable) or plain Kubernetes objects."
+          },
+          "locations": [
+            {
+              "physicalLocation": {
+                "artifactLocation": {
+                  "uri": "infra/main.tf"
+                },
+                "region": {
+                  "startLine": 5
+                }
+              }
+            }
+          ]
+        },
+        {
+          "ruleId": "TPD049",
+          "level": "error",
+          "message": {
+            "text": "aws_* Terraform / CloudFormation resource (aws_batch_compute_environment) — Express the same resource as a Crossplane composite (portable) or plain Kubernetes objects."
+          },
+          "locations": [
+            {
+              "physicalLocation": {
+                "artifactLocation": {
+                  "uri": "infra/main.tf"
+                },
+                "region": {
+                  "startLine": 9
+                }
+              }
+            }
+          ]
+        },
+        {
+          "ruleId": "TPD049",
+          "level": "error",
+          "message": {
+            "text": "aws_* Terraform / CloudFormation resource (aws_lambda_function) — Express the same resource as a Crossplane composite (portable) or plain Kubernetes objects."
+          },
+          "locations": [
+            {
+              "physicalLocation": {
+                "artifactLocation": {
+                  "uri": "infra/main.tf"
+                },
+                "region": {
+                  "startLine": 14
+                }
+              }
+            }
+          ]
+        },
+        {
+          "ruleId": "TPD009",
+          "level": "error",
+          "message": {
+            "text": "Non-portable IAM policy document (role          = \"arn:aws:iam::123456789012:role/lambda-enrich\") — Replace with Kubernetes RBAC and an S3-compatible access key scoped to a bucket."
+          },
+          "locations": [
+            {
+              "physicalLocation": {
+                "artifactLocation": {
+                  "uri": "infra/main.tf"
+                },
+                "region": {
+                  "startLine": 16
+                }
+              }
+            }
+          ]
+        },
+        {
+          "ruleId": "TPD049",
+          "level": "error",
+          "message": {
+            "text": "aws_* Terraform / CloudFormation resource (aws_iam_role) — Express the same resource as a Crossplane composite (portable) or plain Kubernetes objects."
+          },
+          "locations": [
+            {
+              "physicalLocation": {
+                "artifactLocation": {
+                  "uri": "infra/main.tf"
+                },
+                "region": {
+                  "startLine": 20
+                }
+              }
+            }
+          ]
+        },
+        {
+          "ruleId": "TPD009",
+          "level": "error",
+          "message": {
+            "text": "Non-portable IAM policy document (eks.amazonaws.com/role-arn: arn:aws:iam::123456789012:role/ground-telemetry-api) — Replace with Kubernetes RBAC and an S3-compatible access key scoped to a bucket."
+          },
+          "locations": [
+            {
+              "physicalLocation": {
+                "artifactLocation": {
+                  "uri": "k8s/ground-service-deployment.yaml"
+                },
+                "region": {
+                  "startLine": 9
+                }
+              }
+            }
+          ]
+        },
+        {
+          "ruleId": "TPD043",
+          "level": "error",
+          "message": {
+            "text": "IRSA annotation (eks.amazonaws.com/role-arn) (eks.amazonaws.com/role-arn) — Use a Kubernetes ServiceAccount with an S3-compatible access key Secret, or SPIFFE workload identity."
+          },
+          "locations": [
+            {
+              "physicalLocation": {
+                "artifactLocation": {
+                  "uri": "k8s/ground-service-deployment.yaml"
+                },
+                "region": {
+                  "startLine": 9
+                }
+              }
+            }
+          ]
+        },
+        {
+          "ruleId": "TPD042",
+          "level": "error",
+          "message": {
+            "text": "Amazon ECR image reference (image: 123456789012.dkr.ecr.us-west-2.amazonaws.com/turion/ground-telemetry-api:2.4.1) — Mirror into the ground-station registry (Harbor/Zot) and reference it by local name."
+          },
+          "locations": [
+            {
+              "physicalLocation": {
+                "artifactLocation": {
+                  "uri": "k8s/ground-service-deployment.yaml"
+                },
+                "region": {
+                  "startLine": 23
+                }
+              }
+            }
+          ]
+        },
+        {
+          "ruleId": "TPD046",
+          "level": "error",
+          "message": {
+            "text": "AWS Secrets Manager / SSM CSI volume (driver: secrets-store.csi.k8s.io) — Mount Kubernetes Secrets, optionally synced by External Secrets Operator from Vault."
+          },
+          "locations": [
+            {
+              "physicalLocation": {
+                "artifactLocation": {
+                  "uri": "k8s/ground-service-deployment.yaml"
+                },
+                "region": {
+                  "startLine": 44
+                }
+              }
+            }
+          ]
+        },
+        {
+          "ruleId": "TPD009",
+          "level": "error",
+          "message": {
+            "text": "Non-portable IAM policy document (eks.amazonaws.com/role-arn: arn:aws:iam::123456789012:role/ground-telemetry-api) — Replace with Kubernetes RBAC and an S3-compatible access key scoped to a bucket."
+          },
+          "locations": [
+            {
+              "physicalLocation": {
+                "artifactLocation": {
+                  "uri": "k8s/ground-service-deployment.yaml"
+                },
+                "region": {
+                  "startLine": 55
+                }
+              }
+            }
+          ]
+        },
+        {
+          "ruleId": "TPD043",
+          "level": "error",
+          "message": {
+            "text": "IRSA annotation (eks.amazonaws.com/role-arn) (eks.amazonaws.com/role-arn) — Use a Kubernetes ServiceAccount with an S3-compatible access key Secret, or SPIFFE workload identity."
+          },
+          "locations": [
+            {
+              "physicalLocation": {
+                "artifactLocation": {
+                  "uri": "k8s/ground-service-deployment.yaml"
+                },
+                "region": {
+                  "startLine": 55
+                }
+              }
+            }
+          ]
+        },
+        {
+          "ruleId": "TPD045",
+          "level": "error",
+          "message": {
+            "text": "AWS EBS/EFS storage class (storageClassName: gp3) — Use the ground station's portable storage class (local-path, Longhorn, Ceph RBD)."
+          },
+          "locations": [
+            {
+              "physicalLocation": {
+                "artifactLocation": {
+                  "uri": "k8s/ground-service-deployment.yaml"
+                },
+                "region": {
+                  "startLine": 64
+                }
+              }
+            }
+          ]
+        },
+        {
+          "ruleId": "TPD044",
+          "level": "error",
+          "message": {
+            "text": "AWS Load Balancer Controller ingress (kubernetes.io/ingress.class: alb) — Use a portable ingress (NGINX or Gateway API) with no cloud-specific annotations."
+          },
+          "locations": [
+            {
+              "physicalLocation": {
+                "artifactLocation": {
+                  "uri": "k8s/ground-service-deployment.yaml"
+                },
+                "region": {
+                  "startLine": 75
+                }
+              }
+            }
+          ]
+        },
+        {
+          "ruleId": "TPD044",
+          "level": "error",
+          "message": {
+            "text": "AWS Load Balancer Controller ingress (alb.ingress.kubernetes.io/scheme: internal) — Use a portable ingress (NGINX or Gateway API) with no cloud-specific annotations."
+          },
+          "locations": [
+            {
+              "physicalLocation": {
+                "artifactLocation": {
+                  "uri": "k8s/ground-service-deployment.yaml"
+                },
+                "region": {
+                  "startLine": 76
+                }
+              }
+            }
+          ]
+        },
+        {
+          "ruleId": "TPD044",
+          "level": "error",
+          "message": {
+            "text": "AWS Load Balancer Controller ingress (alb.ingress.kubernetes.io/target-type: ip) — Use a portable ingress (NGINX or Gateway API) with no cloud-specific annotations."
+          },
+          "locations": [
+            {
+              "physicalLocation": {
+                "artifactLocation": {
+                  "uri": "k8s/ground-service-deployment.yaml"
+                },
+                "region": {
+                  "startLine": 77
+                }
+              }
+            }
+          ]
+        },
+        {
+          "ruleId": "TPD044",
+          "level": "error",
+          "message": {
+            "text": "AWS Load Balancer Controller ingress (alb.ingress.kubernetes.io/listen-ports: '[{\"HTTPS\":443}]') — Use a portable ingress (NGINX or Gateway API) with no cloud-specific annotations."
+          },
+          "locations": [
+            {
+              "physicalLocation": {
+                "artifactLocation": {
+                  "uri": "k8s/ground-service-deployment.yaml"
+                },
+                "region": {
+                  "startLine": 78
+                }
+              }
+            }
+          ]
+        },
+        {
+          "ruleId": "TPD047",
+          "level": "error",
+          "message": {
+            "text": "Karpenter EC2NodeClass (kind: EC2NodeClass) — Use a portable NodePool/Cluster Autoscaler for the ground-station cluster."
+          },
+          "locations": [
+            {
+              "physicalLocation": {
+                "artifactLocation": {
+                  "uri": "k8s/karpenter-nodepool.yaml"
+                },
+                "region": {
+                  "startLine": 2
+                }
+              }
+            }
+          ]
+        },
+        {
+          "ruleId": "TPD046",
+          "level": "error",
+          "message": {
+            "text": "AWS Secrets Manager / SSM CSI volume (provider: aws) — Mount Kubernetes Secrets, optionally synced by External Secrets Operator from Vault."
+          },
+          "locations": [
+            {
+              "physicalLocation": {
+                "artifactLocation": {
+                  "uri": "k8s/secrets-provider-class.yaml"
+                },
+                "region": {
+                  "startLine": 7
+                }
+              }
+            }
+          ]
+        },
+        {
+          "ruleId": "TPD001",
+          "level": "error",
+          "message": {
+            "text": "boto3 / botocore SDK import (import boto3) — Replace with the portable ground-station storage interface (any S3-compatible endpoint: MinIO, VersityGW) and read ARNs from environment configuration."
+          },
+          "locations": [
+            {
+              "physicalLocation": {
+                "artifactLocation": {
+                  "uri": "lambda/invoke_telemetry_enrich.py"
+                },
+                "region": {
+                  "startLine": 4,
+                  "startColumn": 1
+                }
+              }
+            }
+          ]
+        },
+        {
+          "ruleId": "TPD007",
+          "level": "error",
+          "message": {
+            "text": "arn:aws literal in source (arn:aws:lambda:us-west-2:123456789012:function:droid-telemetry-enrich) — Externalise into configuration and use Crossplane-provisioned resources with generated names."
+          },
+          "locations": [
+            {
+              "physicalLocation": {
+                "artifactLocation": {
+                  "uri": "lambda/invoke_telemetry_enrich.py"
+                },
+                "region": {
+                  "startLine": 6,
+                  "startColumn": 19
+                }
+              }
+            }
+          ]
+        },
+        {
+          "ruleId": "TPD003",
+          "level": "error",
+          "message": {
+            "text": "AWS Lambda invocation (boto3.client('lambda')) — Deploy the function body as a Kubernetes Job/Deployment and call it over HTTP (or the Knative Serving route) instead of Invoke."
+          },
+          "locations": [
+            {
+              "physicalLocation": {
+                "artifactLocation": {
+                  "uri": "lambda/invoke_telemetry_enrich.py"
+                },
+                "region": {
+                  "startLine": 10,
+                  "startColumn": 14
+                }
+              }
+            }
+          ]
+        },
+        {
+          "ruleId": "TPD003",
+          "level": "error",
+          "message": {
+            "text": "AWS Lambda invocation (client.invoke) — Deploy the function body as a Kubernetes Job/Deployment and call it over HTTP (or the Knative Serving route) instead of Invoke."
+          },
+          "locations": [
+            {
+              "physicalLocation": {
+                "artifactLocation": {
+                  "uri": "lambda/invoke_telemetry_enrich.py"
+                },
+                "region": {
+                  "startLine": 11,
+                  "startColumn": 16
+                }
+              }
+            }
+          ]
+        },
+        {
+          "ruleId": "TPD010",
+          "level": "error",
+          "message": {
+            "text": "AWS messaging service usage (boto3.client('events')) — Target NATS JetStream or Redpanda, both of which run air-gapped."
+          },
+          "locations": [
+            {
+              "physicalLocation": {
+                "artifactLocation": {
+                  "uri": "lambda/invoke_telemetry_enrich.py"
+                },
+                "region": {
+                  "startLine": 21,
+                  "startColumn": 5
+                }
+              }
+            }
+          ]
+        },
+        {
+          "ruleId": "TPD010",
+          "level": "error",
+          "message": {
+            "text": "AWS messaging service usage (boto3.client('sns')) — Target NATS JetStream or Redpanda, both of which run air-gapped."
+          },
+          "locations": [
+            {
+              "physicalLocation": {
+                "artifactLocation": {
+                  "uri": "lambda/invoke_telemetry_enrich.py"
+                },
+                "region": {
+                  "startLine": 25,
+                  "startColumn": 5
+                }
+              }
+            }
+          ]
+        },
+        {
+          "ruleId": "TPD007",
+          "level": "error",
+          "message": {
+            "text": "arn:aws literal in source (arn:aws:sns:us-west-2:123456789012:droid-ground-events) — Externalise into configuration and use Crossplane-provisioned resources with generated names."
+          },
+          "locations": [
+            {
+              "physicalLocation": {
+                "artifactLocation": {
+                  "uri": "lambda/invoke_telemetry_enrich.py"
+                },
+                "region": {
+                  "startLine": 26,
+                  "startColumn": 18
+                }
+              }
+            }
+          ]
+        },
+        {
+          "ruleId": "TPD001",
+          "level": "error",
+          "message": {
+            "text": "boto3 / botocore SDK import (import boto3) — Replace with the portable ground-station storage interface (any S3-compatible endpoint: MinIO, VersityGW) and read ARNs from environment configuration."
+          },
+          "locations": [
+            {
+              "physicalLocation": {
+                "artifactLocation": {
+                  "uri": "storage/archive_tlm.py"
+                },
+                "region": {
+                  "startLine": 3,
+                  "startColumn": 1
+                }
+              }
+            }
+          ]
+        },
+        {
+          "ruleId": "TPD001",
+          "level": "error",
+          "message": {
+            "text": "boto3 / botocore SDK import (from botocore.config import Config) — Replace with the portable ground-station storage interface (any S3-compatible endpoint: MinIO, VersityGW) and read ARNs from environment configuration."
+          },
+          "locations": [
+            {
+              "physicalLocation": {
+                "artifactLocation": {
+                  "uri": "storage/archive_tlm.py"
+                },
+                "region": {
+                  "startLine": 4,
+                  "startColumn": 1
+                }
+              }
+            }
+          ]
+        },
+        {
+          "ruleId": "TPD005",
+          "level": "error",
+          "message": {
+            "text": "Hard-coded S3 bucket / ARN literal (ARCHIVE_BUCKET = turion-tlm-archive-prod) — Read the endpoint, bucket, and credentials from a ConfigMap/Secret; point them at MinIO or VersityGW."
+          },
+          "locations": [
+            {
+              "physicalLocation": {
+                "artifactLocation": {
+                  "uri": "storage/archive_tlm.py"
+                },
+                "region": {
+                  "startLine": 6,
+                  "startColumn": 1
+                }
+              }
+            }
+          ]
+        },
+        {
+          "ruleId": "TPD005",
+          "level": "error",
+          "message": {
+            "text": "Hard-coded S3 bucket / ARN literal (RAW_BUCKET = turion-droid-downlink-raw) — Read the endpoint, bucket, and credentials from a ConfigMap/Secret; point them at MinIO or VersityGW."
+          },
+          "locations": [
+            {
+              "physicalLocation": {
+                "artifactLocation": {
+                  "uri": "storage/archive_tlm.py"
+                },
+                "region": {
+                  "startLine": 7,
+                  "startColumn": 1
+                }
+              }
+            }
+          ]
+        },
+        {
+          "ruleId": "TPD006",
+          "level": "error",
+          "message": {
+            "text": "Proprietary S3 primitive usage (boto3.client('s3')) — Wrap in the object-store interface; the S3 API is portable, the SDK is not."
+          },
+          "locations": [
+            {
+              "physicalLocation": {
+                "artifactLocation": {
+                  "uri": "storage/archive_tlm.py"
+                },
+                "region": {
+                  "startLine": 11,
+                  "startColumn": 12
+                }
+              }
+            }
+          ]
+        },
+        {
+          "ruleId": "TPD002",
+          "level": "error",
+          "message": {
+            "text": "boto3 client bound to a proprietary AWS service (_client) — Route the call through the portability interface; Batch becomes a Kubernetes Job, Lambda becomes a Deployment/Job, DynamoDB becomes PostgreSQL/Postgres-compatible, SQS/SNS becomes NATS/Redpanda."
+          },
+          "locations": [
+            {
+              "physicalLocation": {
+                "artifactLocation": {
+                  "uri": "storage/archive_tlm.py"
+                },
+                "region": {
+                  "startLine": 16,
+                  "startColumn": 5
+                }
+              }
+            }
+          ]
+        },
+        {
+          "ruleId": "TPD006",
+          "level": "error",
+          "message": {
+            "text": "Proprietary S3 primitive usage (put_object) — Wrap in the object-store interface; the S3 API is portable, the SDK is not."
+          },
+          "locations": [
+            {
+              "physicalLocation": {
+                "artifactLocation": {
+                  "uri": "storage/archive_tlm.py"
+                },
+                "region": {
+                  "startLine": 16,
+                  "startColumn": 5
+                }
+              }
+            }
+          ]
+        },
+        {
+          "ruleId": "TPD002",
+          "level": "error",
+          "message": {
+            "text": "boto3 client bound to a proprietary AWS service (_client) — Route the call through the portability interface; Batch becomes a Kubernetes Job, Lambda becomes a Deployment/Job, DynamoDB becomes PostgreSQL/Postgres-compatible, SQS/SNS becomes NATS/Redpanda."
+          },
+          "locations": [
+            {
+              "physicalLocation": {
+                "artifactLocation": {
+                  "uri": "storage/archive_tlm.py"
+                },
+                "region": {
+                  "startLine": 22,
+                  "startColumn": 11
+                }
+              }
+            }
+          ]
+        },
+        {
+          "ruleId": "TPD006",
+          "level": "error",
+          "message": {
+            "text": "Proprietary S3 primitive usage (get_object) — Wrap in the object-store interface; the S3 API is portable, the SDK is not."
+          },
+          "locations": [
+            {
+              "physicalLocation": {
+                "artifactLocation": {
+                  "uri": "storage/archive_tlm.py"
+                },
+                "region": {
+                  "startLine": 22,
+                  "startColumn": 11
+                }
+              }
+            }
+          ]
+        },
+        {
+          "ruleId": "TPD002",
+          "level": "error",
+          "message": {
+            "text": "boto3 client bound to a proprietary AWS service (_client) — Route the call through the portability interface; Batch becomes a Kubernetes Job, Lambda becomes a Deployment/Job, DynamoDB becomes PostgreSQL/Postgres-compatible, SQS/SNS becomes NATS/Redpanda."
+          },
+          "locations": [
+            {
+              "physicalLocation": {
+                "artifactLocation": {
+                  "uri": "storage/archive_tlm.py"
+                },
+                "region": {
+                  "startLine": 27,
+                  "startColumn": 16
+                }
+              }
+            }
+          ]
+        },
+        {
+          "ruleId": "TPD006",
+          "level": "error",
+          "message": {
+            "text": "Proprietary S3 primitive usage (list_objects_v2) — Wrap in the object-store interface; the S3 API is portable, the SDK is not."
+          },
+          "locations": [
+            {
+              "physicalLocation": {
+                "artifactLocation": {
+                  "uri": "storage/archive_tlm.py"
+                },
+                "region": {
+                  "startLine": 27,
+                  "startColumn": 16
+                }
+              }
+            }
+          ]
+        },
+        {
+          "ruleId": "TPD002",
+          "level": "error",
+          "message": {
+            "text": "boto3 client bound to a proprietary AWS service (_client) — Route the call through the portability interface; Batch becomes a Kubernetes Job, Lambda becomes a Deployment/Job, DynamoDB becomes PostgreSQL/Postgres-compatible, SQS/SNS becomes NATS/Redpanda."
+          },
+          "locations": [
+            {
+              "physicalLocation": {
+                "artifactLocation": {
+                  "uri": "storage/archive_tlm.py"
+                },
+                "region": {
+                  "startLine": 34,
+                  "startColumn": 12
+                }
+              }
+            }
+          ]
+        },
+        {
+          "ruleId": "TPD006",
+          "level": "error",
+          "message": {
+            "text": "Proprietary S3 primitive usage (generate_presigned_url) — Wrap in the object-store interface; the S3 API is portable, the SDK is not."
+          },
+          "locations": [
+            {
+              "physicalLocation": {
+                "artifactLocation": {
+                  "uri": "storage/archive_tlm.py"
+                },
+                "region": {
+                  "startLine": 34,
+                  "startColumn": 12
+                }
+              }
+            }
+          ]
+        },
+        {
+          "ruleId": "TPD011",
+          "level": "error",
+          "message": {
+            "text": "AWS managed database usage (boto3.resource('dynamodb')) — Use PostgreSQL (CloudNativePG) or an S3-backed open table format."
+          },
+          "locations": [
+            {
+              "physicalLocation": {
+                "artifactLocation": {
+                  "uri": "storage/archive_tlm.py"
+                },
+                "region": {
+                  "startLine": 43,
+                  "startColumn": 13
+                }
+              }
+            }
+          ]
+        },
+        {
+          "ruleId": "TPD046",
+          "level": "error",
+          "message": {
+            "text": "AWS Secrets Manager / SSM CSI volume (boto3.client('secretsmanager')) — Mount Kubernetes Secrets, optionally synced by External Secrets Operator from Vault."
+          },
+          "locations": [
+            {
+              "physicalLocation": {
+                "artifactLocation": {
+                  "uri": "storage/archive_tlm.py"
+                },
+                "region": {
+                  "startLine": 49,
+                  "startColumn": 14
+                }
+              }
+            }
+          ]
+        },
+        {
+          "ruleId": "TPD010",
+          "level": "error",
+          "message": {
+            "text": "AWS messaging service usage (boto3.client('sqs')) — Target NATS JetStream or Redpanda, both of which run air-gapped."
+          },
+          "locations": [
+            {
+              "physicalLocation": {
+                "artifactLocation": {
+                  "uri": "storage/archive_tlm.py"
+                },
+                "region": {
+                  "startLine": 54,
+                  "startColumn": 5
+                }
+              }
+            }
+          ]
+        },
+        {
+          "ruleId": "TPD048",
+          "level": "error",
+          "message": {
+            "text": "CloudWatch Logs / X-Ray dependency (awscloudwatchlogs:) — Ship OTLP to a local OpenTelemetry Collector exported to Prometheus/Loki/Tempo."
+          },
+          "locations": [
+            {
+              "physicalLocation": {
+                "artifactLocation": {
+                  "uri": "telemetry/otel-collector.yaml"
+                },
+                "region": {
+                  "startLine": 11
+                }
+              }
+            }
+          ]
+        },
+        {
+          "ruleId": "TPD048",
+          "level": "error",
+          "message": {
+            "text": "CloudWatch Logs / X-Ray dependency (awsxray:) — Ship OTLP to a local OpenTelemetry Collector exported to Prometheus/Loki/Tempo."
+          },
+          "locations": [
+            {
+              "physicalLocation": {
+                "artifactLocation": {
+                  "uri": "telemetry/otel-collector.yaml"
+                },
+                "region": {
+                  "startLine": 13
+                }
+              }
+            }
+          ]
+        },
+        {
+          "ruleId": "TPD048",
+          "level": "error",
+          "message": {
+            "text": "CloudWatch Logs / X-Ray dependency (exporters: [awsxray]) — Ship OTLP to a local OpenTelemetry Collector exported to Prometheus/Loki/Tempo."
+          },
+          "locations": [
+            {
+              "physicalLocation": {
+                "artifactLocation": {
+                  "uri": "telemetry/otel-collector.yaml"
+                },
+                "region": {
+                  "startLine": 18
+                }
+              }
+            }
+          ]
+        },
+        {
+          "ruleId": "TPD048",
+          "level": "error",
+          "message": {
+            "text": "CloudWatch Logs / X-Ray dependency (exporters: [awscloudwatchlogs]) — Ship OTLP to a local OpenTelemetry Collector exported to Prometheus/Loki/Tempo."
+          },
+          "locations": [
+            {
+              "physicalLocation": {
+                "artifactLocation": {
+                  "uri": "telemetry/otel-collector.yaml"
+                },
+                "region": {
+                  "startLine": 20
+                }
+              }
+            }
+          ]
+        },
+        {
+          "ruleId": "TPD030",
+          "level": "error",
+          "message": {
+            "text": "@aws-sdk/* package import (import @aws-sdk/client-lambda) — Use an S3-compatible client (for example the S3 API via a configured endpoint) and call ground microservices over HTTP."
+          },
+          "locations": [
+            {
+              "physicalLocation": {
+                "artifactLocation": {
+                  "uri": "ui/src/api.ts"
+                },
+                "region": {
+                  "startLine": 2
+                }
+              }
+            }
+          ]
+        },
+        {
+          "ruleId": "TPD030",
+          "level": "error",
+          "message": {
+            "text": "@aws-sdk/* package import (import @aws-sdk/client-s3) — Use an S3-compatible client (for example the S3 API via a configured endpoint) and call ground microservices over HTTP."
+          },
+          "locations": [
+            {
+              "physicalLocation": {
+                "artifactLocation": {
+                  "uri": "ui/src/api.ts"
+                },
+                "region": {
+                  "startLine": 3
+                }
+              }
+            }
+          ]
+        },
+        {
+          "ruleId": "TPD007",
+          "level": "error",
+          "message": {
+            "text": "arn:aws literal in source (const ENRICH_FN = \"arn:aws:lambda:us-west-2:123456789012:function:droid-telemetry-enrich\";) — Externalise into configuration and use Crossplane-provisioned resources with generated names."
+          },
+          "locations": [
+            {
+              "physicalLocation": {
+                "artifactLocation": {
+                  "uri": "ui/src/api.ts"
+                },
+                "region": {
+                  "startLine": 6
+                }
+              }
+            }
+          ]
+        },
+        {
+          "ruleId": "TPD031",
+          "level": "error",
+          "message": {
+            "text": "AWS SDK Lambda client usage (const lambda = new LambdaClient({ region: \"us-west-2\" });) — Call the generated Kubernetes Service instead of InvokeCommand."
+          },
+          "locations": [
+            {
+              "physicalLocation": {
+                "artifactLocation": {
+                  "uri": "ui/src/api.ts"
+                },
+                "region": {
+                  "startLine": 8
+                }
+              }
+            }
+          ]
+        },
+        {
+          "ruleId": "TPD006",
+          "level": "error",
+          "message": {
+            "text": "Proprietary S3 primitive usage (const s3 = new S3Client({ region: \"us-west-2\" });) — Wrap in the object-store interface; the S3 API is portable, the SDK is not."
+          },
+          "locations": [
+            {
+              "physicalLocation": {
+                "artifactLocation": {
+                  "uri": "ui/src/api.ts"
+                },
+                "region": {
+                  "startLine": 9
+                }
+              }
+            }
+          ]
+        },
+        {
+          "ruleId": "TPD031",
+          "level": "error",
+          "message": {
+            "text": "AWS SDK Lambda client usage (new InvokeCommand({) — Call the generated Kubernetes Service instead of InvokeCommand."
+          },
+          "locations": [
+            {
+              "physicalLocation": {
+                "artifactLocation": {
+                  "uri": "ui/src/api.ts"
+                },
+                "region": {
+                  "startLine": 13
+                }
+              }
+            }
+          ]
+        },
+        {
+          "ruleId": "TPD006",
+          "level": "error",
+          "message": {
+            "text": "Proprietary S3 primitive usage (new GetObjectCommand({) — Wrap in the object-store interface; the S3 API is portable, the SDK is not."
+          },
+          "locations": [
+            {
+              "physicalLocation": {
+                "artifactLocation": {
+                  "uri": "ui/src/api.ts"
+                },
+                "region": {
+                  "startLine": 23
+                }
+              }
+            }
+          ]
+        }
+      ],
+      "tool": {
+        "driver": {
+          "informationUri": "https://turion-platform-drift",
+          "name": "turion-platform-drift",
+          "rules": [
+            {
+              "id": "TPD001",
+              "name": "boto3/botocoreSDKimport",
+              "shortDescription": {
+                "text": "boto3 / botocore SDK import"
+              },
+              "fullDescription": {
+                "text": "Ground-service code imports the proprietary AWS SDK directly, so the module cannot be imported on a non-AWS ground station."
+              },
+              "help": {
+                "text": "Replace with the portable ground-station storage interface (any S3-compatible endpoint: MinIO, VersityGW) and read ARNs from environment configuration.",
+                "markdown": "**Portable replacement:** OpenC3-compatible object-store shim + typed config\n\nReplace with the portable ground-station storage interface (any S3-compatible endpoint: MinIO, VersityGW) and read ARNs from environment configuration."
+              },
+              "defaultConfiguration": {
+                "level": "error"
+              },
+              "properties": {
+                "category": "compute",
+                "portability": "OpenC3-compatible object-store shim + typed config",
+                "severity": "critical"
+              }
+            },
+            {
+              "id": "TPD002",
+              "name": "boto3clientboundtoaproprietaryAWSservice",
+              "shortDescription": {
+                "text": "boto3 client bound to a proprietary AWS service"
+              },
+              "fullDescription": {
+                "text": "A boto3 client is constructed for an AWS-only service (batch, lambda, s3, dynamodb, sqs, sns, ...), hard-coding the proprietary control plane."
+              },
+              "help": {
+                "text": "Route the call through the portability interface; Batch becomes a Kubernetes Job, Lambda becomes a Deployment/Job, DynamoDB becomes PostgreSQL/Postgres-compatible, SQS/SNS becomes NATS/Redpanda.",
+                "markdown": "**Portable replacement:** Kubernetes Job / Crossplane composite\n\nRoute the call through the portability interface; Batch becomes a Kubernetes Job, Lambda becomes a Deployment/Job, DynamoDB becomes PostgreSQL/Postgres-compatible, SQS/SNS becomes NATS/Redpanda."
+              },
+              "defaultConfiguration": {
+                "level": "error"
+              },
+              "properties": {
+                "category": "compute",
+                "portability": "Kubernetes Job / Crossplane composite",
+                "severity": "critical"
+              }
+            },
+            {
+              "id": "TPD003",
+              "name": "AWSLambdainvocation",
+              "shortDescription": {
+                "text": "AWS Lambda invocation"
+              },
+              "fullDescription": {
+                "text": "Code invokes a Lambda function, which cannot exist in an air-gapped or on-premises ground station."
+              },
+              "help": {
+                "text": "Deploy the function body as a Kubernetes Job/Deployment and call it over HTTP (or the Knative Serving route) instead of Invoke.",
+                "markdown": "**Portable replacement:** Kubernetes Job + ClusterIP Service\n\nDeploy the function body as a Kubernetes Job/Deployment and call it over HTTP (or the Knative Serving route) instead of Invoke."
+              },
+              "defaultConfiguration": {
+                "level": "error"
+              },
+              "properties": {
+                "category": "serverless",
+                "portability": "Kubernetes Job + ClusterIP Service",
+                "severity": "critical"
+              }
+            },
+            {
+              "id": "TPD004",
+              "name": "AWSBatchjobsubmission",
+              "shortDescription": {
+                "text": "AWS Batch job submission"
+              },
+              "fullDescription": {
+                "text": "Code or manifests submit to AWS Batch (submit_job, jobQueue, jobDefinition), which has no portable equivalent unless re-hosted."
+              },
+              "help": {
+                "text": "Generate a Kubernetes Job (with backoffLimit and ttlSecondsAfterFinished) from the Batch job definition.",
+                "markdown": "**Portable replacement:** Kubernetes Job manifest\n\nGenerate a Kubernetes Job (with backoffLimit and ttlSecondsAfterFinished) from the Batch job definition."
+              },
+              "defaultConfiguration": {
+                "level": "error"
+              },
+              "properties": {
+                "category": "compute",
+                "portability": "Kubernetes Job manifest",
+                "severity": "critical"
+              }
+            },
+            {
+              "id": "TPD005",
+              "name": "Hard-codedS3bucket/ARNliteral",
+              "shortDescription": {
+                "text": "Hard-coded S3 bucket / ARN literal"
+              },
+              "fullDescription": {
+                "text": "A bucket name or arn:aws:s3 ARN is embedded in source, binding the deployment to one AWS account and region."
+              },
+              "help": {
+                "text": "Read the endpoint, bucket, and credentials from a ConfigMap/Secret; point them at MinIO or VersityGW.",
+                "markdown": "**Portable replacement:** MinIO / VersityGW bucket + ConfigMap\n\nRead the endpoint, bucket, and credentials from a ConfigMap/Secret; point them at MinIO or VersityGW."
+              },
+              "defaultConfiguration": {
+                "level": "error"
+              },
+              "properties": {
+                "category": "object-storage",
+                "portability": "MinIO / VersityGW bucket + ConfigMap",
+                "severity": "high"
+              }
+            },
+            {
+              "id": "TPD006",
+              "name": "ProprietaryS3primitiveusage",
+              "shortDescription": {
+                "text": "Proprietary S3 primitive usage"
+              },
+              "fullDescription": {
+                "text": "Object access uses boto3 S3 primitives (get_object, put_object, list_objects_v2, generate_presigned_url) rather than an S3-compatible abstraction."
+              },
+              "help": {
+                "text": "Wrap in the object-store interface; the S3 API is portable, the SDK is not.",
+                "markdown": "**Portable replacement:** S3-compatible client factory\n\nWrap in the object-store interface; the S3 API is portable, the SDK is not."
+              },
+              "defaultConfiguration": {
+                "level": "error"
+              },
+              "properties": {
+                "category": "object-storage",
+                "portability": "S3-compatible client factory",
+                "severity": "high"
+              }
+            },
+            {
+              "id": "TPD007",
+              "name": "arn:awsliteralinsource",
+              "shortDescription": {
+                "text": "arn:aws literal in source"
+              },
+              "fullDescription": {
+                "text": "A literal arn:aws: ARN is embedded, fixing the resource to one AWS partition/account/region."
+              },
+              "help": {
+                "text": "Externalise into configuration and use Crossplane-provisioned resources with generated names.",
+                "markdown": "**Portable replacement:** Crossplane composite + ConfigMap\n\nExternalise into configuration and use Crossplane-provisioned resources with generated names."
+              },
+              "defaultConfiguration": {
+                "level": "error"
+              },
+              "properties": {
+                "category": "identity",
+                "portability": "Crossplane composite + ConfigMap",
+                "severity": "critical"
+              }
+            },
+            {
+              "id": "TPD008",
+              "name": "AWSIAM/STSroleassumption",
+              "shortDescription": {
+                "text": "AWS IAM / STS role assumption"
+              },
+              "fullDescription": {
+                "text": "Code assumes an IAM role via STS, which depends on the AWS identity control plane."
+              },
+              "help": {
+                "text": "Use workload identity from Kubernetes ServiceAccount (SPIFFE/IRSA-equivalent) or a Vault-injected token.",
+                "markdown": "**Portable replacement:** Kubernetes ServiceAccount + Workload Identity\n\nUse workload identity from Kubernetes ServiceAccount (SPIFFE/IRSA-equivalent) or a Vault-injected token."
+              },
+              "defaultConfiguration": {
+                "level": "error"
+              },
+              "properties": {
+                "category": "identity",
+                "portability": "Kubernetes ServiceAccount + Workload Identity",
+                "severity": "critical"
+              }
+            },
+            {
+              "id": "TPD009",
+              "name": "Non-portableIAMpolicydocument",
+              "shortDescription": {
+                "text": "Non-portable IAM policy document"
+              },
+              "fullDescription": {
+                "text": "An IAM policy document grants access using AWS ARNs or aws: source conditions, which no on-premises cluster can evaluate."
+              },
+              "help": {
+                "text": "Replace with Kubernetes RBAC and an S3-compatible access key scoped to a bucket.",
+                "markdown": "**Portable replacement:** RBAC Role/RoleBinding + MinIO policy\n\nReplace with Kubernetes RBAC and an S3-compatible access key scoped to a bucket."
+              },
+              "defaultConfiguration": {
+                "level": "error"
+              },
+              "properties": {
+                "category": "identity",
+                "portability": "RBAC Role/RoleBinding + MinIO policy",
+                "severity": "critical"
+              }
+            },
+            {
+              "id": "TPD010",
+              "name": "AWSmessagingserviceusage",
+              "shortDescription": {
+                "text": "AWS messaging service usage"
+              },
+              "fullDescription": {
+                "text": "Code publishes or consumes via SQS/SNS/Kinesis/EventBridge, proprietary managed brokers."
+              },
+              "help": {
+                "text": "Target NATS JetStream or Redpanda, both of which run air-gapped.",
+                "markdown": "**Portable replacement:** NATS JetStream / Redpanda\n\nTarget NATS JetStream or Redpanda, both of which run air-gapped."
+              },
+              "defaultConfiguration": {
+                "level": "error"
+              },
+              "properties": {
+                "category": "messaging",
+                "portability": "NATS JetStream / Redpanda",
+                "severity": "high"
+              }
+            },
+            {
+              "id": "TPD011",
+              "name": "AWSmanageddatabaseusage",
+              "shortDescription": {
+                "text": "AWS managed database usage"
+              },
+              "fullDescription": {
+                "text": "Code targets DynamoDB/RDS/Aurora control-plane APIs rather than a portable wire protocol."
+              },
+              "help": {
+                "text": "Use PostgreSQL (CloudNativePG) or an S3-backed open table format.",
+                "markdown": "**Portable replacement:** CloudNativePG PostgreSQL cluster\n\nUse PostgreSQL (CloudNativePG) or an S3-backed open table format."
+              },
+              "defaultConfiguration": {
+                "level": "error"
+              },
+              "properties": {
+                "category": "database",
+                "portability": "CloudNativePG PostgreSQL cluster",
+                "severity": "high"
+              }
+            },
+            {
+              "id": "TPD012",
+              "name": "AWSCLIinvocationofaproprietaryservice",
+              "shortDescription": {
+                "text": "AWS CLI invocation of a proprietary service"
+              },
+              "fullDescription": {
+                "text": "A shell-out to the aws CLI targets an AWS control plane at deploy or run time."
+              },
+              "help": {
+                "text": "Replace with kubectl/Helm or Crossplane; the ground station must not require AWS credentials.",
+                "markdown": "**Portable replacement:** kubectl / Helm / Crossplane\n\nReplace with kubectl/Helm or Crossplane; the ground station must not require AWS credentials."
+              },
+              "defaultConfiguration": {
+                "level": "error"
+              },
+              "properties": {
+                "category": "compute",
+                "portability": "kubectl / Helm / Crossplane",
+                "severity": "high"
+              }
+            },
+            {
+              "id": "TPD020",
+              "name": "aws-sdk-go/aws-sdk-go-v2import",
+              "shortDescription": {
+                "text": "aws-sdk-go / aws-sdk-go-v2 import"
+              },
+              "fullDescription": {
+                "text": "A Go module imports the AWS SDK, linking the binary to the AWS control plane."
+              },
+              "help": {
+                "text": "Swap to the portable interface; keep an S3-compatible client backed by configuration.",
+                "markdown": "**Portable replacement:** S3-compatible client factory\n\nSwap to the portable interface; keep an S3-compatible client backed by configuration."
+              },
+              "defaultConfiguration": {
+                "level": "error"
+              },
+              "properties": {
+                "category": "compute",
+                "portability": "S3-compatible client factory",
+                "severity": "critical"
+              }
+            },
+            {
+              "id": "TPD021",
+              "name": "AWSSDKserviceclientinGo",
+              "shortDescription": {
+                "text": "AWS SDK service client in Go"
+              },
+              "fullDescription": {
+                "text": "Go code constructs an AWS service client (lambda, batch, s3, dynamodb, sqs, sns, sts)."
+              },
+              "help": {
+                "text": "Repoint at the portable replacement generated by this tool.",
+                "markdown": "**Portable replacement:** Kubernetes Job / object-store shim\n\nRepoint at the portable replacement generated by this tool."
+              },
+              "defaultConfiguration": {
+                "level": "error"
+              },
+              "properties": {
+                "category": "serverless",
+                "portability": "Kubernetes Job / object-store shim",
+                "severity": "critical"
+              }
+            },
+            {
+              "id": "TPD030",
+              "name": "@aws-sdk/*packageimport",
+              "shortDescription": {
+                "text": "@aws-sdk/* package import"
+              },
+              "fullDescription": {
+                "text": "A TypeScript/JavaScript module imports an AWS SDK package that only resolves against AWS endpoints."
+              },
+              "help": {
+                "text": "Use an S3-compatible client (for example the S3 API via a configured endpoint) and call ground microservices over HTTP.",
+                "markdown": "**Portable replacement:** S3-compatible client + HTTP\n\nUse an S3-compatible client (for example the S3 API via a configured endpoint) and call ground microservices over HTTP."
+              },
+              "defaultConfiguration": {
+                "level": "error"
+              },
+              "properties": {
+                "category": "compute",
+                "portability": "S3-compatible client + HTTP",
+                "severity": "critical"
+              }
+            },
+            {
+              "id": "TPD031",
+              "name": "AWSSDKLambdaclientusage",
+              "shortDescription": {
+                "text": "AWS SDK Lambda client usage"
+              },
+              "fullDescription": {
+                "text": "TypeScript/JavaScript invokes Lambda directly from the ground UI or BFF."
+              },
+              "help": {
+                "text": "Call the generated Kubernetes Service instead of InvokeCommand.",
+                "markdown": "**Portable replacement:** Kubernetes Service\n\nCall the generated Kubernetes Service instead of InvokeCommand."
+              },
+              "defaultConfiguration": {
+                "level": "error"
+              },
+              "properties": {
+                "category": "serverless",
+                "portability": "Kubernetes Service",
+                "severity": "critical"
+              }
+            },
+            {
+              "id": "TPD040",
+              "name": "AWSBatchjobdefinitionmanifest",
+              "shortDescription": {
+                "text": "AWS Batch job definition manifest"
+              },
+              "fullDescription": {
+                "text": "An AWS Batch jobDefinition JSON document defines the workload in a proprietary scheduler."
+              },
+              "help": {
+                "text": "Generate an equivalent Kubernetes Job (backoffLimit, ttlSecondsAfterFinished, resources).",
+                "markdown": "**Portable replacement:** Kubernetes Job manifest\n\nGenerate an equivalent Kubernetes Job (backoffLimit, ttlSecondsAfterFinished, resources)."
+              },
+              "defaultConfiguration": {
+                "level": "error"
+              },
+              "properties": {
+                "category": "compute",
+                "portability": "Kubernetes Job manifest",
+                "severity": "critical"
+              }
+            },
+            {
+              "id": "TPD041",
+              "name": "AWSBatchcomputeenvironmentmanifest",
+              "shortDescription": {
+                "text": "AWS Batch compute environment manifest"
+              },
+              "fullDescription": {
+                "text": "An AWS Batch compute environment pins the workload to EC2/EKS managed by AWS Batch."
+              },
+              "help": {
+                "text": "Use a Kubernetes node pool or Karpenter NodePool plus a PriorityClass.",
+                "markdown": "**Portable replacement:** NodePool / PriorityClass\n\nUse a Kubernetes node pool or Karpenter NodePool plus a PriorityClass."
+              },
+              "defaultConfiguration": {
+                "level": "error"
+              },
+              "properties": {
+                "category": "compute",
+                "portability": "NodePool / PriorityClass",
+                "severity": "critical"
+              }
+            },
+            {
+              "id": "TPD042",
+              "name": "AmazonECRimagereference",
+              "shortDescription": {
+                "text": "Amazon ECR image reference"
+              },
+              "fullDescription": {
+                "text": "A container image comes from *.dkr.ecr.*.amazonaws.com, which an air-gapped registry cannot reach."
+              },
+              "help": {
+                "text": "Mirror into the ground-station registry (Harbor/Zot) and reference it by local name.",
+                "markdown": "**Portable replacement:** Harbor / Zot registry\n\nMirror into the ground-station registry (Harbor/Zot) and reference it by local name."
+              },
+              "defaultConfiguration": {
+                "level": "error"
+              },
+              "properties": {
+                "category": "registry",
+                "portability": "Harbor / Zot registry",
+                "severity": "critical"
+              }
+            },
+            {
+              "id": "TPD043",
+              "name": "IRSAannotation(eks.amazonaws.com/role-arn)",
+              "shortDescription": {
+                "text": "IRSA annotation (eks.amazonaws.com/role-arn)"
+              },
+              "fullDescription": {
+                "text": "A ServiceAccount is bound to an IAM role via IRSA, which only the EKS control plane can interpret."
+              },
+              "help": {
+                "text": "Use a Kubernetes ServiceAccount with an S3-compatible access key Secret, or SPIFFE workload identity.",
+                "markdown": "**Portable replacement:** ServiceAccount + Secret\n\nUse a Kubernetes ServiceAccount with an S3-compatible access key Secret, or SPIFFE workload identity."
+              },
+              "defaultConfiguration": {
+                "level": "error"
+              },
+              "properties": {
+                "category": "identity",
+                "portability": "ServiceAccount + Secret",
+                "severity": "critical"
+              }
+            },
+            {
+              "id": "TPD044",
+              "name": "AWSLoadBalancerControlleringress",
+              "shortDescription": {
+                "text": "AWS Load Balancer Controller ingress"
+              },
+              "fullDescription": {
+                "text": "Ingress depends on the AWS Load Balancer Controller (alb scheme/annotations), absent off-AWS."
+              },
+              "help": {
+                "text": "Use a portable ingress (NGINX or Gateway API) with no cloud-specific annotations.",
+                "markdown": "**Portable replacement:** NGINX Ingress / Gateway API\n\nUse a portable ingress (NGINX or Gateway API) with no cloud-specific annotations."
+              },
+              "defaultConfiguration": {
+                "level": "error"
+              },
+              "properties": {
+                "category": "network",
+                "portability": "NGINX Ingress / Gateway API",
+                "severity": "high"
+              }
+            },
+            {
+              "id": "TPD045",
+              "name": "AWSEBS/EFSstorageclass",
+              "shortDescription": {
+                "text": "AWS EBS/EFS storage class"
+              },
+              "fullDescription": {
+                "text": "A PersistentVolumeClaim uses an AWS CSI provisioner (ebs.csi.aws.com, efs.csi.aws.com, gp2/gp3)."
+              },
+              "help": {
+                "text": "Use the ground station's portable storage class (local-path, Longhorn, Ceph RBD).",
+                "markdown": "**Portable replacement:** Longhorn / Ceph RBD storage class\n\nUse the ground station's portable storage class (local-path, Longhorn, Ceph RBD)."
+              },
+              "defaultConfiguration": {
+                "level": "error"
+              },
+              "properties": {
+                "category": "object-storage",
+                "portability": "Longhorn / Ceph RBD storage class",
+                "severity": "high"
+              }
+            },
+            {
+              "id": "TPD046",
+              "name": "AWSSecretsManager/SSMCSIvolume",
+              "shortDescription": {
+                "text": "AWS Secrets Manager / SSM CSI volume"
+              },
+              "fullDescription": {
+                "text": "Secrets are mounted from AWS Secrets Manager or SSM Parameter Store via the Secrets Store CSI driver."
+              },
+              "help": {
+                "text": "Mount Kubernetes Secrets, optionally synced by External Secrets Operator from Vault.",
+                "markdown": "**Portable replacement:** Kubernetes Secret / External Secrets + Vault\n\nMount Kubernetes Secrets, optionally synced by External Secrets Operator from Vault."
+              },
+              "defaultConfiguration": {
+                "level": "error"
+              },
+              "properties": {
+                "category": "config",
+                "portability": "Kubernetes Secret / External Secrets + Vault",
+                "severity": "critical"
+              }
+            },
+            {
+              "id": "TPD047",
+              "name": "KarpenterEC2NodeClass",
+              "shortDescription": {
+                "text": "Karpenter EC2NodeClass"
+              },
+              "fullDescription": {
+                "text": "Karpenter is configured against EC2 via an EC2NodeClass, coupling provisioning to AWS."
+              },
+              "help": {
+                "text": "Use a portable NodePool/Cluster Autoscaler for the ground-station cluster.",
+                "markdown": "**Portable replacement:** NodePool + Cluster Autoscaler\n\nUse a portable NodePool/Cluster Autoscaler for the ground-station cluster."
+              },
+              "defaultConfiguration": {
+                "level": "error"
+              },
+              "properties": {
+                "category": "compute",
+                "portability": "NodePool + Cluster Autoscaler",
+                "severity": "high"
+              }
+            },
+            {
+              "id": "TPD048",
+              "name": "CloudWatchLogs/X-Raydependency",
+              "shortDescription": {
+                "text": "CloudWatch Logs / X-Ray dependency"
+              },
+              "fullDescription": {
+                "text": "Telemetry and logs are shipped to CloudWatch or X-Ray, which cannot be reached from an air gap."
+              },
+              "help": {
+                "text": "Ship OTLP to a local OpenTelemetry Collector exported to Prometheus/Loki/Tempo.",
+                "markdown": "**Portable replacement:** OpenTelemetry Collector\n\nShip OTLP to a local OpenTelemetry Collector exported to Prometheus/Loki/Tempo."
+              },
+              "defaultConfiguration": {
+                "level": "error"
+              },
+              "properties": {
+                "category": "observability",
+                "portability": "OpenTelemetry Collector",
+                "severity": "high"
+              }
+            },
+            {
+              "id": "TPD049",
+              "name": "aws_*Terraform/CloudFormationresource",
+              "shortDescription": {
+                "text": "aws_* Terraform / CloudFormation resource"
+              },
+              "fullDescription": {
+                "text": "Infrastructure is declared with aws_* Terraform resources or AWS:: CloudFormation types."
+              },
+              "help": {
+                "text": "Express the same resource as a Crossplane composite (portable) or plain Kubernetes objects.",
+                "markdown": "**Portable replacement:** Crossplane composite resource\n\nExpress the same resource as a Crossplane composite (portable) or plain Kubernetes objects."
+              },
+              "defaultConfiguration": {
+                "level": "error"
+              },
+              "properties": {
+                "category": "compute",
+                "portability": "Crossplane composite resource",
+                "severity": "critical"
+              }
+            }
+          ],
+          "semanticVersion": "1.0.0"
+        }
+      }
+    }
+  ],
+  "version": "2.1.0"
+}

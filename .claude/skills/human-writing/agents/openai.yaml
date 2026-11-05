@@ -1,0 +1,4 @@
+interface:
+  display_name: "Human Writing"
+  short_description: "Draft and edit precise, natural technical prose."
+  default_prompt: "Use $human-writing to draft or revise this technical text for accuracy, clarity, and a natural professional voice."

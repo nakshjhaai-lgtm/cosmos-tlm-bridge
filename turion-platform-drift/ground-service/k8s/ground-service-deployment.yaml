@@ -1,0 +1,90 @@
+# Ground-service deployment. Every AWS-specific field here is a portability
+# blocker that turion-platform-drift regenerates.
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: ground-telemetry-api
+  namespace: ground-system
+  annotations:
+    eks.amazonaws.com/role-arn: arn:aws:iam::123456789012:role/ground-telemetry-api
+spec:
+  replicas: 3
+  selector:
+    matchLabels:
+      app: ground-telemetry-api
+  template:
+    metadata:
+      labels:
+        app: ground-telemetry-api
+    spec:
+      serviceAccountName: ground-telemetry-api
+      containers:
+        - name: api
+          image: 123456789012.dkr.ecr.us-west-2.amazonaws.com/turion/ground-telemetry-api:2.4.1
+          ports:
+            - containerPort: 8080
+          env:
+            - name: ARCHIVE_BUCKET
+              value: turion-tlm-archive-prod
+            - name: AWS_REGION
+              value: us-west-2
+            - name: TELEMETRY_INDEX_TABLE
+              value: droid-telemetry-index
+          resources:
+            requests:
+              cpu: 250m
+              memory: 512Mi
+          volumeMounts:
+            - name: secrets
+              mountPath: /mnt/secrets
+              readOnly: true
+      volumes:
+        - name: secrets
+          csi:
+            driver: secrets-store.csi.k8s.io
+            readOnly: true
+            volumeAttributes:
+              secretProviderClass: ground-aws-secrets
+---
+apiVersion: v1
+kind: ServiceAccount
+metadata:
+  name: ground-telemetry-api
+  namespace: ground-system
+  annotations:
+    eks.amazonaws.com/role-arn: arn:aws:iam::123456789012:role/ground-telemetry-api
+---
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  name: pass-cache
+  namespace: ground-system
+spec:
+  accessModes: ["ReadWriteOnce"]
+  storageClassName: gp3
+  resources:
+    requests:
+      storage: 200Gi
+---
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: ground-telemetry-api
+  namespace: ground-system
+  annotations:
+    kubernetes.io/ingress.class: alb
+    alb.ingress.kubernetes.io/scheme: internal
+    alb.ingress.kubernetes.io/target-type: ip
+    alb.ingress.kubernetes.io/listen-ports: '[{"HTTPS":443}]'
+spec:
+  rules:
+    - host: telemetry.ground.turion.internal
+      http:
+        paths:
+          - path: /
+            pathType: Prefix
+            backend:
+              service:
+                name: ground-telemetry-api
+                port:
+                  number: 80

@@ -1,0 +1,156 @@
+# Turion Space — DROID pass acceptance suite
+#
+# Replaces the Ruby/Python Script Runner procedures that ground software
+# currently hand-maintains for every satellite software update. Fully
+# declarative: `cosmos-regress run droid_pass_acceptance.yaml`.
+#
+# Every channel is TARGET__PACKET__POINT (PACKET__POINT shorthand is accepted).
+# `dn_eu: DN` asserts against raw wire counts, `dn_eu: EU` against converted
+# engineering units. Limits assertions never hardcode thresholds — they read
+# the operational limits from the OpenC3 target definition.
+
+suite: droid_pass_acceptance
+description: >
+  Simulated LEO DROID pass. Command an attitude slew, confirm the maneuver is
+  acknowledged in telemetry, assert the EPS bus stays inside its BLUE
+  operational band, and catch the reaction-wheel YELLOW_HIGH thermal
+  violation in both DN and EU modes.
+target: DROID_SIM
+scope: DEFAULT
+fresh_sim: true
+timeout_s: 105
+tags: [acceptance, droid, leo-pass, thermal, adcs, eps]
+
+packets: [ADCS, EPS, THERMAL]
+
+setup:
+  - name: all packets are streaming
+    wait_for_packet: EPS
+    within_s: 20
+  - name: attitude packet is streaming
+    wait_for_packet: ADCS
+    within_s: 20
+  - name: thermal packet is streaming
+    wait_for_packet: THERMAL
+    within_s: 20
+
+steps:
+  # ---------------------------------------------------------------- nominal
+  # COSMOS colour semantics: BLUE = inside the optional "operational" band,
+  # GREEN = within safety limits but outside the operational band, YELLOW/RED
+  # = the usual yellow/red limit violations.
+  - name: precondition - bus is nominal, no point is out of limits
+    assert:
+      - channel: EPS__BATT_SOC
+        dn_eu: EU
+        condition: "BETWEEN,20.0,100.0,,"
+        within_s: 10
+      - channel: EPS__BATT_SOC
+        dn_eu: EU
+        expect_limits_color: GREEN
+        within_s: 10
+      - channel: THERMAL__RW_TEMP
+        dn_eu: EU
+        expect_limits_color: BLUE
+        within_s: 10
+      - channel: ADCS__RW_SPEED
+        dn_eu: EU
+        expect_limits_color: GREEN
+        within_s: 10
+
+  # ------------------------------------------------------------- the command
+  - name: command the attitude slew
+    cmd: DROID_SIM CMD_SLEW_TARGET with SLEW_RATE 2.5, TARGET_ID 7, DURATION 60, ABORT_ON_LIMITS 0
+    check: ENABLED
+    settle_s: 0.4
+
+  # ------------------------------------- assertion accuracy, DN and EU modes
+  - name: slew is acknowledged in telemetry (DN mode)
+    assert:
+      - channel: ADCS__SLEW_ACTIVE
+        dn_eu: DN
+        condition: "EQUAL,1,,,"
+        within_s: 25
+      - channel: ADCS__SLEW_TARGET_ID
+        dn_eu: DN
+        condition: "EQUAL,7,,,"
+        within_s: 25
+
+  - name: slewing target slot decodes to the commanded slot (EU mode)
+    assert:
+      - channel: ADCS__SLEW_TARGET_ID
+        dn_eu: EU
+        condition: "== 7"
+        within_s: 25
+
+  - name: attitude error leaves the tight deadband during the slew
+    assert:
+      - channel: ADCS__ATTITUDE_ERROR
+        dn_eu: EU
+        condition: "BETWEEN,0.3,2.0,,"
+        within_s: 30
+      - channel: ADCS__ATTITUDE_ERROR
+        dn_eu: DN
+        condition: "BETWEEN,300,2000,,"
+        within_s: 30
+
+  # ------------------------------------------- BLUE operational band (EPS)
+  - name: bus voltage stays inside the BLUE operational band
+    assert:
+      - channel: EPS__BATT_VOLTAGE
+        dn_eu: EU
+        expect_limits_color: BLUE
+        within_s: 30
+
+  # ------------------------------- the YELLOW_HIGH catch: both modes, twice
+  - name: reaction wheel thermal limit violation is caught (EU mode)
+    assert:
+      - channel: THERMAL__RW_TEMP
+        dn_eu: EU
+        expect_limits: YELLOW_HIGH
+        within_s: 45
+
+  - name: reaction wheel thermal limit violation is caught (DN mode)
+    assert:
+      - channel: THERMAL__RW_TEMP
+        dn_eu: DN
+        expect_limits: YELLOW_HIGH
+        within_s: 45
+
+  - name: the same violation rolls up to a YELLOW overall system state
+    assert:
+      - channel: THERMAL__RW_TEMP
+        dn_eu: EU
+        expect_limits_color: YELLOW
+        within_s: 45
+
+  - name: the radiator stays healthy while the wheel is hot
+    assert:
+      - channel: THERMAL__RADIATOR_TEMP
+        dn_eu: EU
+        expect_limits_color: BLUE
+        within_s: 30
+      - channel: THERMAL__RADIATOR_TEMP
+        dn_eu: EU
+        condition: "BETWEEN,-15.0,35.0,,"
+        within_s: 30
+
+  # ---------------------------------------------------------------- recovery
+  - name: wheel leaves the yellow band after the slew completes
+    assert:
+      - channel: THERMAL__RW_TEMP
+        dn_eu: EU
+        condition: "< 55.0"
+        within_s: 60
+      - channel: THERMAL__RW_TEMP
+        dn_eu: EU
+        expect_limits_color: BLUE
+        within_s: 60
+
+teardown:
+  - name: bus voltage still nominal at end of pass
+    assert:
+      - channel: EPS__BATT_VOLTAGE
+        dn_eu: EU
+        condition: "BETWEEN,14.0,17.0,,"
+        within_s: 10

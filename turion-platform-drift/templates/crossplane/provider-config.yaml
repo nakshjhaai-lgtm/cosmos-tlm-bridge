@@ -1,0 +1,39 @@
+# Crossplane ProviderConfigs for a portable ground station.
+# The point: the same GroundStack composite targets MinIO/VersityGW locally
+# instead of AWS S3, and provider-kubernetes applies plain objects. No
+# provider-aws package is installed, so nothing can reach a proprietary API.
+apiVersion: pkg.crossplane.io/v1
+kind: Provider
+metadata:
+  name: provider-kubernetes
+spec:
+  package: xpkg.upbound.io/crossplane-contrib/provider-kubernetes:v0.14.0
+  runtimeConfigRef:
+    name: default
+---
+apiVersion: pkg.crossplane.io/v1
+kind: Provider
+metadata:
+  name: provider-minio
+spec:
+  package: xpkg.upbound.io/upbound/provider-minio:v1.0.0
+---
+apiVersion: pkg.crossplane.io/v1
+kind: ProviderConfig
+metadata:
+  name: ground-kubernetes
+spec:
+  credentials:
+    source: InjectedIdentity
+---
+apiVersion: minio.crossplane.io/v1
+kind: ProviderConfig
+metadata:
+  name: ground-objectstore
+spec:
+  credentials:
+    source: Secret
+    secretRef:
+      namespace: crossplane-system
+      name: objectstore-credentials
+      key: credentials

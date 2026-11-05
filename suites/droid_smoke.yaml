@@ -1,0 +1,38 @@
+# Fast smoke suite — proves the bridge can type and assert telemetry.
+# Target runtime: < 8 seconds. Used as the pre-merge gate.
+
+suite: droid_smoke
+description: Fast smoke check of JSON-RPC, DN/EU conversion, and limits typing.
+target: DROID_SIM
+scope: DEFAULT
+fresh_sim: true
+timeout_s: 30
+tags: [smoke, pre-merge]
+
+packets: [EPS, THERMAL]
+
+steps:
+  - wait_for_packet: EPS
+    within_s: 10
+
+  - name: battery voltage converts to a plausible EU value
+    assert:
+      - channel: EPS__BATT_VOLTAGE
+        dn_eu: EU
+        condition: "BETWEEN,13.6,17.6,,"
+        within_s: 8
+      - channel: EPS__BATT_VOLTAGE
+        dn_eu: DN
+        condition: "BETWEEN,0,1600,,"
+        within_s: 8
+
+  - name: reaction wheel temperature is inside its operational band
+    assert:
+      - channel: THERMAL__RW_TEMP
+        dn_eu: EU
+        expect_limits_color: BLUE
+        within_s: 8
+      - channel: THERMAL__RW_TEMP
+        dn_eu: DN
+        condition: "BETWEEN,5000,8500,,"
+        within_s: 8

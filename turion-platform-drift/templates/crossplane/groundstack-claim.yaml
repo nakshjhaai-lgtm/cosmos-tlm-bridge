@@ -1,0 +1,16 @@
+# One claim provisions the whole portable ground-service stack.
+# `kubectl apply -f` this on an air-gapped cluster; no AWS provider is involved.
+apiVersion: ground.turion.space/v1alpha1
+kind: GroundStackClaim
+metadata:
+  name: droid-ground-a
+  namespace: ground-system
+spec:
+  parameters:
+    namespace: ground-system
+    bucketName: tlm-archive
+    objectStore: versitygw
+    retentionDays: 90
+  compositionSelector:
+    matchLabels:
+      ground.turion.space/profile: air-gapped

@@ -1,0 +1,20 @@
+# Replaces Amazon ECR with the ground-station registry (Harbor/Zot).
+# This is a kustomize overlay, not a cluster object. Apply with:
+#   kubectl apply -k ./kustomize
+# Add one entry per image your manifests reference.
+apiVersion: kustomize.config.k8s.io/v1beta1
+kind: Kustomization
+metadata:
+  name: ground-station-registry-rewrite
+  namespace: ground-system
+  labels:
+    ground.turion.space/replaces: aws-ecr
+resources:
+  - ../ground-station-portable.yaml
+images:
+  - name: 123456789012.dkr.ecr.us-west-2.amazonaws.com/turion/pass-processor
+    newName: registry.ground.local/turion/pass-processor
+    newTag: "7"
+  - name: 123456789012.dkr.ecr.us-west-2.amazonaws.com/turion/ground-service
+    newName: registry.ground.local/turion/ground-service
+    newTag: "1.0.0"

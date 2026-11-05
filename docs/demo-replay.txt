@@ -1,0 +1,26 @@
+$ docker compose up
+cosmos   | DROID_SIM OpenC3 COSMOS v5 reference server listening on 0.0.0.0:2900
+cosmos   | POST /__openc3_api__/api   POST /openc3-api/auth/verify   GET /openc3-api/stream
+
+$ POST /__openc3_api__/api  get_tlm_packet DROID_SIM ADCS|EPS|THERMAL
+  DROID_SIM__ADCS__ATTITUDE_ERROR   DN=120    EU=0.120    state=BLUE
+  DROID_SIM__EPS__BATT_VOLTAGE     DN=780    EU=15.550   state=BLUE
+  DROID_SIM__THERMAL__RADIATOR_TEMP    DN=5200   EU=12.000   state=BLUE
+  Python/Pydantic  TelemetryPoint(channel=..., dn=int, eu=float, limits_state=LimitsState)
+  Go/struct        telemetry.Point{Channel:..., DN:uint16, EU:float64, LimitsState:...}
+
+$ POST /__openc3_api__/api  cmd DROID_SIM CMD_SLEW_TARGET ...
+  {"name":"CMD_SLEW_TARGET","args":{"SLEW_RATE":2.5,"TARGET_ID":7,...}}
+  !! YELLOW_HIGH DROID_SIM__THERMAL__RW_TEMP          DN=9536.0 EU=55.36 C
+  bridge frames=141 points=1269 webhook_ok=141 webhook_failed=0 violations=33
+  sink frames=141 points=1269 last_overall=YELLOW YELLOW/RED alarms=33
+  webhook -> 200 {"received":true}   typed JSON fan-out, no Ruby Script Runner
+
+$ cosmos-regress run droid_pass_acceptance.yaml
+  PASS [steps] reaction wheel thermal limit violation is caught (EU mode)
+  PASS [steps] reaction wheel thermal limit violation is caught (DN mode)
+  -> PASS 15 passed, 0 failed, 0 errors
+  junit  artifacts/droid_pass_acceptance-junit.xml
+  html   artifacts/droid_pass_acceptance-report.html
+instant spin-up  22.9s / 45.0s PASS
+PASS  full CI acceptance < 105 s  |  YELLOW_HIGH caught in DN + EU

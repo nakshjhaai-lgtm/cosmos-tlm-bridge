@@ -1,0 +1,74 @@
+# cosmos-tlm-bridge — `docker compose up` IS the demo.
+# Boots the DROID_SIM OpenC3 v5 JSON-RPC server, streams typed frames to a
+# webhook sink, runs the declarative acceptance suite, writes JUnit/HTML,
+# and exits cleanly. No profiles, no credentials, no Ruby, no AWS.
+name: cosmos-tlm-bridge
+
+x-image: &image turion/cosmos-tlm-bridge:1.0.0
+x-demo-window: &demo-window "30"
+
+services:
+  cosmos:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    image: *image
+    pull_policy: build
+    command: ["serve"]
+    environment:
+      COSMOS_SCOPE: DEFAULT
+      COSMOS_PORT: "2900"
+      COSMOS_AUTH_MODE: keyless
+      COSMOS_SERVE_DURATION: *demo-window
+    ports:
+      - "2900:2900"
+    healthcheck:
+      test: ["CMD", "python", "-c", "import urllib.request,sys; sys.exit(0 if urllib.request.urlopen('http://127.0.0.1:2900/health',timeout=2).status==200 else 1)"]
+      interval: 2s
+      timeout: 3s
+      retries: 15
+      start_period: 3s
+
+  telemetry-sink:
+    image: *image
+    pull_policy: never
+    entrypoint: ["python", "-u", "/app/docker/sink.py"]
+    working_dir: /app
+    environment:
+      SINK_PORT: "8080"
+      SINK_DURATION: *demo-window
+    ports:
+      - "8080:8080"
+    healthcheck:
+      test: ["CMD", "python", "-c", "import urllib.request;urllib.request.urlopen('http://127.0.0.1:8080/health',timeout=1)"]
+      interval: 2s
+      timeout: 2s
+      retries: 10
+      start_period: 2s
+
+  bridge:
+    image: *image
+    pull_policy: never
+    command: ["bridge"]
+    environment:
+      COSMOS_URL: http://cosmos:2900
+      COSMOS_SCOPE: DEFAULT
+      PACKETS: ADCS EPS THERMAL
+      WEBHOOK_URL: http://telemetry-sink:8080/tlm
+      BRIDGE_DURATION: *demo-window
+    depends_on:
+      cosmos:
+        condition: service_healthy
+      telemetry-sink:
+        condition: service_started
+
+  regress:
+    image: *image
+    pull_policy: never
+    command: ["run", "/app/suites/droid_pass_acceptance.yaml", "--out", "/app/artifacts"]
+    environment:
+      COSMOS_URL: http://cosmos:2900
+      COSMOS_SCOPE: DEFAULT
+    depends_on:
+      cosmos:
+        condition: service_healthy

@@ -1,0 +1,15 @@
+# demo — self-contained LEO pass, budget 45 s (2026-11-03T14:32:33+00:00)
+  PASSED [steps] precondition - bus is nominal, no point is out of limits
+  PASSED [steps] command the attitude slew
+  PASSED [steps] slew is acknowledged in telemetry (DN mode)
+  PASSED [steps] slewing target slot decodes to the commanded slot (EU mode)
+  PASSED [steps] attitude error leaves the tight deadband during the slew
+  PASSED [steps] bus voltage stays inside the BLUE operational band
+  PASSED [steps] reaction wheel thermal limit violation is caught (EU mode)
+  PASSED [steps] reaction wheel thermal limit violation is caught (DN mode)
+  PASSED [steps] the same violation rolls up to a YELLOW overall system state
+  PASSED [steps] the radiator stays healthy while the wheel is hot
+  PASSED [steps] wheel leaves the yellow band after the slew completes
+  PASSED [teardown] bus voltage still nominal at end of pass
+
+instant spin-up  22.8s / 45.0s PASS

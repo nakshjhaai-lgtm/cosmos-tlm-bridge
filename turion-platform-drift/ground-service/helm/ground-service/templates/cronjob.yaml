@@ -1,0 +1,24 @@
+apiVersion: batch/v1
+kind: CronJob
+metadata:
+  name: {{ .Release.Name }}-pass-sweeper
+  namespace: ground-system
+spec:
+  schedule: "0 */6 * * *"
+  jobTemplate:
+    spec:
+      template:
+        spec:
+          serviceAccountName: {{ .Release.Name }}-sa
+          restartPolicy: Never
+          containers:
+            - name: sweeper
+              image: "{{ .Values.image.repository }}:{{ .Values.image.tag }}"
+              command: ["python", "-m", "ground_service.sweep"]
+              env:
+                - name: AWS_REGION
+                  value: {{ .Values.aws.region }}
+                - name: JOB_QUEUE
+                  value: {{ .Values.aws.jobQueue }}
+                - name: ARCHIVE_BUCKET
+                  value: {{ .Values.aws.archiveBucket }}

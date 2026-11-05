@@ -1,0 +1,51 @@
+cosmos-tlm-bridge [2mv1.0.0[0m
+[2mOpenC3 COSMOS v5 telemetry-to-microservice bridge[0m
+  target   [1mDROID_SIM[0m
+  cosmos   http://127.0.0.1:2900  [2m(scope DEFAULT)[0m
+  keyless  no API key, no Ruby scripts
+
+[1m1/4[0m booting DROID_SIM OpenC3 reference server ... ready [2m(0.01s)[0m
+[1m2/4[0m verifying JSON-RPC + typed decommutation ... ok [2m(9 points on EPS, server openc3-cosmos-init/5.0.0-droid-sim)[0m
+[1m3/4[0m running acceptance suite droid_pass_acceptance
+
+[1msuite[0m droid_pass_acceptance [2m(budget 105.0s)[0m
+  PASS [setup] all packets are streaming
+  PASS [setup] attitude packet is streaming
+  PASS [setup] thermal packet is streaming
+  PASS [steps] precondition - bus is nominal, no point is out of limits
+  PASS [steps] command the attitude slew
+  PASS [steps] slew is acknowledged in telemetry (DN mode)
+  PASS [steps] slewing target slot decodes to the commanded slot (EU mode)
+  PASS [steps] attitude error leaves the tight deadband during the slew
+  PASS [steps] bus voltage stays inside the BLUE operational band
+  PASS [steps] reaction wheel thermal limit violation is caught (EU mode)
+  PASS [steps] reaction wheel thermal limit violation is caught (DN mode)
+  PASS [steps] the same violation rolls up to a YELLOW overall system state
+  PASS [steps] the radiator stays healthy while the wheel is hot
+  PASS [steps] wheel leaves the yellow band after the slew completes
+  PASS [teardown] bus voltage still nominal at end of pass
+  -> PASS 15 passed, 0 failed, 0 errors
+
+[1m4/4[0m writing reports ... done
+  junit    /tmp/p1/artifacts-demo/droid_pass-junit.xml
+  html     /tmp/p1/artifacts-demo/droid_pass-report.html
+  json     /tmp/p1/artifacts-demo/droid_pass-results.json
+
+acceptance summary  PASS  [2m(suite 22.8s / total 22.9s, budget 45.0s)[0m
+  PASSED [setup] all packets are streaming
+  PASSED [setup] attitude packet is streaming
+  PASSED [setup] thermal packet is streaming
+  PASSED [steps] precondition - bus is nominal, no point is out of limits
+  PASSED [steps] command the attitude slew
+  PASSED [steps] slew is acknowledged in telemetry (DN mode)
+  PASSED [steps] slewing target slot decodes to the commanded slot (EU mode)
+  PASSED [steps] attitude error leaves the tight deadband during the slew
+  PASSED [steps] bus voltage stays inside the BLUE operational band
+  PASSED [steps] reaction wheel thermal limit violation is caught (EU mode)
+  PASSED [steps] reaction wheel thermal limit violation is caught (DN mode)
+  PASSED [steps] the same violation rolls up to a YELLOW overall system state
+  PASSED [steps] the radiator stays healthy while the wheel is hot
+  PASSED [steps] wheel leaves the yellow band after the slew completes
+  PASSED [teardown] bus voltage still nominal at end of pass
+
+instant spin-up  22.9s / 45.0s PASS
