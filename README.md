@@ -181,6 +181,3 @@ Production notes:
 
 Author: `nakshjhaai-lgtm`. License: Apache-2.0.
 
-Public repository: `nakshjhaai-lgtm/cosmos-tlm-bridge`. It is renamed and described. Topics: `openc3`, `cosmos`, `satellite-telemetry`, `ground-software`, `satellite-operations`.
-
-To add the topics, open the repository page, select the gear icon beside About, paste the five names separated by commas into the Topics field, and save. This README keeps the exact topic list so the step takes one paste.
