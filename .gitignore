@@ -15,4 +15,3 @@ artifacts/
 .DS_Store
 *.log
 !docs/evidence/*.log
-!docs/original-delivery/evidence/*.log
