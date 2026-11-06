@@ -9,7 +9,7 @@ description = "OpenC3 COSMOS v5 telemetry-to-microservice bridge and declarative
 readme = "README.md"
 requires-python = ">=3.11"
 license = { text = "Apache-2.0" }
-authors = [{ name = "Turion Space Ground Software" }]
+authors = [{ name = "Anukalp Jha" }]
 keywords = ["openc3", "cosmos", "telemetry", "satellite", "ground-segment", "droid", "spacecraft"]
 classifiers = [
   "Programming Language :: Python :: 3.11",
@@ -26,8 +26,8 @@ dependencies = [
 ]
 
 [project.urls]
-Homepage = "https://github.com/turion-space/cosmos-tlm-bridge"
-Issues = "https://github.com/turion-space/cosmos-tlm-bridge/issues"
+Homepage = "https://github.com/nakshjhaai-lgtm/cosmos-tlm-bridge"
+Issues = "https://github.com/nakshjhaai-lgtm/cosmos-tlm-bridge/issues"
 
 [project.scripts]
 cosmos-tlm-bridge = "cosmos_tlm_bridge.cli:main"
